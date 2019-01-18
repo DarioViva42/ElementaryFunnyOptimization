@@ -21,7 +21,7 @@ class Meteor {
     //one = small / two = medium / three = large
     this.position = (int)random(0,4);
     
-    // System.out.println("Random Size Meteor: " + position);
+    System.out.println("Random Size Meteor: " + position);
     
     switch(this.position) {
       

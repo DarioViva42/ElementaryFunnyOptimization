@@ -94,8 +94,11 @@ class Ship {
     //drag
     float l = this.vel.getLength();
     float a = this.vel.getAngle();
+    System.out.println(a);
+    //Velocity Drag
     this.vel.setP(0.992 * l, a);
-    this.alphaVel *= 0.98; 
+    //Turning Drag
+    this.alphaVel *= 0.9855; 
   }
 
 }

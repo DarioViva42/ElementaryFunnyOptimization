@@ -20,6 +20,7 @@ class Vector {
       case "p": case "P": case "Polar": case "polar":
         this.vLength = xl;
         this.alpha = ya;
+        System.out.println(alpha);
 
         calcCoord(xl, ya);
         break;
@@ -78,6 +79,7 @@ class Vector {
   }
 
   float getAngle() {
+    System.out.println(this.alpha);
     return this.alpha;
 
   }

@@ -6,7 +6,7 @@ class Console {
   int yVal;
   float speedVal;
   
-  int textSize = 0;
+  int textTest = 0;
   
   //Restriction Down
   int rest1 = 49;
@@ -59,28 +59,28 @@ class Console {
     
     fill(255);
     
-    if(textSize == 0) {
+    if(textTest == 0) {
+
+    } else if(textTest == 1) {
       textSize(12);
       text(line, x1, y1);
-    } else if(textSize == 1) {
+    } else {
       textSize(20);
       text(line, x1, y1);
-    } else {
-      
     }
     
   }
 
   void changeSize() {
     
-    switch(textSize) {
-      case 0: textSize++;
+    switch(textTest) {
+      case 0: textTest++;
       break;
       
-      case 1: textSize++;
+      case 1: textTest++;
       break;
       
-      case 2: textSize = 0;
+      case 2: textTest = 0;
       break;
       
     }

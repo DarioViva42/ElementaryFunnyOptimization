@@ -1,4 +1,8 @@
 
+/*
+Project still heavily in developement
+*/
+
 float turnRate = 8;
 Ship ussEnterprise;
 Map space;
@@ -11,7 +15,7 @@ void setup() {
   ussEnterprise = new Ship(new Vector(width/2, height/2, "c"),270);
   
   ourConsole = new Console();
-  space = new Map(200,200);
+  space = new Map(600,10);
   
   
 }

@@ -11,7 +11,6 @@ class Starfield {
     for(int i = 0; i < starAmount; i++) {
     stars.add(new Star());
     }
-    
 
   }
 
