@@ -20,7 +20,6 @@ mit C können Sie die X,Y-Koordinaten und Geschwindigkeit des Schiffs ein- und a
 
 Falls Sie noch interesse an einer Anleitung zu Processing haben, verlinke ich ihnen noch eine
 PDF hierzu.
-
 http://cmuems.com/resources/getting_started_with_processing.pdf
 
 Mit freundlichen Grüßen,
