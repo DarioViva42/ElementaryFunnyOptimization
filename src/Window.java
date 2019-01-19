@@ -1,5 +1,4 @@
-package com.efo.engine;
-
+import com.efo.engine.Engine;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
