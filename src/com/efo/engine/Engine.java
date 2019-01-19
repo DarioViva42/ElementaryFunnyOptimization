@@ -3,15 +3,21 @@ package com.efo.engine;
 public class Engine implements Runnable {
 
   private Thread thread;
+  private Window window;
 
   private boolean running = false;
   private final double UPDATE_CAP = 1.0/60.0;
+  private int width = 320, height = 240;
+  private float scale = 4f;
+  private String title = "Star Wars Engine";
 
   public Engine() {
 
   }
 
   public void start() {
+    window = new Window(this);
+
     thread = new Thread(this);
     thread.run(); //Makes this main thread
   }
@@ -61,6 +67,8 @@ public class Engine implements Runnable {
       if (render) {
 
         //TODO: Render Game
+
+        window.update();
         frames++;
       } else {
         try {
@@ -77,6 +85,35 @@ public class Engine implements Runnable {
 
   }
 
+  public int getWidth() {
+    return width;
+  }
 
+  public void setWidth(int width) {
+    this.width = width;
+  }
 
+  public int getHeight() {
+    return height;
+  }
+
+  public void setHeight(int height) {
+    this.height = height;
+  }
+
+  public float getScale() {
+    return scale;
+  }
+
+  public void setScale(float scale) {
+    this.scale = scale;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
 }
