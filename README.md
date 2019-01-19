@@ -18,7 +18,7 @@ Um das Programm auszuführen müssen Sie nun nur noch den Play-Button links-oben
 Die Steuerung des Schiffs funktioniert mit WASD und
 mit C können Sie die X,Y-Koordinaten und Geschwindigkeit des Schiffs ein- und ausblenden.
 
-Falls Sie noch interesse an einer Anleitung zu Processing haben, verlinke ich ihnen noch eine
+Falls Sie noch interesse an einer Anleitung zu Processing haben, verlinken wir Ihnen noch eine
 PDF hierzu.
 http://cmuems.com/resources/getting_started_with_processing.pdf
 
