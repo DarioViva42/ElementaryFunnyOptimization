@@ -1,26 +1,32 @@
 package com.efo.engine;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+
 public class Engine implements Runnable {
 
 
   private Thread thread;
   private Window window;
   private Renderer renderer;
+  private Input input;
+  private AbstractGame game;
 
   private boolean running = false;
   private final double UPDATE_CAP = 1.0/60.0;
-  private int width = 320, height = 240;
-  private float scale = 4f;
+  private int width = 720, height = 480;
+  private float scale = 1f;
   private String title = "Star Wars Engine";
 
-  public Engine() {
-
+  public Engine(AbstractGame game) {
+    this.game = game;
   }
 
   public void start() {
     //ge == Game Engine
     window = new Window(this);
     renderer = new Renderer(this);
+    input = new Input(this);
 
     thread = new Thread(this);
     thread.run(); //Makes this main thread
@@ -58,8 +64,19 @@ public class Engine implements Runnable {
         unprocessedTime -= UPDATE_CAP; //Makes sure missed updates are caught
         render = true;
 
+        game.update(this,(float)UPDATE_CAP);
+        input.update();
 
         //TODO: Update game
+
+        if(input.isButtonDown(MouseEvent.BUTTON1)){
+          System.out.println("A is Pressed");
+        }
+
+
+
+        input.update();
+
         if(frameTime >= 1.0){
           frameTime = 0;
           fps = frames;
@@ -69,12 +86,14 @@ public class Engine implements Runnable {
       }
 
       if (render) {
+        //TODO: Render Game
 
         renderer.clear();
-        //TODO: Render Game
+        game.render(this,renderer);
 
         window.update();
         frames++;
+
       } else {
         try {
           Thread.sleep(1); //Sleep when not rendering. Saves CPU
@@ -124,6 +143,10 @@ public class Engine implements Runnable {
 
   public Window getWindow() {
     return window;
+  }
+
+  public Input getInput() {
+    return input;
   }
 
 }
