@@ -4,7 +4,7 @@ import com.efo.engine.gfx.Image;
 import java.awt.image.DataBufferInt;
 
 public class Renderer {
-  private int pW, pH; //pixle width and height
+  private int pW, pH; //pixel width and height
   int[] p;
 
   public Renderer(Engine ge) {

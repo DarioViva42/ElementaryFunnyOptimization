@@ -19,13 +19,13 @@ public class Main extends AbstractGame {
   @Override
   public void update(Engine ge, float dt) {
     if(ge.getInput().isKeyDown(KeyEvent.VK_A)) {
-      System.out.println("A is Pressed");
+      System.out.println("A was Pressed");
     }
   }
 
   @Override
   public void render(Engine ge, Renderer r) {
-    r.drawImage(image,ge.getInput().getMouseX(),ge.getInput().getMouseY());
+    r.drawImage(image,(ge.getInput().getMouseX())-(image.getW()/2),(ge.getInput().getMouseY())-(image.getH()/2));
   }
 
   public static void main(String[] args) {
