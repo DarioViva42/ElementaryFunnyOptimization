@@ -1,5 +1,6 @@
 package com.efo.engine;
 
+import com.efo.engine.gfx.Font;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
 
@@ -8,6 +9,8 @@ import java.awt.image.DataBufferInt;
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
+
+  private Font font = Font.STANDARD;
 
   public Renderer(Engine ge) {
     pW = ge.getWidth();
@@ -28,6 +31,29 @@ public class Renderer {
 
     //Converting 2d Number to 1d Array
     p[x + y *pW] = value;
+  }
+
+  public void drawText(String text, int offX, int offY, int color){
+    text = text.toUpperCase();
+    int offset = 0;
+
+    for (int i = 0; i < text.length(); i++) {
+      int unicode = text.codePointAt(i) - 32;
+
+      for (int y = 0; y < font.getFontImage().getH(); y++) {
+        for (int x = 0; x < font.getWidths()[unicode]; x++) {
+          try {
+            if(font.getFontImage().getP()[(x + font.getOffsets()[unicode]) + y * font.getFontImage().getW()] == 0xffffffff){
+              setPixel(x + offX + offset, y + offY, color);
+            }
+          } catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("This should work! " + font.getFontImage().getP().length + " " + ((x + font.getOffsets()[unicode]) + y * font.getFontImage().getW()) + " " + unicode);
+          }
+
+        }
+      }
+      offset += font.getWidths()[unicode];
+    }
   }
 
   public void drawImage(Image image, int offX, int offY ) {

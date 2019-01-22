@@ -4,7 +4,6 @@ import com.efo.engine.AbstractGame;
 import com.efo.engine.Engine;
 import com.efo.engine.Renderer;
 import com.efo.engine.audio.SoundClip;
-import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
 
 import java.awt.event.KeyEvent;
@@ -16,7 +15,7 @@ public class Main extends AbstractGame {
 
 
   public Main() {
-    image = new ImageTile("/Explosion.png", 16, 16);
+    image = new ImageTile("/explosion.png", 16, 16);
     //clip = new SoundClip("/audo/test.wav")
     //clip.setVolume(-20);
   }
@@ -41,7 +40,6 @@ public class Main extends AbstractGame {
             (ge.getInput().getMouseX())-(image.getTileW()/2),
             (ge.getInput().getMouseY())-(image.getTileH()/2),
             (int)temp, 0);
-    System.out.println((int)temp + " " + temp);
   }
 
   public static void main(String[] args) {

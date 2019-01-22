@@ -2,6 +2,8 @@ package com.efo.engine.gfx;
 
 public class Font {
 
+    public static final Font STANDARD = new Font("/fonts/standard.png");
+
     private Image fontImage;
     private int[] offsets;
     private int[] widths;
@@ -16,11 +18,24 @@ public class Font {
 
         for (int i = 0; i < fontImage.getW(); i++) {
             if(fontImage.getP()[i] == 0xff0000ff){
-
+                offsets[unicode] = i;
             }
             if(fontImage.getP()[i] == 0xffffff00){
-
+                widths[unicode] = i;
+                unicode++;
             }
         }
+    }
+
+    public Image getFontImage() {
+        return fontImage;
+    }
+
+    public int[] getOffsets() {
+        return offsets;
+    }
+
+    public int[] getWidths() {
+        return widths;
     }
 }
