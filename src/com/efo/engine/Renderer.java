@@ -25,7 +25,7 @@ public class Renderer {
   }
 
   public void setPixel(int x, int y, int value) {
-    if((x < 0 || x >= pW || y < 0 || y >= pH) || ((value >> 24) & 0xff) == 0) {
+    if((x < 0 || x >= pW || y < 0 || y >= pH) || value == 0xffff00ff) {
       return;
     }
 
@@ -42,14 +42,9 @@ public class Renderer {
 
       for (int y = 0; y < font.getFontImage().getH(); y++) {
         for (int x = 0; x < font.getWidths()[unicode]; x++) {
-          try {
-            if(font.getFontImage().getP()[(x + font.getOffsets()[unicode]) + y * font.getFontImage().getW()] == 0xffffffff){
-              setPixel(x + offX + offset, y + offY, color);
-            }
-          } catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("This should work! :( " + font.getFontImage().getP().length + " " + ((x + font.getOffsets()[unicode]) + y * font.getFontImage().getW()) + " " + unicode);
+          if(font.getFontImage().getP()[(x + font.getOffsets()[unicode]) + y * font.getFontImage().getW()] == 0xffffffff){
+            setPixel(x + offX + offset, y + offY, color);
           }
-
         }
       }
       offset += font.getWidths()[unicode];
@@ -105,45 +100,4 @@ public class Renderer {
       }
     }
   }
-
-  public void rectangle(int offX, int offY, int width, int height, int color){
-
-
-    for (int y = 0; y <= height; y++) {
-      setPixel(offX, y + offY, color);
-      setPixel(offX + width, y + offY, color);
-    }
-
-    for (int x = 0; x <= width; x++) {
-      setPixel(x + offX, offY, color);
-      setPixel(x + offX, offY + height, color);
-    }
-  }
-
-  public void filledRectangle(int offX, int offY, int width, int height, int color) {
-
-    //Dont Render
-    if(offX < -width) return;
-    if(offY < -height) return;
-    if(offX >= pW) return;
-    if(offY >= pW) return;
-
-    int newX = 0;
-    int newY = 0;
-    int newWidth = width;
-    int newHeight = height;
-
-    //Clipping
-    if(offX < 0) {newX -= offX;}
-    if(offY < 0) {newY -= offY;}
-    if(newWidth + offX >= pW) {newWidth -= (newWidth + offX - pW);}
-    if(newHeight + offY >= pH) {newHeight -= (newHeight + offY - pH);}
-
-    for (int y = newY; y < newHeight; y++) {
-      for (int x = newX; x < newWidth; x++) {
-        setPixel(x + offX, y + offY, color);
-      }
-    }
-  }
-
 }

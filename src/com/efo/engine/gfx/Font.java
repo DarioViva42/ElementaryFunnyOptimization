@@ -21,7 +21,7 @@ public class Font {
                 offsets[unicode] = i;
             }
             if(fontImage.getP()[i] == 0xffffff00){
-                widths[unicode] = i;
+                widths[unicode] = i - offsets[unicode];
                 unicode++;
             }
         }
