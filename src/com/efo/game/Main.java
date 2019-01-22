@@ -28,7 +28,7 @@ public class Main extends AbstractGame {
     }
     temp += dt;
 
-    if(temp > 4){
+    if(temp >= 4){
       temp = 0;
     }
   }
