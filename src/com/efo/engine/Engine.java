@@ -68,19 +68,11 @@ public class Engine implements Runnable {
         game.update(this,(float)UPDATE_CAP);
         input.update();
 
-
-
-        if(input.isButtonDown(MouseEvent.BUTTON1)){
-          System.out.println("A is Pressed");
-        }
-
-        input.update();
-
         if(frameTime >= 1.0){
           frameTime = 0;
           fps = frames;
           frames = 0;
-          System.out.println("FPS: " + fps);
+          // This happens every 1 second. Maybe useful for console or log entries.
         }
       }
 

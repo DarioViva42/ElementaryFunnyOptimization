@@ -26,6 +26,9 @@ public class Main extends AbstractGame {
     if(ge.getInput().isKeyDown(KeyEvent.VK_A)) {
       System.out.println("A was Pressed");
     }
+    if(ge.getInput().isKeyUp(KeyEvent.VK_A)) {
+      System.out.println("A was Released");
+    }
     temp += dt * 10;
 
     if(temp >= 4){
