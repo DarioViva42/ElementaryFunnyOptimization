@@ -2,6 +2,7 @@ package com.efo.engine;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.sql.SQLOutput;
 
 public class Engine implements Runnable {
 
@@ -13,11 +14,12 @@ public class Engine implements Runnable {
   private AbstractGame game;
 
   private boolean running = false;
-  private final double UPDATE_CAP = 1.0/60.0;
+  private final double UPDATE_CAP = 1.0/120.0;
   private int width = 720, height = 480;
   private float scale = 1f;
   private String title = "Star Wars Engine";
 
+    // Constructor -------------------------
   public Engine(AbstractGame game) {
     this.game = game;
   }
@@ -67,13 +69,11 @@ public class Engine implements Runnable {
         game.update(this,(float)UPDATE_CAP);
         input.update();
 
-        //TODO: Update game
+
 
         if(input.isButtonDown(MouseEvent.BUTTON1)){
-          System.out.println("A is Pressed");
+          System.out.println("Linksclick is Pressed");
         }
-
-
 
         input.update();
 
@@ -90,6 +90,8 @@ public class Engine implements Runnable {
 
         renderer.clear();
         game.render(this,renderer);
+
+
 
         window.update();
         frames++;
