@@ -13,7 +13,7 @@ public class Engine implements Runnable {
   private AbstractGame game;
 
   private boolean running = false;
-  private final double UPDATE_CAP = 1.0/60.0;
+  private final double UPDATE_CAP = 1.0/120.0;
   private int width = 720, height = 480;
   private float scale = 1f;
   private String title = "Star Wars Engine";
@@ -67,13 +67,9 @@ public class Engine implements Runnable {
         game.update(this,(float)UPDATE_CAP);
         input.update();
 
-        //TODO: Update game
-
         if(input.isButtonDown(MouseEvent.BUTTON1)){
           System.out.println("A is Pressed");
         }
-
-
 
         input.update();
 
@@ -86,8 +82,6 @@ public class Engine implements Runnable {
       }
 
       if (render) {
-        //TODO: Render Game
-
         renderer.clear();
         game.render(this,renderer);
 
@@ -148,5 +142,6 @@ public class Engine implements Runnable {
   public Input getInput() {
     return input;
   }
+
 
 }
