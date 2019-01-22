@@ -3,17 +3,20 @@ package com.efo.game;
 import com.efo.engine.AbstractGame;
 import com.efo.engine.Engine;
 import com.efo.engine.Renderer;
+import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 import java.awt.event.KeyEvent;
 
 public class Main extends AbstractGame {
 
   private Image image;
-
+  private SoundClip clip;
 
 
   public Main() {
     image = new Image("/test.png");
+    //clip = new SoundClip("/audo/test.wav")
+    //clip.setVolume(-20);
   }
 
   @Override
