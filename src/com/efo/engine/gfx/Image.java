@@ -48,4 +48,6 @@ public class Image {
   public void setP(int[] p) {
     this.p = p;
   }
+
+
 }
