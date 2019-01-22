@@ -47,7 +47,7 @@ public class Renderer {
               setPixel(x + offX + offset, y + offY, color);
             }
           } catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("This should work! " + font.getFontImage().getP().length + " " + ((x + font.getOffsets()[unicode]) + y * font.getFontImage().getW()) + " " + unicode);
+            System.out.println("This should work! :( " + font.getFontImage().getP().length + " " + ((x + font.getOffsets()[unicode]) + y * font.getFontImage().getW()) + " " + unicode);
           }
 
         }
