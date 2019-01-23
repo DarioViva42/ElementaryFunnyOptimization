@@ -47,7 +47,7 @@ public class Main extends AbstractGame {
             (ge.getInput().getMouseY())-(image.getTileH()/2),
             (int)temp, 0);
 
-    r.circle(250,250,100,0xffff0000);
+    r.circle(ge.getInput().getMouseX(),ge.getInput().getMouseY(),100,0xffff0000);
 
     //r.drawRect(20,20,10,10,0x11ff0000);
 

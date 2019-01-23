@@ -146,11 +146,16 @@ public class Renderer {
 
     double i, angle, x1, y1, pi;
     pi = Math.PI;
-    for (i = 0; i < 360; i += 0.001) {
+
+    for (i = 0; i <= 360; i += 0.1) {
       angle = i;
       x1 = r * Math.cos(angle * pi / 180);
       y1 = r * Math.sin(angle * pi / 180);
       setPixel((int) (offX + x1), (int) (offY + y1), color);
     }
   }
+
+
+
+
 }
