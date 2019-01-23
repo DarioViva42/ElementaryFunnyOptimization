@@ -45,6 +45,8 @@ public class Main extends AbstractGame {
             (ge.getInput().getMouseY())-(image.getTileH()/2),
             (int)temp, 0);
 
+    r.rectangle(20,20,20,20,0xff00ff00);
+
     //r.drawRect(20,20,10,10,0x11ff0000);
 
   }
@@ -53,6 +55,7 @@ public class Main extends AbstractGame {
 
     Engine ge = new Engine(new Main());
     //Initiate Game Settings here
+
 
 
 

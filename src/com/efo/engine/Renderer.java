@@ -100,4 +100,50 @@ public class Renderer {
       }
     }
   }
+
+  public void rectangle(int offX, int offY, int width, int height, int color) {
+
+    for (int y = 0; y <= height; y++) {
+      setPixel(offX, offY + y, color);
+      setPixel(offX + width, offY + y, color);
+    }
+
+    for (int x = 0; x <= width; x++) {
+      setPixel(offX + x, offY, color);
+      setPixel(offX + x, offY + height, color);
+    }
+
+  }
+
+  public void filledRectangle(int offX, int offY, int width, int height, int color) {
+
+    //Dont Render
+    if(offX < -width) return;
+    if(offY < -height) return;
+    if(offX >= pW) return;
+    if(offY >= pW) return;
+
+    int newX = 0;
+    int newY = 0;
+    int newWidth = width;
+    int newHeight = height;
+
+    //Clipping
+    if(offX < 0) {newX -= offX;}
+    if(offY < 0) {newY -= offY;}
+    if(newWidth + offX >= pW) {newWidth -= (newWidth + offX - pW);}
+    if(newHeight + offY >= pH) {newHeight -= (newHeight + offY - pH);}
+
+    for (int y = 0; y <= newHeight; y++) {
+      for (int x = 0; x <= newWidth; x++) {
+        setPixel(offX + x, offY + y, color);
+      }
+    }
+
+
+
+
+  }
+
+
 }
