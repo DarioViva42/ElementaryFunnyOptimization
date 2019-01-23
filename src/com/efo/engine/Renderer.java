@@ -20,12 +20,12 @@ public class Renderer {
 
   public void clear() {
     for(int i = 0; i < p.length; i++) {
-      p[i] = 0;
+      p[i] = 0xff000000;
     }
   }
                                       //Color
   public void setPixel(int x, int y, int value) {
-    if((x < 0 || x >= pW || y < 0 || y >= pH) || value == 0xffff00ff) {
+    if((x < 0 || x >= pW || y < 0 || y >= pH) || ((value >> 24) & 0xff) == 0) {
       return;
     }
 
@@ -139,11 +139,18 @@ public class Renderer {
         setPixel(offX + x, offY + y, color);
       }
     }
-
-
-
-
   }
 
 
+  public void circle(int offX, int offY, int r, int color) {
+
+    double i, angle, x1, y1, pi;
+    pi = Math.PI;
+    for (i = 0; i < 360; i += 0.001) {
+      angle = i;
+      x1 = r * Math.cos(angle * pi / 180);
+      y1 = r * Math.sin(angle * pi / 180);
+      setPixel((int) (offX + x1), (int) (offY + y1), color);
+    }
+  }
 }

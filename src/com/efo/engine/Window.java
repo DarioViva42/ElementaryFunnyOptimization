@@ -19,7 +19,7 @@ public class Window {
   private Graphics g;
 
   public Window(Engine ge){
-    image = new BufferedImage(ge.getWidth(), ge.getHeight(), BufferedImage.TYPE_INT_RGB); // Buffered means stored in RAM
+    image = new BufferedImage(ge.getWidth(), ge.getHeight(), BufferedImage.TYPE_INT_ARGB); // Buffered means stored in RAM
     canvas = new Canvas();
     Dimension s = new Dimension((int)(ge.getWidth()*ge.getScale()),(int)(ge.getHeight()*ge.getScale()));
     canvas.setPreferredSize(s);
