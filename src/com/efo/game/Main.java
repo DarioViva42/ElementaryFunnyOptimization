@@ -40,6 +40,8 @@ public class Main extends AbstractGame {
 
   @Override
   public void render(Engine ge, Renderer r) {
+    r.drawText("Halloo", 20, 20, 0xffff00ff);
+
     r.drawImageTile(image,
             (ge.getInput().getMouseX())-(image.getTileW()/2),
             (ge.getInput().getMouseY())-(image.getTileH()/2),
