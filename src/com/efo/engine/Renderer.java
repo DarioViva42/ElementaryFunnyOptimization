@@ -20,7 +20,7 @@ public class Renderer {
       p[i] = 0;
     }
   }
-
+                                      //Color
   public void setPixel(int x, int y, int value) {
     if((x < 0 || x >= pW || y < 0 || y >= pH) || ((value >> 24) & 0xff) == 0) {
       return;

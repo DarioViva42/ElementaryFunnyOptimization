@@ -70,9 +70,7 @@ public class Engine implements Runnable {
 
 
 
-        if(input.isButtonDown(MouseEvent.BUTTON1)){
-          System.out.println("A is Pressed");
-        }
+
 
         input.update();
 
