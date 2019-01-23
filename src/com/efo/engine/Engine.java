@@ -78,7 +78,7 @@ public class Engine implements Runnable {
           frameTime = 0;
           fps = frames;
           frames = 0;
-          System.out.println("FPS: " + fps);
+          // This happens every 1 second. Maybe useful for console or log entries.
         }
       }
 
@@ -86,7 +86,7 @@ public class Engine implements Runnable {
         renderer.clear();
         game.render(this,renderer);
 
-
+        renderer.drawText("FPS: " + fps, 0, 0, 0xffffffff);
 
         window.update();
         frames++;

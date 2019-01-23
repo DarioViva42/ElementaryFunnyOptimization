@@ -25,16 +25,16 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
   private int scroll;
 
   public Input(Engine ge) {
-  this.ge = ge;
-  mouseX = 0;
-  mouseY = 0;
-  scroll = 0;
+    this.ge = ge;
+    mouseX = 0;
+    mouseY = 0;
+    scroll = 0;
 
-  //add listeners to canvas
-  ge.getWindow().getCanvas().addKeyListener(this);
-  ge.getWindow().getCanvas().addMouseMotionListener(this);
-  ge.getWindow().getCanvas().addMouseListener(this);
-  ge.getWindow().getCanvas().addMouseWheelListener(this);
+    //add listeners to canvas
+    ge.getWindow().getCanvas().addKeyListener(this);
+    ge.getWindow().getCanvas().addMouseMotionListener(this);
+    ge.getWindow().getCanvas().addMouseListener(this);
+    ge.getWindow().getCanvas().addMouseWheelListener(this);
   }
 
 

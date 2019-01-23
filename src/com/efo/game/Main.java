@@ -16,7 +16,7 @@ public class Main extends AbstractGame {
 
 
   public Main() {
-    image = new ImageTile("/Explosion.png", 16, 16);
+    image = new ImageTile("/explosion.png", 16, 16);
     //clip = new SoundClip("/audo/test.wav")
     //clip.setVolume(-20);
   }
@@ -26,7 +26,10 @@ public class Main extends AbstractGame {
     if(ge.getInput().isKeyDown(KeyEvent.VK_A)) {
       System.out.println("A was Pressed");
     }
-    temp += dt;
+    if(ge.getInput().isKeyUp(KeyEvent.VK_A)) {
+      System.out.println("A was Released");
+    }
+    temp += dt * 10;
 
     if(temp >= 4){
       temp = 0;
@@ -42,7 +45,7 @@ public class Main extends AbstractGame {
             (ge.getInput().getMouseY())-(image.getTileH()/2),
             (int)temp, 0);
 
-    r.drawRect(20,20,10,10,0x11ff0000);
+    //r.drawRect(20,20,10,10,0x11ff0000);
 
   }
 
