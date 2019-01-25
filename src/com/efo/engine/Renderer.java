@@ -56,12 +56,17 @@ public class Renderer {
   }
 
   public void drawImage(Image image, int offX, int offY, double angle) {
-    int rX;
-    int rY;
-    for(int y = 0;  y < image.getH(); y++) {
-      for(int x = 0; x < image.getW(); x++) {
-        rX =(int)(x * Math.cos(angle) - y * Math.sin(angle));
-        rY =(int)(x * Math.sin(angle) + y * Math.cos(angle));
+    int tX, tY, rX, rY;
+    int w = image.getW();
+    int h = image.getH();
+
+    for(int y = 0;  y < h; y++) {
+      for(int x = 0; x < w; x++) {
+        tX = x - w / 2;
+        tY = y - h / 2;
+
+        rX =(int)(tX * Math.cos(angle) - tY * Math.sin(angle));
+        rY =(int)(tX * Math.sin(angle) + tY * Math.cos(angle));
         setPixel(rX + offX,rY + offY, image.getP()[x+y*image.getW()]);
       }
     }
