@@ -7,6 +7,7 @@ import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 public class Main extends AbstractGame {
@@ -49,8 +50,11 @@ public class Main extends AbstractGame {
 
     r.circle(ge.getInput().getMouseX(),ge.getInput().getMouseY(),100,0xffff0000);
 
+    ge.getWindow().getG().setColor(new Color(255, 20, 1));
+    //ge.getWindow().getG().drawOval(300,200,200,250);
+    //ge.getWindow().getG().drawOval(200,100,200,250);
     //r.drawRect(20,20,10,10,0x11ff0000);
-
+    r.oval(50,50,50,50);
   }
 
   public static void main(String[] args) {

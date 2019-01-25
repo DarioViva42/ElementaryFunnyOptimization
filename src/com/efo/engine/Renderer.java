@@ -4,11 +4,14 @@ import com.efo.engine.gfx.Font;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
 
+import java.awt.Color;
 import java.awt.image.DataBufferInt;
 
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
+
+  Window win;
 
   private Font font = Font.STANDARD;
 
@@ -16,11 +19,12 @@ public class Renderer {
     pW = ge.getWidth();
     pH = ge.getHeight();
     p = ((DataBufferInt)ge.getWindow().getImage().getRaster().getDataBuffer()).getData(); //When content of p is Changed, "image" in Window will change accordingly
+    win = ge.getWindow();
   }
 
   public void clear() {
     for(int i = 0; i < p.length; i++) {
-      p[i] = 0xff000000;
+      p[i] = 0x00000000;
     }
   }
                                       //Color
@@ -155,7 +159,9 @@ public class Renderer {
     }
   }
 
-
+  public void oval(int x, int y, int width, int height) {
+    win.getG().drawOval(x,y,width, height);
+  }
 
 
 }
