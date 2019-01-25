@@ -53,7 +53,9 @@ public class Main extends AbstractGame {
             (int)temp, 0);
 
     r.drawImage(image2, 300, 200, i);
-    i += .005;
+    i += .0005;
+
+    r.antiAliasing();
   }
 
   public static void main(String[] args) {

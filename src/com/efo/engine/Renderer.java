@@ -6,12 +6,13 @@ import com.efo.engine.gfx.ImageTile;
 
 import java.awt.Color;
 import java.awt.image.DataBufferInt;
+import java.util.Arrays;
 
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
-
-  Window win;
+  private final int[][] kern = {{1,4,1},{4,5,4},{1,4,1}};
+  private final int kSum = 25;
 
   private Font font = Font.STANDARD;
 
@@ -19,7 +20,7 @@ public class Renderer {
     pW = ge.getWidth();
     pH = ge.getHeight();
     p = ((DataBufferInt)ge.getWindow().getImage().getRaster().getDataBuffer()).getData(); //When content of p is Changed, "image" in Window will change accordingly
-    win = ge.getWindow();
+
   }
 
   public void clear() {
@@ -35,6 +36,7 @@ public class Renderer {
 
     //Converting 2d Number to 1d Array
     p[x + y *pW] = value;
+
   }
 
   public void drawText(String text, int offX, int offY, int color){
@@ -168,5 +170,136 @@ public class Renderer {
     }
   }
 
+
+  public void antiAliasing() {
+             //a r g b
+    int[] argb = {0,0,0,0};
+
+    int[] pCopy = new int[pW*pH];
+
+    for (int x = 0; x < pW; x++) {
+      for (int y = 0; y < pH; y++) {
+        Arrays.fill(argb, 0);
+
+        for (int i = -1; i <= 1; i++) {
+          for (int j = -1; j <= 1; j++) {
+
+            try {
+
+              int rgb = p[(x + i) + (y + j) * pW];
+
+              int alpha = rgb / 0x01000000;
+              int red = rgb / 0x00010000;
+              int green = rgb / 0x00000100;
+              int blue = rgb / 0x00000001;
+
+              argb[0] += kern[i + 2][j + 2] * alpha;
+              argb[1] += kern[i + 2][j + 2] * red;
+              argb[2] += kern[i + 2][j + 2] * green;
+              argb[3] += kern[i + 2][j + 2] * blue;
+
+            } catch (IndexOutOfBoundsException e) {
+
+            }
+          }
+        }
+
+        for (int i = 0; i < 4; i++) {
+          argb[i] = argb[i] / kSum;
+        }
+
+        int color = argb[0] * 0x01000000 + argb[1] * 0x00010000 + argb[2] * 0x00000100 + argb[3] * 0x00000001;
+
+        pCopy[x+y*pW] = color;
+
+      }
+    }
+
+    for (int x = 0; x < pW; x++) {
+      for (int y = 0; y < pH; y++) {
+        setPixel(x,y,pCopy[x+y*pW]);
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  public void antiAliasing2() {
+    int pixel, pixelP, upper, upperP, lower, lowerP, left, leftP, right, rightP;
+
+    for (int x = 0; x < pW; x++) {
+      for (int y = 0; y < pH; y++) {
+
+        pixelP = x + y * pW;
+        upperP = x + (y - 1) * pW;
+        lowerP = x + (y + 1) * pW;
+        rightP = (x + 1) + y * pW;
+        leftP = (x - 1) + y * pW;
+
+
+        pixel = p[pixelP];
+
+        if(pixel != 0xff000000) {
+          if (upperP >= 0) {
+            upper = p[upperP];
+            upper = upper - 12 * (0x01000000);
+
+            setPixel(x, y, upper);
+          }
+
+          if (lowerP < pH * pW) {
+            lower = p[lowerP];
+
+            lower = lower - 12 * (0x02000000);
+            setPixel(x, y, lower);
+          }
+
+          if (!(rightP % pW == 0)) {
+            right = p[rightP];
+            right = right - 12 * (0x02000000);
+            setPixel(x, y + 1, right);
+          }
+
+          if (leftP % pW == (pW)) {
+            left = p[leftP];
+            left = left - 12 * (0x01000000);
+            setPixel(x, y, left);
+          }
+
+        }
+
+      }
+    }
+
+    //p[x + y *pW] = value;
+
+
+  }
 
 }

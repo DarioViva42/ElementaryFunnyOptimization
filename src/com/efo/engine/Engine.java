@@ -90,8 +90,6 @@ public class Engine implements Runnable {
 
         renderer.clear();
 
-        renderer.oval(500,500,200,200);
-
         game.render(this,renderer);
 
         renderer.drawText("FPS: " + fps, 0, 0, 0xffffffff);
