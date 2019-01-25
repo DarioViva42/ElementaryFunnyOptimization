@@ -1,7 +1,7 @@
 package com.efo.game;
 
 public class Ship {
-    // Attributes ----------------------------------
+   /* // Attributes ----------------------------------
     Vector pos;   // Position
     Vector gunPos;// Position der Waffe (Vorne)
     Vector vel;   // Geschwidigkeit
@@ -47,10 +47,10 @@ public class Ship {
         }
     }
 
-  /*Projectile shoot() {
+  Projectile shoot() {
     Projectile geschoss = new Projectile(this.gunPos, this.alpha);
     return geschoss;
-  }*/
+  }
 
     Vector getPos() {
         Vector position = this.pos;
@@ -87,4 +87,5 @@ public class Ship {
         //Turning Drag
         this.alphaVel *= 0.9855;
     }
+    */
 }

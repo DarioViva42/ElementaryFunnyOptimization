@@ -11,8 +11,8 @@ import java.util.Arrays;
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
-  private final int[][] kern = {{1,4,1},{4,5,4},{1,4,1}};
-  private final int kSum = 25;
+  private final int[][] kern = {{1,1,1},{1,1,1},{1,1,1}};
+  private final int kSum = 9;
 
   private Font font = Font.STANDARD;
 
@@ -168,19 +168,19 @@ public class Renderer {
           for (int j = -1; j <= 1; j++) {
 
             try {
+              int rgb = p[(x + i - 1) + (y + j - 1) * pW];
 
-              int rgb = p[(x + i) + (y + j) * pW];
+              //if(rgb != 0xff000000) {
+                int alpha = rgb / 0x01000000;
+                int red = rgb / 0x00010000;
+                int green = rgb / 0x00000100;
+                int blue = rgb / 0x00000001;
 
-              int alpha = rgb / 0x01000000;
-              int red = rgb / 0x00010000;
-              int green = rgb / 0x00000100;
-              int blue = rgb / 0x00000001;
-
-              argb[0] += kern[i + 2][j + 2] * alpha;
-              argb[1] += kern[i + 2][j + 2] * red;
-              argb[2] += kern[i + 2][j + 2] * green;
-              argb[3] += kern[i + 2][j + 2] * blue;
-
+                argb[0] += kern[i-1][j-1] * alpha;
+                argb[1] += kern[i-1][j-1] * red;
+                argb[2] += kern[i-1][j-1] * green;
+                argb[3] += kern[i-1][j-1] * blue;
+              //}
             } catch (IndexOutOfBoundsException e) {
 
             }
@@ -197,6 +197,7 @@ public class Renderer {
 
       }
     }
+
 
     for (int x = 0; x < pW; x++) {
       for (int y = 0; y < pH; y++) {
