@@ -11,8 +11,8 @@ import java.util.Arrays;
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
-  private final int[][] kern = {{1,1,1},{1,1,1},{1,1,1}};
-  private final int kSum = 9;
+  private final int[][] kern = {{0,0,0},{0,1,0},{0,0,0}};
+  private int kSum = 0;
 
   private Font font = Font.STANDARD;
 
@@ -21,6 +21,11 @@ public class Renderer {
     pH = ge.getHeight();
     p = ((DataBufferInt)ge.getWindow().getImage().getRaster().getDataBuffer()).getData(); //When content of p is Changed, "image" in Window will change accordingly
 
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        kSum += kern[i][j];
+      }
+    }
   }
 
   public void clear() {
@@ -172,14 +177,17 @@ public class Renderer {
 
               //if(rgb != 0xff000000) {
                 int alpha = rgb / 0x01000000;
+                rgb -= alpha * 0x01000000;
                 int red = rgb / 0x00010000;
+                rgb -= red * 0x00010000;
                 int green = rgb / 0x00000100;
+                rgb -= green * 0x00000100;
                 int blue = rgb / 0x00000001;
 
-                argb[0] += kern[i-1][j-1] * alpha;
-                argb[1] += kern[i-1][j-1] * red;
-                argb[2] += kern[i-1][j-1] * green;
-                argb[3] += kern[i-1][j-1] * blue;
+                argb[0] += kern[i+1][j+1] * alpha;
+                argb[1] += kern[i+1][j+1] * red;
+                argb[2] += kern[i+1][j+1] * green;
+                argb[3] += kern[i+1][j+1] * blue;
               //}
             } catch (IndexOutOfBoundsException e) {
 
