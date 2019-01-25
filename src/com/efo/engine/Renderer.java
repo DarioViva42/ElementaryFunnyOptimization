@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
-  private final int[][] kern = {{1,2,1},{2,12,2},{1,2,1}};
+  private final int[][] kern = {{1,2,1},{2,5,2},{1,2,1}};
   private int kSum = 0;
 
   private Font font = Font.STANDARD;
@@ -178,7 +178,7 @@ public class Renderer {
           for (int j = -1; j <= 1; j++) {
 
             try {
-              int rgb = p[(x + i - 1) + (y + j - 1) * pW];
+              int rgb = p[(x + i) + (y + j) * pW];
 
               //if((rgb / 0x010000000) == 0) {
               int alpha = (rgb >> 24) & 0x0FF;
