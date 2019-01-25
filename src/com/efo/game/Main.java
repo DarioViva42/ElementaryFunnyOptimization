@@ -52,8 +52,8 @@ public class Main extends AbstractGame {
             (ge.getInput().getMouseY())-(image.getTileH()/2),
             (int)temp, 0);
 
-    r.drawImage(image2, 300, 200, i);
-    i += .005;
+    r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
+    i += .01;
   }
 
   public static void main(String[] args) {
