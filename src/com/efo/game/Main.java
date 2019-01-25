@@ -13,11 +13,15 @@ import java.awt.event.KeyEvent;
 public class Main extends AbstractGame {
 
   private ImageTile image;
+  private Image image2;
   private SoundClip clip;
+  double i;
 
 
   public Main() {
     image = new ImageTile("/explosion.png", 16, 16);
+    image2 = new Image("/test.png");
+    i = 0;
     //clip = new SoundClip("/audo/test.wav")
     //clip.setVolume(-20);
   }
@@ -47,6 +51,9 @@ public class Main extends AbstractGame {
             (ge.getInput().getMouseX())-(image.getTileW()/2),
             (ge.getInput().getMouseY())-(image.getTileH()/2),
             (int)temp, 0);
+
+    r.drawImage(image2, 300, 200, i);
+    i += .005;
   }
 
   public static void main(String[] args) {
