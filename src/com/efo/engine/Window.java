@@ -64,8 +64,4 @@ public class Window {
   public JFrame getFrame() {
     return frame;
   }
-
-  public Graphics getG() {
-    return g;
-  }
 }
