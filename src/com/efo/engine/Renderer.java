@@ -105,63 +105,24 @@ public class Renderer {
     }
   }
 
-  public void rectangle(int offX, int offY, int width, int height, int color) {
-
-    for (int y = 0; y <= height; y++) {
-      setPixel(offX, offY + y, color);
-      setPixel(offX + width, offY + y, color);
-    }
-
-    for (int x = 0; x <= width; x++) {
-      setPixel(offX + x, offY, color);
-      setPixel(offX + x, offY + height, color);
-    }
-
-  }
-
-  public void filledRectangle(int offX, int offY, int width, int height, int color) {
-
-    //Dont Render
-    if(offX < -width) return;
-    if(offY < -height) return;
-    if(offX >= pW) return;
-    if(offY >= pW) return;
-
-    int newX = 0;
-    int newY = 0;
-    int newWidth = width;
-    int newHeight = height;
-
-    //Clipping
-    if(offX < 0) {newX -= offX;}
-    if(offY < 0) {newY -= offY;}
-    if(newWidth + offX >= pW) {newWidth -= (newWidth + offX - pW);}
-    if(newHeight + offY >= pH) {newHeight -= (newHeight + offY - pH);}
-
-    for (int y = 0; y <= newHeight; y++) {
-      for (int x = 0; x <= newWidth; x++) {
-        setPixel(offX + x, offY + y, color);
-      }
-    }
-  }
-
-
-  public void circle(int offX, int offY, int r, int color) {
-
-    double i, angle, x1, y1, pi;
-    pi = Math.PI;
-
-    for (i = 0; i <= 360; i += 0.1) {
-      angle = i;
-      x1 = r * Math.cos(angle * pi / 180);
-      y1 = r * Math.sin(angle * pi / 180);
-      setPixel((int) (offX + x1), (int) (offY + y1), color);
-    }
-  }
-
   public void oval(int x, int y, int width, int height) {
     win.getG().drawOval(x,y,width, height);
   }
 
+  public void rectangle(int x, int y, int width, int height) {
+    win.getG().drawRect(x,y,width,height);
+  }
+
+  public void filledOval(int x, int y, int width, int height) {
+    win.getG().fillOval(x,y,width,height);
+  }
+
+  public void filledRectangle(int x, int y, int width, int height) {
+    win.getG().fillRect(x,y,width,height);
+  }
+
+  public void line(int x1, int y1, int x2, int y2) {
+    win.getG().drawLine(x1,y1,x2,y2);
+  }
 
 }

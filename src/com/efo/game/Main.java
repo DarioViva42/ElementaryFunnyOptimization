@@ -48,13 +48,12 @@ public class Main extends AbstractGame {
             (ge.getInput().getMouseY())-(image.getTileH()/2),
             (int)temp, 0);
 
-    r.circle(ge.getInput().getMouseX(),ge.getInput().getMouseY(),100,0xffff0000);
+    r.oval(ge.getInput().getMouseX()-50,ge.getInput().getMouseY()-50,100,100);
 
     ge.getWindow().getG().setColor(new Color(255, 20, 1));
-    //ge.getWindow().getG().drawOval(300,200,200,250);
-    //ge.getWindow().getG().drawOval(200,100,200,250);
-    //r.drawRect(20,20,10,10,0x11ff0000);
+
     r.oval(50,50,50,50);
+    r.line(500,500,450,200);
   }
 
   public static void main(String[] args) {
