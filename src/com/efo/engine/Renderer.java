@@ -55,7 +55,7 @@ public class Renderer {
     }
   }
 
-  public void drawImage(Image image, int offX, int offY ) {
+  public void drawImage(Image image, int offX, int offY, double angle) {
     //Dont Render
     if(offX < -image.getW()) return;
     if(offY < -image.getH()) return;
@@ -73,9 +73,18 @@ public class Renderer {
     if(newWidth + offX >= pW) {newWidth -= (newWidth + offX - pW);}
     if(newHeight + offY >= pH) {newHeight -= (newHeight + offY - pH);}
 
+    int oldX;
+    int oldY;
+    int rX;
+    int rY;
     for(int y = newY;  y < newHeight; y++) {
       for(int x = newX; x < newWidth; x++) {
-        setPixel(x + offX,y + offY, image.getP()[x+y*image.getW()]);
+          oldX = x + offX;
+          oldY = y + offY;
+
+          rX =(int)(x * Math.cos(angle) - y * Math.sin(angle));
+          rY =(int)(x * Math.sin(angle) + y * Math.cos(angle));
+        setPixel(rX + offX,rY + offY, image.getP()[x+y*image.getW()]);
       }
     }
   }
