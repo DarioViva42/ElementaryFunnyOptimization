@@ -13,7 +13,7 @@ public class Engine implements Runnable {
   private AbstractGame game;
 
   private boolean running = false;
-  private final double UPDATE_CAP = 1.0/60.0;
+  private final double UPDATE_CAP = 1.0/120.0;
   private int width = 720, height = 480;
   private float scale = 1f;
   private String title = "Star Wars Engine";

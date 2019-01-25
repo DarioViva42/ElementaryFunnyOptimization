@@ -56,6 +56,8 @@ public class Main extends AbstractGame {
     i += .0005;
 
     r.antiAliasing();
+    r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
+    i += .01;
   }
 
   public static void main(String[] args) {

@@ -58,34 +58,17 @@ public class Renderer {
   }
 
   public void drawImage(Image image, int offX, int offY, double angle) {
-    //Dont Render
-    if(offX < -image.getW()) return;
-    if(offY < -image.getH()) return;
-    if(offX >= pW) return;
-    if(offY >= pW) return;
+    int tX, tY, rX, rY;
+    int w = image.getW();
+    int h = image.getH();
 
-    int newX = 0;
-    int newY = 0;
-    int newWidth = image.getW();
-    int newHeight = image.getH();
+    for(int y = 0;  y < h; y++) {
+      for(int x = 0; x < w; x++) {
+        tX = x - w / 2;
+        tY = y - h / 2;
 
-    //Clipping
-    if(offX < 0) {newX -= offX;}
-    if(offY < 0) {newY -= offY;}
-    if(newWidth + offX >= pW) {newWidth -= (newWidth + offX - pW);}
-    if(newHeight + offY >= pH) {newHeight -= (newHeight + offY - pH);}
-
-    int oldX;
-    int oldY;
-    int rX;
-    int rY;
-    for(int y = newY;  y < newHeight; y++) {
-      for(int x = newX; x < newWidth; x++) {
-          oldX = x + offX;
-          oldY = y + offY;
-
-          rX =(int)(x * Math.cos(angle) - y * Math.sin(angle));
-          rY =(int)(x * Math.sin(angle) + y * Math.cos(angle));
+        rX =(int)(tX * Math.cos(angle) - tY * Math.sin(angle));
+        rY =(int)(tX * Math.sin(angle) + tY * Math.cos(angle));
         setPixel(rX + offX,rY + offY, image.getP()[x+y*image.getW()]);
       }
     }
