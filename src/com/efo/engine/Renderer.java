@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
-  private final int[][] kern = {{0,0,0},{0,1,0},{0,0,0}};
+  private final int[][] kern = {{1,2,1},{2,12,2},{1,2,1}};
   private int kSum = 0;
 
   private Font font = Font.STANDARD;
@@ -21,6 +21,7 @@ public class Renderer {
     pH = ge.getHeight();
     p = ((DataBufferInt)ge.getWindow().getImage().getRaster().getDataBuffer()).getData(); //When content of p is Changed, "image" in Window will change accordingly
 
+    //Adding kern Sum to divide by later
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         kSum += kern[i][j];
@@ -158,36 +159,37 @@ public class Renderer {
     }
   }
 
-
+    //Selfmade
   public void antiAliasing() {
-             //a r g b
+                //a r g b
     int[] argb = {0,0,0,0};
 
+    //We make a Copy of the pixel Array as to be able to work with unprocessed pixels
     int[] pCopy = new int[pW*pH];
 
+    //going through the pixel Array (p) with x and y values
     for (int x = 0; x < pW; x++) {
       for (int y = 0; y < pH; y++) {
+        //Initiating the Color Array with Zeroes
         Arrays.fill(argb, 0);
 
+        //Going through the Kern to get the average Color with the according weights
         for (int i = -1; i <= 1; i++) {
           for (int j = -1; j <= 1; j++) {
 
             try {
               int rgb = p[(x + i - 1) + (y + j - 1) * pW];
 
-              //if(rgb != 0xff000000) {
-                int alpha = rgb / 0x01000000;
-                rgb -= alpha * 0x01000000;
-                int red = rgb / 0x00010000;
-                rgb -= red * 0x00010000;
-                int green = rgb / 0x00000100;
-                rgb -= green * 0x00000100;
-                int blue = rgb / 0x00000001;
+              //if((rgb / 0x010000000) == 0) {
+              int alpha = (rgb >> 24) & 0x0FF;
+              int red = (rgb >> 16) & 0x0FF;
+              int green = (rgb >> 8) & 0x0FF;
+              int blue = rgb & 0xFF;
 
-                argb[0] += kern[i+1][j+1] * alpha;
-                argb[1] += kern[i+1][j+1] * red;
-                argb[2] += kern[i+1][j+1] * green;
-                argb[3] += kern[i+1][j+1] * blue;
+              argb[0] += kern[i+1][j+1] * alpha;
+              argb[1] += kern[i+1][j+1] * red;
+              argb[2] += kern[i+1][j+1] * green;
+              argb[3] += kern[i+1][j+1] * blue;
               //}
             } catch (IndexOutOfBoundsException e) {
 

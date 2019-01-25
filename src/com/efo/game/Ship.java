@@ -1,5 +1,5 @@
 package com.efo.game;
-
+ //Selfmade
 public class Ship {
    /* // Attributes ----------------------------------
     Vector pos;   // Position
