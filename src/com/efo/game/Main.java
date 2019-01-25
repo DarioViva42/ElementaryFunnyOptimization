@@ -48,9 +48,8 @@ public class Main extends AbstractGame {
             (ge.getInput().getMouseY())-(image.getTileH()/2),
             (int)temp, 0);
 
+    r.setColor(new Color(255, 120, 37, 255));
     r.oval(ge.getInput().getMouseX()-50,ge.getInput().getMouseY()-50,100,100);
-
-    ge.getWindow().getG().setColor(new Color(255, 20, 1));
 
     r.oval(50,50,50,50);
     r.line(500,500,450,200);

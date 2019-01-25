@@ -26,6 +26,8 @@ public class Renderer {
     for(int i = 0; i < p.length; i++) {
       p[i] = 0x00000000;
     }
+    setColor(new Color(0, 0, 0, 255));
+    filledRectangle(0, 0, win.getImage().getWidth(), win.getImage().getHeight());
   }
                                       //Color
   public void setPixel(int x, int y, int value) {
@@ -35,6 +37,9 @@ public class Renderer {
 
     //Converting 2d Number to 1d Array
     p[x + y *pW] = value;
+  }
+  public void setColor(Color color){
+    win.getG().setColor(color);
   }
 
   public void drawText(String text, int offX, int offY, int color){
