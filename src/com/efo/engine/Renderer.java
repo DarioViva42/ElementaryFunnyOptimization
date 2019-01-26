@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
-  private final int[][] kern = {{4,16,4},{16,24,16},{16,8,16}};
+  private final int[][] kern = {{16,32,16},{32,64,32},{32,16,32}};
   private int kSum = 0;
   //Dimensionality
   private final int d = 1;
@@ -167,7 +167,7 @@ public class Renderer {
     int[] argb = {0,0,0,0};
 
     //We make a Copy of the pixel Array as to be able to work with unprocessed pixels
-    int[] pCopy = new int[pW*pH];
+    int[] pCopy = new int[p.length];
 
     //going through the pixel Array (p) with x and y values
     for (int x = 0; x < pW; x++) {
@@ -180,9 +180,9 @@ public class Renderer {
           for (int j = -1; j <= 1; j++) {
 
             try {
-              int rgb = p[(x + i - d) + (y + j - d) * pW];
+              int rgb = p[x + i + (y + j) * pW];
 
-              if(!(rgb == 0xff000000)) {
+              //if(!(rgb == 0xff000000)) {
               int alpha = (rgb >> 24) & 0x0FF;
               int red = (rgb >> 16) & 0x0FF;
               int green = (rgb >> 8) & 0x0FF;
@@ -192,7 +192,7 @@ public class Renderer {
               argb[1] += kern[i+d][j+d] * red;
               argb[2] += kern[i+d][j+d] * green;
               argb[3] += kern[i+d][j+d] * blue;
-              }
+              //}
             } catch (IndexOutOfBoundsException e) {
 
             }
@@ -210,6 +210,9 @@ public class Renderer {
       }
     }
 
+      for (int i = 0; i < p.length; i++) {
+          p[i] = pCopy[i];
+      }
 
     for (int x = 0; x < pW; x++) {
       for (int y = 0; y < pH; y++) {
