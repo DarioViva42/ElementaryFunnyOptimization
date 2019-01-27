@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
-  private final int[][] kern = {{16,32,16},{32,64,32},{32,16,32}};
+  private final int[][] kern = {{1,2,1},{2,20,2},{1,2,1}};
   private int kSum = 0;
   //Dimensionality
   private final int d = 1;
@@ -77,6 +77,8 @@ public class Renderer {
 
         rX =(int)(tX * Math.cos(angle) - tY * Math.sin(angle));
         rY =(int)(tX * Math.sin(angle) + tY * Math.cos(angle));
+
+
         setPixel(rX + offX,rY + offY, image.getP()[x+y*image.getW()]);
       }
     }
@@ -188,11 +190,15 @@ public class Renderer {
               int green = (rgb >> 8) & 0x0FF;
               int blue = rgb & 0xFF;
 
-              argb[0] += kern[i+d][j+d] * alpha;
-              argb[1] += kern[i+d][j+d] * red;
-              argb[2] += kern[i+d][j+d] * green;
-              argb[3] += kern[i+d][j+d] * blue;
-              //}
+              if(i == 0 && j == 0 && red < 5 && green < 5 && blue < 5) {
+
+                argb[0] += kern[i + d][j + d] * alpha;
+                argb[1] += kern[i + d][j + d] * red;
+                argb[2] += kern[i + d][j + d] * green;
+                argb[3] += kern[i + d][j + d] * blue;
+                //}
+
+              }
             } catch (IndexOutOfBoundsException e) {
 
             }
@@ -210,9 +216,9 @@ public class Renderer {
       }
     }
 
-      for (int i = 0; i < p.length; i++) {
+      /*for (int i = 0; i < p.length; i++) {
           p[i] = pCopy[i];
-      }
+      }*/
 
     for (int x = 0; x < pW; x++) {
       for (int y = 0; y < pH; y++) {

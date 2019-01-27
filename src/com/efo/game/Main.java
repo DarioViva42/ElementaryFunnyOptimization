@@ -47,14 +47,14 @@ public class Main extends AbstractGame {
   public void render(Engine ge, Renderer r) {
     r.drawText("Halloo", 20, 20, 0xffff00ff);
 
-    r.drawImageTile(image,
+    /*r.drawImageTile(image,
             (ge.getInput().getMouseX())-(image.getTileW()/2),
             (ge.getInput().getMouseY())-(image.getTileH()/2),
-            (int)temp, 0);
+            (int)temp, 0);*/
 
 
     r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
-    i += .001;
+    i += .0001;
 
 
 
