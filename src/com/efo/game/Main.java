@@ -3,6 +3,7 @@ package com.efo.game;
 import com.efo.engine.AbstractGame;
 import com.efo.engine.Engine;
 import com.efo.engine.Renderer;
+import com.efo.engine.Vector;
 import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
@@ -71,6 +72,9 @@ public class Main extends AbstractGame {
     //Initiate Game Settings here
 
     Star s = new Star(ge.getWidth(), ge.getHeight());
+    Ship ussEnterprise = new Ship(new Vector(ge.getWidth()/2, ge.getWidth()/2, "c"),270);
+    Star starfield = new Star(ge);
+
 
     ge.start();
 
