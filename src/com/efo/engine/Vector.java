@@ -2,7 +2,7 @@ package com.efo.engine;
  //Selfmade
 public class Vector {
   // Attributes ----------------------------------
-  /*private double x;
+  private double x;
   private double y;
   private double vLength;
   private double alpha;
@@ -105,5 +105,5 @@ public class Vector {
     this.vLength = vLength;
     this.alpha = angle;
     calcCoord(vLength, angle);
-  }*/
+  }
 }

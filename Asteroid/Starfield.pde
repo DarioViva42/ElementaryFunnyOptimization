@@ -23,7 +23,5 @@ class Starfield {
       this.stars.get(i).update();
 
       }
-
     }
-
   }

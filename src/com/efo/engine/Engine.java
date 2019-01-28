@@ -15,8 +15,8 @@ public class Engine implements Runnable {
   private boolean running = false;
   private boolean aa; // Anti-Aliasing
   private final double UPDATE_CAP = 1.0/120.0;
-  private int width = 64, height = 64;
-  private float scale = 10f;
+  private int width = 320, height = 280;
+  private float scale = 2f;
   private String title = "Star Wars Engine";
 
     // Constructor -------------------------
@@ -25,7 +25,7 @@ public class Engine implements Runnable {
   }
 
   public void start() {
-    //ge == Game Engine
+    //ge bedeutet Game Engine
     window = new Window(this);
     renderer = new Renderer(this);
     input = new Input(this);
