@@ -70,7 +70,7 @@ public class Vector {
   }
 
   public double distance(Vector b) {
-    double distance = Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2);
+    double distance = Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2));
     return distance;
 
   }
