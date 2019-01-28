@@ -2,14 +2,14 @@ package com.efo.engine;
  //Selfmade
 public class Vector {
   // Attributes ----------------------------------
-  /*private double x;
+  private double x;
   private double y;
   private double vLength;
   private double alpha;
 
 
   // Constructor ---------------------------------
-  Vector(float xl, float ya, String test) {
+  Vector(double xl, double ya, String test) {
     switch(test){
       case "c": case "C": case "coord": case "Coord": case "coordinate": case "Coordinate":
           this.x = xl;
@@ -33,7 +33,7 @@ public class Vector {
 
 
   // Methods -------------------------------------
-  private void calcPol(float x, float y){
+  private void calcPol(double x, double y){
     if (x > 0.0) {
       this.alpha = (Math.toDegrees(Math.atan(y / x))+360)%360;
     } else if (x < 0.0) {
@@ -47,10 +47,10 @@ public class Vector {
     } else {
       System.out.println("Da lief etwas sehr falsch in calcPol");
     }
-    this.vLength = (float)Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+    this.vLength = (double)Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
   }
 
-  private void calcCoord(float l, float a){
+  private void calcCoord(double l, double a){
     this.x = l*Math.cos(Math.toRadians(a));
     this.y = l*Math.sin(Math.toRadians(a));
   }
@@ -63,47 +63,47 @@ public class Vector {
 
   Vector add(Vector b, boolean test) {
     Vector giveVec;
-    float x = this.getX() + b.getX();
-    float y = this.getY() + b.getY();
+    double x = this.getX() + b.getX();
+    double y = this.getY() + b.getY();
     giveVec = new Vector(x, y, "C");
     return giveVec;
   }
 
-  float distance(Vector b) {
-    float distance = Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2);
+  double distance(Vector b) {
+    double distance = Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2);
     return distance;
 
   }
 
-  float getLength() {
+  double getLength() {
     return this.vLength;
   }
 
-  float getAngle() {
+  double getAngle() {
     System.out.println(this.alpha);
     return this.alpha;
 
   }
 
-  float getX() {
-    float giveX = this.x;
+  double getX() {
+    double giveX = this.x;
     return giveX;
   }
 
-  float getY() {
-      float giveY = this.y;
+  double getY() {
+      double giveY = this.y;
       return giveY;
   }
 
-  void setC(float x, float y) {
+  void setC(double x, double y) {
     this.x = x;
     this.y = y;
     calcPol(x, y);
   }
 
-  void setP(float vLength, float angle) {
+  void setP(double vLength, double angle) {
     this.vLength = vLength;
     this.alpha = angle;
     calcCoord(vLength, angle);
-  }*/
+  }
 }

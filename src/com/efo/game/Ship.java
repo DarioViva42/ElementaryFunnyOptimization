@@ -1,7 +1,10 @@
 package com.efo.game;
- //Selfmade
+
+import com.efo.engine.Vector;
+
+//Selfmade
 public class Ship {
-   /* // Attributes ----------------------------------
+    // Attributes ----------------------------------
     Vector pos;   // Position
     Vector gunPos;// Position der Waffe (Vorne)
     Vector vel;   // Geschwidigkeit
@@ -10,10 +13,10 @@ public class Ship {
     boolean isTurningL = false;
     boolean isTurningR = false;
     boolean isBoosting = false;
-    float alphaVel;  // Die Winkelgeschwindigkeit des Schiffes
-    float alphaAcc;  // Die Winkelbeschleunigung
-    float alpha;     // Der Winkel
-    float maxTurnAcc = 0.2;
+    double alphaVel;  // Die Winkelgeschwindigkeit des Schiffes
+    double alphaAcc;  // Die Winkelbeschleunigung
+    double alpha;     // Der Winkel
+    double maxTurnAcc = 0.2;
 
 
     //Ship build up
@@ -21,7 +24,7 @@ public class Ship {
     int wings = 10;
 
     // Constructor ---------------------------------
-    Ship(Vector pos, float alpha) {
+    Ship(Vector pos, double alpha) {
         this.pos = pos;
         this.alphaVel = 0;
         this.alphaAcc = 0;
@@ -47,10 +50,10 @@ public class Ship {
         }
     }
 
-  Projectile shoot() {
+  /*Projectile shoot() {
     Projectile geschoss = new Projectile(this.gunPos, this.alpha);
     return geschoss;
-  }
+  }*/
 
     Vector getPos() {
         Vector position = this.pos;
@@ -65,8 +68,8 @@ public class Ship {
         }
     }
 
-    float getAbsVel() {
-        float absoluteVelocity = this.vel.getLength();
+    double getAbsVel() {
+        double absoluteVelocity = this.vel.getLength();
         return absoluteVelocity;
     }
 
@@ -79,13 +82,12 @@ public class Ship {
         this.alpha = (this.alpha + alphaVel) % 360;
 
         //drag
-        float l = this.vel.getLength();
-        float a = this.vel.getAngle();
+        double l = this.vel.getLength();
+        double a = this.vel.getAngle();
         System.out.println(a);
         //Velocity Drag
         this.vel.setP(0.992 * l, a);
         //Turning Drag
         this.alphaVel *= 0.9855;
     }
-    */
 }
