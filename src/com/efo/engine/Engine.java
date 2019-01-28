@@ -30,6 +30,7 @@ public class Engine implements Runnable {
     renderer = new Renderer(this);
     input = new Input(this);
 
+    aa = false;
     thread = new Thread(this);
     thread.run(); //Makes this main thread
   }
@@ -71,10 +72,8 @@ public class Engine implements Runnable {
         // Schalte zwischen Aliasing und anti-Aliasing
         if (input.isKeyDown(KeyEvent.VK_P)){
           if(aa){
-            System.out.println("AA wird angeschalten");
             aa = false;
           } else{
-            System.out.println("AA wird ausgeschalten");
             aa = true;
           }
         }
