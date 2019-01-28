@@ -30,18 +30,18 @@ public class Star {
         
         Engine ge;
         Renderer r;
-        int geWidth, geHeight;
+        int width, height;
 
         // Constructor --------------------------------
-        Star(Engine ge, Renderer r) {
+        Star(int width, int height) {
             this.ge = ge;
             this.r = r;
             
-            geWidth = ge.getWidth();
-            geHeight = ge.getHeight();
+            this.width = width;
+            this.height = height;
                     
-            double sX = random(0,geHeight);
-            double sY = random(0,geWidth);
+            double sX = random(0,height);
+            double sY = random(0,width);
             pos = new Vector(sX,sY,"c");
 
             //newSizeVel();
@@ -54,7 +54,7 @@ public class Star {
                 case 1:
 
                     sX = 0;
-                    sY = random(0,geHeight);
+                    sY = random(0,height);
 
                     pos = new Vector(sX,sY,"c");
                     //newSizeVel();
@@ -62,7 +62,7 @@ public class Star {
 
                 case 2:
 
-                    sX = random(0,geWidth);
+                    sX = random(0,width);
                     sY = 0;
 
                     pos = new Vector(sX,sY,"c");
@@ -71,8 +71,8 @@ public class Star {
 
                 case 3:
 
-                    sX = geWidth;
-                    sY = random(0,geHeight);
+                    sX = width;
+                    sY = random(0,height);
 
                     pos = new Vector(sX,sY,"c");
                     //newSizeVel();
@@ -80,8 +80,8 @@ public class Star {
 
                 case 4:
 
-                    sX = random(0,geWidth);
-                    sY = geHeight;
+                    sX = random(0,width);
+                    sY = height;
 
                     pos = new Vector(sX,sY,"c");
                     //newSizeVel();
@@ -99,28 +99,28 @@ public class Star {
             return Math.random()*(b-a) + a;
         }
     
-        void show() {
+        void show(Renderer r) {
             
             r.setPixel((int)(pos.getX()),(int)(pos.getY()),0xffff0000);
 
             //wenn rechts raus
-            if(this.pos.getX() > geWidth) {
-                this.pos.setC(0,random(0,geHeight));
+            if(this.pos.getX() > width) {
+                this.pos.setC(0,random(0,height));
                 //newSizeVel();
 
                 //wenn links raus
             } else if(this.pos.getX() < 0) {
-                this.pos.setC(geWidth,random(0,geHeight));
+                this.pos.setC(width,random(0,height));
                 //newSizeVel();
 
                 //wenn unten raus
-            } else if(this.pos.getY() > geHeight) {
-                this.pos.setC(random(0,geWidth),0);
+            } else if(this.pos.getY() > height) {
+                this.pos.setC(random(0,width),0);
                 //newSizeVel();
 
                 //wenn oben raus
             } else if(this.pos.getY() < 0){
-                this.pos.setC(random(0,geWidth),geHeight);
+                this.pos.setC(random(0,width),height);
                 //newSizeVel();
             }
         }
