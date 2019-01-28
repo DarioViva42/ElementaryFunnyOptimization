@@ -28,8 +28,7 @@ public class Star {
         double lowerVel = 0;
         double upperVel = 0.5;
         
-        Engine ge;
-        Renderer r;
+
         int width, height;
 
         // Constructor --------------------------------
