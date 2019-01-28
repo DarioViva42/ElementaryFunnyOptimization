@@ -89,6 +89,7 @@ public class Star {
 
                 default:
                     System.out.println("Problem with the new Stars");
+                    //s
             }
         }
 
