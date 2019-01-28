@@ -16,7 +16,7 @@ public class Main extends AbstractGame {
   private Image image2;
   private SoundClip clip;
   double i;
-  Star s;
+  Star[] starfield = new Star[100];
 
 
   public Main() {
@@ -25,7 +25,9 @@ public class Main extends AbstractGame {
     image2 = new Image("/test.png");
     i = 0;
 
-    s = new Star();
+    for (int j = 0; j < starfield.length; j++) {
+      starfield[j] = new Star();
+    }
 
     //clip = new SoundClip("/audo/test.wav")
     //clip.setVolume(-20);
@@ -50,6 +52,12 @@ public class Main extends AbstractGame {
 
   @Override
   public void render(Engine ge, Renderer r) {
+
+    for (int j = 0; j < starfield.length -1 ; j++) {
+      starfield[j].show(r, ge.getWidth(), ge.getHeight());
+      starfield[j].update();
+    }
+
     r.drawText("Halloo", 20, 20, 0xffff00ff);
 
     /*r.drawImageTile(image,
@@ -61,7 +69,9 @@ public class Main extends AbstractGame {
     r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
     i += .01;
 
-    s.show(r, ge.getWidth(), ge.getHeight());
+
+
+
 
   }
 

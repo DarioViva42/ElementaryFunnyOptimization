@@ -29,19 +29,21 @@ public class Star {
         double upperVel = 0.5;
         
 
-        int width, height;
+        int width = 320, height = 280;
 
         // Constructor --------------------------------
         Star() {
 
-            double sX = random(0,height);
-            double sY = random(0,width);
+            double sX = random(0,width);
+            double sY = random(0,height);
             pos = new Vector(sX,sY,"c");
 
+            sVel = 0.3;
+            this.vel = new Vector(sVel,sAngle,"p");
             //newSizeVel();
         }
 
-        Star(int direction) {
+        /*Star(int direction) {
             double sX;
             double sY;
             switch(direction) {
@@ -84,7 +86,7 @@ public class Star {
                 default:
                     System.out.println("Problem with the new Stars");
             }
-        }
+        }*/
 
 
         // Methods ------------------------------------
@@ -93,8 +95,7 @@ public class Star {
         }
     
         void show(Renderer r , int width, int height) {
-            
-            r.setPixel((int)(pos.getX()),(int)(pos.getY()),0xffff0000);
+            r.setPixel((int)(pos.getX()),(int)(pos.getY()),0xfffffde5);
 
             //wenn rechts raus
             if(this.pos.getX() > width) {
