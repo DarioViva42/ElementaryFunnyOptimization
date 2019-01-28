@@ -3,6 +3,7 @@ package com.efo.game;
 import com.efo.engine.AbstractGame;
 import com.efo.engine.Engine;
 import com.efo.engine.Renderer;
+import com.efo.engine.Vector;
 import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
@@ -45,11 +46,15 @@ public class Main extends AbstractGame {
     if(ge.getInput().isKeyUp(KeyEvent.VK_A)) {
       System.out.println("A was Released");
     }
+    if(ge.getInput().isKey(KeyEvent.VK_W)){
+        ussEnterprise.isBoosting = true;
+    }
     temp += dt * 10;
 
     if(temp >= 4){
       temp = 0;
     }
+    ussEnterprise.update();
 
   }
 
