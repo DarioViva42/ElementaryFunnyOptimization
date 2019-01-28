@@ -79,9 +79,6 @@ public class Engine implements Runnable {
           }
         }
 
-        if(aa) {
-          renderer.antiAliasing();
-        }
         input.update();
 
 
@@ -106,6 +103,10 @@ public class Engine implements Runnable {
         game.render(this,renderer);
 
         renderer.drawText("FPS: " + fps, 0, 0, 0xffffffff);
+
+        if(aa) {
+          renderer.antiAliasing();
+        }
 
         window.update();
         frames++;
