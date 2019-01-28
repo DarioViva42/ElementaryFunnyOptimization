@@ -34,8 +34,6 @@ public class Star {
 
         // Constructor --------------------------------
         Star(int width, int height) {
-            this.ge = ge;
-            this.r = r;
             
             this.width = width;
             this.height = height;
@@ -89,7 +87,6 @@ public class Star {
 
                 default:
                     System.out.println("Problem with the new Stars");
-                    //s
             }
         }
 
