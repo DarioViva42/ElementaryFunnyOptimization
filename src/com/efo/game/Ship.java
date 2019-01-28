@@ -1,6 +1,8 @@
 package com.efo.game;
 
+import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
+import com.efo.engine.gfx.Image;
 
 //Selfmade
 public class Ship {
@@ -9,6 +11,7 @@ public class Ship {
     Vector gunPos;// Position der Waffe (Vorne)
     Vector vel;   // Geschwidigkeit
     Vector acc;   // Beschleunigung
+    Image schiff;
 
     boolean isTurningL = false;
     boolean isTurningR = false;
@@ -31,11 +34,12 @@ public class Ship {
         this.alpha = alpha % 360;
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
+        schiff = new Image("/ship.png");
     }
 
     // Methods -------------------------------------
-    void show(){
-      // Hier kommt ein bild von nem Schiff rein
+    void show(Renderer r){
+      r.drawImage(schiff, (int)this.pos.getX(), (int)this.pos.getY(), this.alpha);
     }
 
     void turn() {
