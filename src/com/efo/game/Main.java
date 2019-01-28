@@ -18,6 +18,7 @@ public class Main extends AbstractGame {
   private SoundClip clip;
   double i;
   Star s;
+  Ship ussEnterprise;
 
 
   public Main() {
@@ -27,6 +28,7 @@ public class Main extends AbstractGame {
     i = 0;
 
     s = new Star();
+    ussEnterprise = new Ship(new Vector(20, 20, "c"),270);
 
     //clip = new SoundClip("/audo/test.wav")
     //clip.setVolume(-20);
@@ -45,6 +47,7 @@ public class Main extends AbstractGame {
     if(temp >= 4){
       temp = 0;
     }
+
   }
 
   float temp = 0f;
@@ -62,6 +65,7 @@ public class Main extends AbstractGame {
     r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
     i += .01;
 
+    ussEnterprise.show(r);
     s.show(r, ge.getWidth(), ge.getHeight());
 
   }
