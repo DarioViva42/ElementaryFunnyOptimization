@@ -46,8 +46,26 @@ public class Main extends AbstractGame {
     if(ge.getInput().isKeyUp(KeyEvent.VK_A)) {
       System.out.println("A was Released");
     }
-    if(ge.getInput().isKey(KeyEvent.VK_W)){
+    if(ge.getInput().isKeyDown(KeyEvent.VK_W)){
         ussEnterprise.isBoosting = true;
+    }
+    if(ge.getInput().isKeyUp(KeyEvent.VK_W)){
+      ussEnterprise.isBoosting = false;
+    }
+    if(ge.getInput().isKeyUp(KeyEvent.VK_W)){
+      ussEnterprise.isBoosting = false;
+    }
+    if(ge.getInput().isKeyDown(KeyEvent.VK_A)){
+      ussEnterprise.isTurningL = true;
+    }
+    if(ge.getInput().isKeyUp(KeyEvent.VK_A)){
+      ussEnterprise.isTurningL = false;
+    }
+    if(ge.getInput().isKeyDown(KeyEvent.VK_D)){
+      ussEnterprise.isTurningR = true;
+    }
+    if(ge.getInput().isKeyUp(KeyEvent.VK_D)){
+      ussEnterprise.isTurningR = false;
     }
     temp += dt * 10;
 
