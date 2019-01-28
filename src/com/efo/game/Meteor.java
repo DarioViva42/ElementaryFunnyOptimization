@@ -90,7 +90,7 @@ public class Meteor {
         }
 
         // Methods -------------------------------------
-        private double rendom(double a, double b){
+        private double random(double a, double b){
             return Math.random()*(b-a) + a;
         }
 

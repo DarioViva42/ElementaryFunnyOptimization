@@ -9,7 +9,7 @@ public class Vector {
 
 
   // Constructor ---------------------------------
-  Vector(double xl, double ya, String test) {
+  public Vector(double xl, double ya, String test) {
     switch(test){
       case "c": case "C": case "coord": case "Coord": case "coordinate": case "Coordinate":
           this.x = xl;
@@ -55,13 +55,13 @@ public class Vector {
     this.y = l*Math.sin(Math.toRadians(a));
   }
 
-  void add(Vector b) {
+  public void add(Vector b) {
     this.x += b.getX();
     this.y += b.getY();
     calcPol(this.x, this.y);
   }
 
-  Vector add(Vector b, boolean test) {
+  public Vector add(Vector b, boolean test) {
     Vector giveVec;
     double x = this.getX() + b.getX();
     double y = this.getY() + b.getY();
@@ -69,39 +69,39 @@ public class Vector {
     return giveVec;
   }
 
-  double distance(Vector b) {
+  public double distance(Vector b) {
     double distance = Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2);
     return distance;
 
   }
 
-  double getLength() {
+  public double getLength() {
     return this.vLength;
   }
 
-  double getAngle() {
+  public double getAngle() {
     System.out.println(this.alpha);
     return this.alpha;
 
   }
 
-  double getX() {
+  public double getX() {
     double giveX = this.x;
     return giveX;
   }
 
-  double getY() {
+  public double getY() {
       double giveY = this.y;
       return giveY;
   }
 
-  void setC(double x, double y) {
+  public void setC(double x, double y) {
     this.x = x;
     this.y = y;
     calcPol(x, y);
   }
 
-  void setP(double vLength, double angle) {
+  public void setP(double vLength, double angle) {
     this.vLength = vLength;
     this.alpha = angle;
     calcCoord(vLength, angle);

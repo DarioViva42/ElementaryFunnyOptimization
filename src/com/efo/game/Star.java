@@ -1,6 +1,7 @@
 package com.efo.game;
 
 import com.efo.engine.Engine;
+import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
 
 public class Star {
@@ -9,8 +10,8 @@ public class Star {
         Vector pos;
         Vector vel;
         double starSize;
-
-        //random speed
+        
+        //Math.random speed
         double sVel;
         //static angle for the Stars
         double sAngle = 140;
@@ -26,14 +27,24 @@ public class Star {
         double upperStarSize = 3;
         double lowerVel = 0;
         double upperVel = 0.5;
+        
+        Engine ge;
+        Renderer r;
+        int geWidth, geHeight;
 
         // Constructor --------------------------------
-        Star(Engine ge) {
-            double sX = Math.random()*ge.getWidth();
-            double sY = Math.random()*ge.getHeight();
-            this.pos = new Vector(sX,sY,"c");
+        Star(Engine ge, Renderer r) {
+            this.ge = ge;
+            this.r = r;
+            
+            geWidth = ge.getWidth();
+            geHeight = ge.getHeight();
+                    
+            double sX = random(0,geHeight);
+            double sY = random(0,geWidth);
+            pos = new Vector(sX,sY,"c");
 
-            newSizeVel();
+            //newSizeVel();
         }
 
         Star(int direction) {
@@ -43,37 +54,37 @@ public class Star {
                 case 1:
 
                     sX = 0;
-                    sY = random(0,height);
+                    sY = random(0,geHeight);
 
-                    this.pos = new Vector(sX,sY,"c");
-                    newSizeVel();
+                    pos = new Vector(sX,sY,"c");
+                    //newSizeVel();
                     break;
 
                 case 2:
 
-                    sX = random(0,width);
+                    sX = random(0,geWidth);
                     sY = 0;
 
-                    this.pos = new Vector(sX,sY,"c");
-                    newSizeVel();
+                    pos = new Vector(sX,sY,"c");
+                    //newSizeVel();
                     break;
 
                 case 3:
 
-                    sX = width;
-                    sY = random(0,height);
+                    sX = geWidth;
+                    sY = random(0,geHeight);
 
-                    this.pos = new Vector(sX,sY,"c");
-                    newSizeVel();
+                    pos = new Vector(sX,sY,"c");
+                    //newSizeVel();
                     break;
 
                 case 4:
 
-                    sX = random(0,width);
-                    sY = height;
+                    sX = random(0,geWidth);
+                    sY = geHeight;
 
-                    this.pos = new Vector(sX,sY,"c");
-                    newSizeVel();
+                    pos = new Vector(sX,sY,"c");
+                    //newSizeVel();
                     break;
 
                 default:
@@ -83,30 +94,33 @@ public class Star {
 
 
         // Methods ------------------------------------
+        private double random(double a, double b){
+            return Math.random()*(b-a) + a;
+        }
+    
         void show() {
-            fill(#fffeed);
-            noStroke();
-            ellipse(this.pos.getX(),this.pos.getY(),starSize,starSize);
+            
+            r.setPixel((int)(pos.getX()),(int)(pos.getY()),0xffff0000);
 
             //wenn rechts raus
-            if(this.pos.getX() > width) {
-                this.pos.setC(0,random(0,height));
-                newSizeVel();
+            if(this.pos.getX() > geWidth) {
+                this.pos.setC(0,random(0,geHeight));
+                //newSizeVel();
 
                 //wenn links raus
             } else if(this.pos.getX() < 0) {
-                this.pos.setC(width,random(0,height));
-                newSizeVel();
+                this.pos.setC(geWidth,random(0,geHeight));
+                //newSizeVel();
 
                 //wenn unten raus
-            } else if(this.pos.getY() > height) {
-                this.pos.setC(random(0,width),0);
-                newSizeVel();
+            } else if(this.pos.getY() > geHeight) {
+                this.pos.setC(random(0,geWidth),0);
+                //newSizeVel();
 
                 //wenn oben raus
             } else if(this.pos.getY() < 0){
-                this.pos.setC(random(0,width),height);
-                newSizeVel();
+                this.pos.setC(random(0,geWidth),geHeight);
+                //newSizeVel();
             }
         }
 
@@ -114,12 +128,13 @@ public class Star {
             this.pos.add(this.vel);
         }
 
+
         void newSizeVel() {
             // starSizeModeration für Darios bildschirm halbieren!(60), für Luis(120)
-            this.starSize = (pow(random(stSiLower,stSiUpper),stSiPow))/stSiModeration;
+            this.starSize = (Math.pow((Math.random() * ( stSiUpper - stSiLower )) + stSiLower,stSiPow))/stSiModeration;
 
             //speed mapped to size of Star
-            this.sVel = map(starSize,lowerStarSize,upperStarSize,lowerVel,upperVel);
+            //this.sVel = map(starSize,lowerStarSize,upperStarSize,lowerVel,upperVel);
             this.vel = new Vector(sVel,sAngle,"p");
         }
 
