@@ -88,6 +88,7 @@ public class Engine implements Runnable {
           fps = frames;
           frames = 0;
           // This happens every 1 second. Maybe useful for console or log entries.
+
         }
       }
 

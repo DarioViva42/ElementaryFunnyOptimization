@@ -29,7 +29,7 @@ public class Main extends AbstractGame {
     i = 0;
 
     s = new Star();
-    ussEnterprise = new Ship(new Vector(20, 20, "c"),270);
+    ussEnterprise = new Ship(new Vector(20, 20, "c"),0);
     for (int j = 0; j < starfield.length; j++) {
       starfield[j] = new Star();
     }
@@ -40,11 +40,11 @@ public class Main extends AbstractGame {
 
   @Override
   public void update(Engine ge, float dt) {
-    if(ge.getInput().isKeyDown(KeyEvent.VK_A)) {
-      System.out.println("A was Pressed");
+    if(ge.getInput().isKeyDown(KeyEvent.VK_S)) {
+      System.out.println("S was Pressed");
     }
-    if(ge.getInput().isKeyUp(KeyEvent.VK_A)) {
-      System.out.println("A was Released");
+    if(ge.getInput().isKeyUp(KeyEvent.VK_S)) {
+      System.out.println("S was Released");
     }
     if(ge.getInput().isKeyDown(KeyEvent.VK_W)){
         ussEnterprise.isBoosting = true;
@@ -67,10 +67,11 @@ public class Main extends AbstractGame {
     if(ge.getInput().isKeyUp(KeyEvent.VK_D)){
       ussEnterprise.isTurningR = false;
     }
-    temp += dt * 10;
+    temp += dt * 20;
 
     if(temp >= 4){
       temp = 0;
+      System.out.println("Rot: " + ussEnterprise.alpha);
     }
     ussEnterprise.update();
 

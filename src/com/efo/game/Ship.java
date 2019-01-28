@@ -19,12 +19,8 @@ public class Ship {
     double alphaVel;  // Die Winkelgeschwindigkeit des Schiffes
     double alphaAcc;  // Die Winkelbeschleunigung
     double alpha;     // Der Winkel
-    double maxTurnAcc = 0.2;
+    double maxTurnAcc = 0.08;
 
-
-    //Ship build up
-    int head = 20;
-    int wings = 10;
 
     // Constructor ---------------------------------
     Ship(Vector pos, double alpha) {
@@ -39,7 +35,7 @@ public class Ship {
 
     // Methods -------------------------------------
     void show(Renderer r){
-      r.drawImage(schiff, (int)this.pos.getX(), (int)this.pos.getY(), this.alpha);
+      r.drawImage(schiff, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.alpha + 90));
     }
 
     void turn() {
@@ -66,7 +62,7 @@ public class Ship {
 
     void boost(){
         if(isBoosting){
-            this.acc.setP(0.1, this.alpha);
+            this.acc.setP(0.01, this.alpha);
         } else {
             this.acc.setP(0, this.alpha);
         }
@@ -88,7 +84,6 @@ public class Ship {
         //drag
         double l = this.vel.getLength();
         double a = this.vel.getAngle();
-        System.out.println(a);
         //Velocity Drag
         this.vel.setP(0.992 * l, a);
         //Turning Drag
