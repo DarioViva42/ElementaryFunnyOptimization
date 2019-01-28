@@ -66,7 +66,7 @@ public class Renderer {
   }
 
   public void drawImage(Image image, int offX, int offY, double angle) {
-    int tX, tY, rX, rY;
+    int tX, tY, rX, rY, color;
     int w = image.getW();
     int h = image.getH();
 
@@ -78,8 +78,10 @@ public class Renderer {
         rX =(int)(tX * Math.cos(angle) - tY * Math.sin(angle));
         rY =(int)(tX * Math.sin(angle) + tY * Math.cos(angle));
 
+        color = image.getP()[x+y*image.getW()];
 
-        setPixel(rX + offX,rY + offY, image.getP()[x+y*image.getW()]);
+        setPixel(rX + offX,rY + offY, color);
+        setPixel(rX + offX, rY + offY - 1, color);
       }
     }
   }
@@ -184,21 +186,19 @@ public class Renderer {
             try {
               int rgb = p[x + i + (y + j) * pW];
 
-              //if(!(rgb == 0xff000000)) {
               int alpha = (rgb >> 24) & 0x0FF;
               int red = (rgb >> 16) & 0x0FF;
               int green = (rgb >> 8) & 0x0FF;
               int blue = rgb & 0xFF;
 
-              //if(i == 0 && j == 0 && red < 5 && green < 5 && blue < 5) {
+              //if(i == 0 && j == 0 && red > 5 && green > 5 && blue > 5) {
 
                 argb[0] += kern[i + d][j + d] * alpha;
                 argb[1] += kern[i + d][j + d] * red;
                 argb[2] += kern[i + d][j + d] * green;
                 argb[3] += kern[i + d][j + d] * blue;
-                //}
-
               //}
+
             } catch (IndexOutOfBoundsException e) {
 
             }
@@ -213,8 +213,6 @@ public class Renderer {
 
         pCopy[x+y*pW] = color;
 
-        setPixel(x,y, pCopy[x+y*pW]);
-
       }
     }
 
@@ -222,71 +220,15 @@ public class Renderer {
           p[i] = pCopy[i];
       }*/
 
-  }
-
-
-
-
-
-public void pimpleFinder() {
-  //a r g b
-  int[] argb = {0,0,0,0};
-
-  //We make a Copy of the pixel Array as to be able to work with unprocessed pixels
-  int[] pCopy = new int[p.length];
-
-  //going through the pixel Array (p) with x and y values
-  for (int x = 0; x < pW; x++) {
-    for (int y = 0; y < pH; y++) {
-      //Initiating the Color Array with Zeroes
-      Arrays.fill(argb, 0);
-
-      //Going through the Kern to get the average Color with the according weights
-      for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-
-          try {
-            int rgb = p[x + i + (y + j) * pW];
-
-            //if(!(rgb == 0xff000000)) {
-            int alpha = (rgb >> 24) & 0x0FF;
-            int red = (rgb >> 16) & 0x0FF;
-            int green = (rgb >> 8) & 0x0FF;
-            int blue = rgb & 0xFF;
-
-            //if(i == 0 && j == 0 && red < 5 && green < 5 && blue < 5) {
-
-            argb[0] += kern[i + d][j + d] * alpha;
-            argb[1] += kern[i + d][j + d] * red;
-            argb[2] += kern[i + d][j + d] * green;
-            argb[3] += kern[i + d][j + d] * blue;
-            //}
-
-            //}
-          } catch (IndexOutOfBoundsException e) {
-
+      for (int x = 0; x < pW; x++) {
+          for (int y = 0; y < pH; y++) {
+              setPixel(x,y,pCopy[x+y*pW]);
           }
-        }
       }
 
-      for (int i = 0; i < 4; i++) {
-        argb[i] = argb[i] / kSum;
-      }
-
-      int color = argb[0] * 0x01000000 + argb[1] * 0x00010000 + argb[2] * 0x00000100 + argb[3] * 0x00000001;
-
-      pCopy[x+y*pW] = color;
-
-      setPixel(x,y, pCopy[x+y*pW]);
-
-    }
   }
 
-      /*for (int i = 0; i < p.length; i++) {
-          p[i] = pCopy[i];
-      }*/
-      
-}
+
 
 
 
