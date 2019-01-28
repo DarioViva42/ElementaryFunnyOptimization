@@ -25,7 +25,7 @@ public class Main extends AbstractGame {
     image2 = new Image("/test.png");
     i = 0;
 
-
+    s = new Star();
 
     //clip = new SoundClip("/audo/test.wav")
     //clip.setVolume(-20);
@@ -61,7 +61,7 @@ public class Main extends AbstractGame {
     r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
     i += .01;
 
-
+    s.show(r, ge.getWidth(), ge.getHeight());
 
   }
 
@@ -70,7 +70,6 @@ public class Main extends AbstractGame {
     Engine ge = new Engine(new Main());
     //Initiate Game Settings here
 
-    Star s = new Star(ge.getWidth(), ge.getHeight());
 
     ge.start();
 

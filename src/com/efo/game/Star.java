@@ -32,11 +32,8 @@ public class Star {
         int width, height;
 
         // Constructor --------------------------------
-        Star(int width, int height) {
-            
-            this.width = width;
-            this.height = height;
-                    
+        Star() {
+
             double sX = random(0,height);
             double sY = random(0,width);
             pos = new Vector(sX,sY,"c");
@@ -95,7 +92,7 @@ public class Star {
             return Math.random()*(b-a) + a;
         }
     
-        void show(Renderer r) {
+        void show(Renderer r , int width, int height) {
             
             r.setPixel((int)(pos.getX()),(int)(pos.getY()),0xffff0000);
 
