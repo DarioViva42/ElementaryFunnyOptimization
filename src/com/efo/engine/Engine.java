@@ -61,11 +61,13 @@ public class Engine implements Runnable {
 
       // Schalte zwischen Aliasing und anti-Aliasing
       if (input.isKeyDown(KeyEvent.VK_P)){
-        if(aa){
-          aa = false;
-        } else{
-          aa = true;
-        }
+          if(aa){
+              System.out.println("AA wird angeschalten");
+              aa = false;
+          } else{
+              System.out.println("AA wird ausgeschalten");
+              aa = true;
+          }
       }
 
       unprocessedTime += passedTime;
