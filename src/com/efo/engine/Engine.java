@@ -59,17 +59,6 @@ public class Engine implements Runnable {
       passedTime = firstTime - lastTime;
       lastTime = firstTime;
 
-      // Schalte zwischen Aliasing und anti-Aliasing
-      if (input.isKeyDown(KeyEvent.VK_P)){
-          if(aa){
-              System.out.println("AA wird angeschalten");
-              aa = false;
-          } else{
-              System.out.println("AA wird ausgeschalten");
-              aa = true;
-          }
-      }
-
       unprocessedTime += passedTime;
       frameTime+= passedTime;
 
@@ -79,13 +68,21 @@ public class Engine implements Runnable {
 
         game.update(this,(float)UPDATE_CAP);
 
+        // Schalte zwischen Aliasing und anti-Aliasing
+        if (input.isKeyDown(KeyEvent.VK_P)){
+          if(aa){
+            System.out.println("AA wird angeschalten");
+            aa = false;
+          } else{
+            System.out.println("AA wird ausgeschalten");
+            aa = true;
+          }
+        }
+
         if(aa) {
           renderer.antiAliasing();
         }
         input.update();
-
-
-
 
 
         input.update();
