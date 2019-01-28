@@ -13,6 +13,7 @@ public class Engine implements Runnable {
   private AbstractGame game;
 
   private boolean running = false;
+  private boolean aa; // Anti-Aliasing
   private final double UPDATE_CAP = 1.0/120.0;
   private int width = 64, height = 64;
   private float scale = 10f;
@@ -58,6 +59,15 @@ public class Engine implements Runnable {
       passedTime = firstTime - lastTime;
       lastTime = firstTime;
 
+      // Schalte zwischen Aliasing und anti-Aliasing
+      if (input.isKeyDown(KeyEvent.VK_P)){
+        if(aa){
+          aa = false;
+        } else{
+          aa = true;
+        }
+      }
+
       unprocessedTime += passedTime;
       frameTime+= passedTime;
 
@@ -66,6 +76,10 @@ public class Engine implements Runnable {
         render = true;
 
         game.update(this,(float)UPDATE_CAP);
+
+        if(aa) {
+          renderer.antiAliasing();
+        }
         input.update();
 
 

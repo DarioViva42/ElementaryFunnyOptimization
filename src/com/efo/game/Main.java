@@ -57,8 +57,6 @@ public class Main extends AbstractGame {
     i += .0001;
 
 
-
-    r.antiAliasing();
   }
 
   public static void main(String[] args) {
