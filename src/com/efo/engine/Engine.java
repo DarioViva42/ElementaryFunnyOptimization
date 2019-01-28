@@ -108,6 +108,10 @@ public class Engine implements Runnable {
           renderer.antiAliasing();
         }
 
+
+
+
+
         window.update();
         frames++;
 

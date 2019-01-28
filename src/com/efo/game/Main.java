@@ -16,12 +16,17 @@ public class Main extends AbstractGame {
   private Image image2;
   private SoundClip clip;
   double i;
+  Star s;
 
 
   public Main() {
+
     image = new ImageTile("/explosion.png", 16, 16);
     image2 = new Image("/test.png");
     i = 0;
+
+
+
     //clip = new SoundClip("/audo/test.wav")
     //clip.setVolume(-20);
   }
@@ -57,6 +62,7 @@ public class Main extends AbstractGame {
     i += .01;
 
 
+
   }
 
   public static void main(String[] args) {
@@ -64,8 +70,7 @@ public class Main extends AbstractGame {
     Engine ge = new Engine(new Main());
     //Initiate Game Settings here
 
-
-
+    Star s = new Star(ge.getWidth(), ge.getHeight());
 
     ge.start();
 
