@@ -71,7 +71,6 @@ public class Main extends AbstractGame {
 
     if(temp >= 4){
       temp = 0;
-      System.out.println("Rot: " + ussEnterprise.alpha);
     }
     ussEnterprise.update();
 
