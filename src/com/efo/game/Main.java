@@ -86,7 +86,7 @@ public class Main extends AbstractGame {
   public void render(Engine ge, Renderer r) {
 
     r.drawImage(background, 240, 160, 0);
-      
+
     for (int j = 0; j < starfield.length -1 ; j++) {
       starfield[j].show(r, ge.getWidth(), ge.getHeight());
       starfield[j].update();
