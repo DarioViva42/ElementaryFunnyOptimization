@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 public class Main extends AbstractGame {
 
   private ImageTile image;
-  private Image image2;
+  private Image image2, noHover;
   private Image background;
   private SoundClip clip;
   private double i;
@@ -27,6 +27,8 @@ public class Main extends AbstractGame {
 
     image = new ImageTile("/explosion.png", 16, 16);
     image2 = new Image("/test.png");
+    noHover = new Image("/noHover.png");
+
     background = new Image("/mainMenuBackground.jpg");
     i = 0;
 
@@ -83,11 +85,13 @@ public class Main extends AbstractGame {
   @Override
   public void render(Engine ge, Renderer r) {
 
+    r.drawImage(background, 240, 160, 0);
+      
     for (int j = 0; j < starfield.length -1 ; j++) {
       starfield[j].show(r, ge.getWidth(), ge.getHeight());
       starfield[j].update();
     }
-    r.drawImage(background, 240, 160, 0);
+
 
     r.drawText("Halloo", 20, 20, 0xffff00ff);
 
@@ -100,6 +104,8 @@ public class Main extends AbstractGame {
     r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
 
     i += .01;
+
+    r.drawImage(noHover,250,50,0);
 
     ussEnterprise.show(r);
 
