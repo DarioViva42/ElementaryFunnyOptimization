@@ -15,7 +15,7 @@ public class Engine implements Runnable {
   private boolean running = false;
   private boolean aa; // Anti-Aliasing
   private final double UPDATE_CAP = 1.0/120.0;
-  private int width = 320, height = 280;
+  private int width = 480, height = 320;
   private float scale = 2f;
   private String title = "Star Wars Engine";
 
