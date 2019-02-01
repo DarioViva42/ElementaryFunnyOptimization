@@ -42,6 +42,12 @@ public class Renderer {
       return;
     }
 
+    // Teiltransparent
+    if(((value >> 24) & 0xff) != 255) {
+      p[x + y *pW] = blend(p[x + y *pW], value, (float)((value >> 24) & 0xff) / 255);
+      return;
+    }
+
     //Converting 2d Number to 1d Array
     p[x + y *pW] = value;
 
@@ -81,7 +87,9 @@ public class Renderer {
         color = image.getP()[x+y*image.getW()];
 
         setPixel(rX + offX,rY + offY, color);
-        setPixel(rX + offX, rY + offY - 1, color);
+        if (angle != 0) {
+          setPixel(rX + offX, rY + offY - 1, color);
+        }
       }
     }
   }
@@ -228,31 +236,32 @@ public class Renderer {
 
   }
 
+// Aus einem Forum
+  int blend (int a, int b, float ratio) {
+    if (ratio > 1f) {
+      ratio = 1f;
+    } else if (ratio < 0f) {
+      ratio = 0f;
+    }
+    float iRatio = 1.0f - ratio;
 
+    int aA = (a >> 24 & 0xff);
+    int aR = ((a & 0xff0000) >> 16);
+    int aG = ((a & 0xff00) >> 8);
+    int aB = (a & 0xff);
 
+    int bA = (b >> 24 & 0xff);
+    int bR = ((b & 0xff0000) >> 16);
+    int bG = ((b & 0xff00) >> 8);
+    int bB = (b & 0xff);
 
+    int aM = 255;
+    int rM = (int)((aR * iRatio) + (bR * ratio));
+    int gM = (int)((aG * iRatio) + (bG * ratio));
+    int bM = (int)((aB * iRatio) + (bB * ratio));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return aM << 24 | rM << 16 | gM << 8 | bM;
+  }
 
 
 
