@@ -13,8 +13,8 @@ public class Engine implements Runnable {
   private AbstractGame game;
 
   private boolean running = false;
-  private boolean aa; // Anti-Aliasing
-  private final double UPDATE_CAP = 1.0/120.0;
+  private boolean antiAliasing;
+  private final double UPDATE_CAP = 1.0/60.0;
   private int width = 480, height = 320;
   private float scale = 2f;
   private String title = "Star Wars Engine";
@@ -30,7 +30,7 @@ public class Engine implements Runnable {
     renderer = new Renderer(this);
     input = new Input(this);
 
-    aa = false;
+    antiAliasing = false;
     thread = new Thread(this);
     thread.run(); //Makes this main thread
   }
@@ -71,10 +71,10 @@ public class Engine implements Runnable {
 
         // Schalte zwischen Aliasing und anti-Aliasing
         if (input.isKeyDown(KeyEvent.VK_P)){
-          if(aa){
-            aa = false;
+          if(antiAliasing){
+            antiAliasing = false;
           } else{
-            aa = true;
+            antiAliasing = true;
           }
         }
 
@@ -104,7 +104,7 @@ public class Engine implements Runnable {
 
         renderer.drawText("FPS: " + fps, 0, 0, 0xffffffff);
 
-        if(aa) {
+        if(antiAliasing) {
           renderer.antiAliasing();
         }
 

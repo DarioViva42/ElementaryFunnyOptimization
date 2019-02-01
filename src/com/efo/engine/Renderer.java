@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class Renderer {
   private int pW, pH; //pixel width and height
   int[] p;
-  private final int[][] kern = {{1,2,1},{2,8,2},{1,2,1}};
+  private final int[][] kern = {{1,4,1},{4,32,4},{1,4,1}};
   private int kSum = 0;
   //Dimensionality
   private final int d = 1;

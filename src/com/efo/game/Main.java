@@ -17,10 +17,10 @@ public class Main extends AbstractGame {
   private Image image2;
   private Image background;
   private SoundClip clip;
-  double i;
-  Star[] starfield = new Star[100];
-  Star s;
-  Ship ussEnterprise;
+  private double i;
+  private Star[] starfield = new Star[400];
+  private Star s;
+  private Ship ussEnterprise;
 
 
   public Main() {
@@ -31,7 +31,7 @@ public class Main extends AbstractGame {
     i = 0;
 
     s = new Star();
-    ussEnterprise = new Ship(new Vector(20, 20, "c"),0);
+    ussEnterprise = new Ship(new Vector(150, 150, "c"),0);
     for (int j = 0; j < starfield.length; j++) {
       starfield[j] = new Star();
     }
