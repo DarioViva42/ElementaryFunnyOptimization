@@ -1,10 +1,8 @@
 package com.efo.engine;
 
 import com.efo.engine.Engine;
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.Graphics;
+
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
@@ -44,6 +42,12 @@ public class Window {
     g = bs.getDrawGraphics();
 
 
+    // Vielleicht finden wir das noch raus wie man ein Bild direkt anwählen kann.
+    Toolkit toolkit = Toolkit.getDefaultToolkit();
+    Image image = toolkit.getImage("/blu.png");
+    Cursor c = toolkit.createCustomCursor(image , new Point(frame.getX(),
+            frame.getY()), "img");
+    frame.setCursor (c);
 
 
   }

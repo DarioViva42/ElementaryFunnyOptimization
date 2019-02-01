@@ -15,6 +15,7 @@ public class Main extends AbstractGame {
 
   private ImageTile image;
   private Image image2;
+  private Image background;
   private SoundClip clip;
   double i;
   Star[] starfield = new Star[100];
@@ -26,6 +27,7 @@ public class Main extends AbstractGame {
 
     image = new ImageTile("/explosion.png", 16, 16);
     image2 = new Image("/test.png");
+    background = new Image("/mainMenuBackground.jpg");
     i = 0;
 
     s = new Star();
@@ -85,6 +87,7 @@ public class Main extends AbstractGame {
       starfield[j].show(r, ge.getWidth(), ge.getHeight());
       starfield[j].update();
     }
+    r.drawImage(background, 240, 160, 0);
 
     r.drawText("Halloo", 20, 20, 0xffff00ff);
 
@@ -95,6 +98,7 @@ public class Main extends AbstractGame {
 
 
     r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
+
     i += .01;
 
     ussEnterprise.show(r);
