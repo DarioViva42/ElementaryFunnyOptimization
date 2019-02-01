@@ -24,3 +24,9 @@ http://cmuems.com/resources/getting_started_with_processing.pdf
 
 Mit freundlichen Grüßen,
 Dario und Luis
+
+
+
+Quellen:
+
+https://www.youtube.com/channel/UCYdJWlQWeuhDZicBbxM0-mg //Vorlage für die Engine.
