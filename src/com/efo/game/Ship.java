@@ -19,7 +19,7 @@ public class Ship {
     double alphaVel;  // Die Winkelgeschwindigkeit des Schiffes
     double alphaAcc;  // Die Winkelbeschleunigung
     double alpha;     // Der Winkel
-    double maxTurnAcc = 0.08;
+    double maxTurnAcc = 0.16;
 
 
     // Constructor ---------------------------------
@@ -62,7 +62,7 @@ public class Ship {
 
     void boost(){
         if(isBoosting){
-            this.acc.setP(0.01, this.alpha);
+            this.acc.setP(0.02, this.alpha);
         } else {
             this.acc.setP(0, this.alpha);
         }

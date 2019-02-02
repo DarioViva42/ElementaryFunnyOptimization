@@ -26,7 +26,7 @@ public class Main extends AbstractGame {
   public Main() {
 
     image = new ImageTile("/explosion.png", 16, 16);
-    image2 = new Image("/test.png");
+    image2 = new Image("/test2.png");
     noHover = new Image("/noHover.png");
     clicked = new Image("/clicked.png");
     hover = new Image("/hover.png");
@@ -35,7 +35,7 @@ public class Main extends AbstractGame {
     i = 0;
 
     s = new Star();
-    ussEnterprise = new Ship(new Vector(150, 150, "c"),0);
+    ussEnterprise = new Ship(new Vector(150, 150, "c"),0.1);
     for (int j = 0; j < starfield.length; j++) {
       starfield[j] = new Star();
     }
@@ -106,7 +106,7 @@ public class Main extends AbstractGame {
     r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
 
 
-    i += .01;
+    //i += .01;
 
 
     if(ge.getInput().getMouseX() > 180 && ge.getInput().getMouseX() < 305 && ge.getInput().getMouseY() > 30 && ge.getInput().getMouseY() < 70 || ussEnterprise.getPos().getX() > 180 && ussEnterprise.getPos().getX() < 315 && ussEnterprise.getPos().getY() > 30 && ussEnterprise.getPos().getY() < 70) {
