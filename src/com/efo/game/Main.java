@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 public class Main extends AbstractGame {
 
   private ImageTile image;
-  private Image image2, noHover;
+  private Image image2, noHover, hover, clicked;
   private Image background;
   private SoundClip clip;
   private double i;
@@ -28,6 +28,8 @@ public class Main extends AbstractGame {
     image = new ImageTile("/explosion.png", 16, 16);
     image2 = new Image("/test.png");
     noHover = new Image("/noHover.png");
+    clicked = new Image("/clicked.png");
+    hover = new Image("/hover.png");
 
     background = new Image("/mainMenuBackground.jpg");
     i = 0;
@@ -87,10 +89,10 @@ public class Main extends AbstractGame {
 
     r.drawImage(background, 240, 160, 0);
 
-    for (int j = 0; j < starfield.length -1 ; j++) {
+    /*for (int j = 0; j < starfield.length -1 ; j++) {
       starfield[j].show(r, ge.getWidth(), ge.getHeight());
       starfield[j].update();
-    }
+    }*/
 
 
     r.drawText("Halloo", 20, 20, 0xffff00ff);
@@ -103,9 +105,17 @@ public class Main extends AbstractGame {
 
     r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
 
+
     i += .01;
 
-    r.drawImage(noHover,250,50,0);
+
+    if(ge.getInput().getMouseX() > 180 && ge.getInput().getMouseX() < 305 && ge.getInput().getMouseY() > 30 && ge.getInput().getMouseY() < 70 || ussEnterprise.getPos().getX() > 180 && ussEnterprise.getPos().getX() < 315 && ussEnterprise.getPos().getY() > 30 && ussEnterprise.getPos().getY() < 70) {
+      r.drawImage(hover, 250,50, 0);
+    } else {
+      r.drawImage(noHover, 250, 50, 0);
+    }
+
+    System.out.println("x: " + ge.getInput().getMouseX() + " y: " + ge.getInput().getMouseY());
 
     ussEnterprise.show(r);
 
