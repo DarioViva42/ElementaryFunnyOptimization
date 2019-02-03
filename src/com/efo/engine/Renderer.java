@@ -54,6 +54,15 @@ public class Renderer {
   }
 
   public void drawText(String text, int offX, int offY, int color){
+
+    // Da folgende Zeichen nicht in unserem Zeichensatz enthalten sind ersetzen wir sie.
+    text = text.replaceAll("ä", "ae");
+    text = text.replaceAll("Ä", "Ae");
+    text = text.replaceAll("ö", "oe");
+    text = text.replaceAll("Ö", "Oe");
+    text = text.replaceAll("ü", "ue");
+    text = text.replaceAll("Ü", "Ue");
+
     int offset = 0;
 
     for (int i = 0; i < text.length(); i++) {

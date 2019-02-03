@@ -115,7 +115,7 @@ public class Main extends AbstractGame {
       r.drawText("pressed", 195, 38, 0xffff00ff);
     }else if(ge.getInput().getMouseX() > 180 && ge.getInput().getMouseX() < 305 && ge.getInput().getMouseY() > 30 && ge.getInput().getMouseY() < 70 || ussEnterprise.getPos().getX() > 180 && ussEnterprise.getPos().getX() < 315 && ussEnterprise.getPos().getY() > 30 && ussEnterprise.getPos().getY() < 70) {
       r.drawImage(hover, 250, 50, 0);
-      r.drawText("Hover, ob du's glaubst oder", 195, 38, 0xffff00ff);
+      r.drawText("Hover, äh!", 195, 38, 0xffff00ff);
     } else {
         r.drawImage(noHover, 250, 50, 0);
         r.drawText("nicht auf Knopf", 195, 38, 0xffff00ff);
