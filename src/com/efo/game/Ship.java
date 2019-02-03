@@ -7,19 +7,19 @@ import com.efo.engine.gfx.Image;
 //Selfmade
 public class Ship {
     // Attributes ----------------------------------
-    Vector pos;   // Position
-    Vector gunPos;// Position der Waffe (Vorne)
-    Vector vel;   // Geschwidigkeit
-    Vector acc;   // Beschleunigung
-    Image schiff;
+    private Vector pos;   // Position
+    private Vector gunPos;// Position der Waffe (Vorne)
+    private Vector vel;   // Geschwidigkeit
+    private Vector acc;   // Beschleunigung
+    private Image schiff;
 
-    boolean isTurningL = false;
-    boolean isTurningR = false;
-    boolean isBoosting = false;
-    double alphaVel;  // Die Winkelgeschwindigkeit des Schiffes
-    double alphaAcc;  // Die Winkelbeschleunigung
-    double alpha;     // Der Winkel
-    double maxTurnAcc = 0.16;
+    private boolean isTurningL = false;
+    private boolean isTurningR = false;
+    private boolean isBoosting = false;
+    private double alphaVel;  // Die Winkelgeschwindigkeit des Schiffes
+    private double alphaAcc;  // Die Winkelbeschleunigung
+    private double alpha;     // Der Winkel
+    private double maxTurnAcc = 0.16;
 
 
     // Constructor ---------------------------------
@@ -88,5 +88,37 @@ public class Ship {
         this.vel.setP(0.992 * l, a);
         //Turning Drag
         this.alphaVel *= 0.9855;
+    }
+
+    public boolean isTurningL() {
+        return isTurningL;
+    }
+
+    public boolean isTurningR() {
+        return isTurningR;
+    }
+
+    public boolean isBoosting() {
+        return isBoosting;
+    }
+
+    public double getX() {
+        return this.pos.getX();
+    }
+
+    public double getY() {
+        return this.pos.getY();
+    }
+
+    public void setTurningL(boolean turningL) {
+        isTurningL = turningL;
+    }
+
+    public void setTurningR(boolean turningR) {
+        isTurningR = turningR;
+    }
+
+    public void setBoosting(boolean boosting) {
+        isBoosting = boosting;
     }
 }
