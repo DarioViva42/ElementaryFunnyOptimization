@@ -2,7 +2,7 @@ package com.efo.engine.gfx;
 
 public class Font {
 
-    public static final Font STANDARD = new Font("/fonts/standard.png");
+    public static final Font STANDARD = new Font("/fonts/gross.png");
 
     private Image fontImage;
     private int[] offsets;
@@ -11,8 +11,8 @@ public class Font {
     public Font(String path) {
         fontImage = new Image(path);
 
-        offsets = new int [59];
-        widths = new int [59];
+        offsets = new int [95];
+        widths = new int [95];
 
         int unicode = 0;
 

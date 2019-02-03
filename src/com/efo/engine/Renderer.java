@@ -54,7 +54,6 @@ public class Renderer {
   }
 
   public void drawText(String text, int offX, int offY, int color){
-    text = text.toUpperCase();
     int offset = 0;
 
     for (int i = 0; i < text.length(); i++) {
