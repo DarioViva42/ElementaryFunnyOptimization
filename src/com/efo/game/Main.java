@@ -10,6 +10,7 @@ import com.efo.engine.gfx.ImageTile;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
 
 public class Main extends AbstractGame {
 
@@ -22,6 +23,8 @@ public class Main extends AbstractGame {
   private Star s;
   private Ship ussEnterprise;
   private float temp = 0f;
+  private LinkedList<Ship> boids = new LinkedList<Ship>();
+  private int enemyCount = 5;
 
   public Main() {
 
@@ -31,18 +34,22 @@ public class Main extends AbstractGame {
     clicked = new Image("/clicked.png");
     hover = new Image("/hover.png");
 
+      for (int j = 0; j < enemyCount; j++) {
+          boids.add(new Ship(new Vector(50,50,"c"),270));
+      }
+
 
 
     background = new Image("/mainMenuBackground.jpg");
     i = 0;
 
     s = new Star();
-    ussEnterprise = new Ship(new Vector(150, 150, "c"),0.1);
+    ussEnterprise = new Ship(new Vector(150, 150, "c"),270);
     for (int j = 0; j < starfield.length; j++) {
       starfield[j] = new Star();
     }
 
-    //clip = new SoundClip("/audo/test.wav")
+    //clip = new SoundClip("/audio/test.wav")
     //clip.setVolume(-20);
   }
 
@@ -81,7 +88,17 @@ public class Main extends AbstractGame {
       temp = 0;
     }
     ussEnterprise.update();
+    ussEnterprise.border();
 
+    for (int j = 0; j < boids.size(); j++) {
+      boids.get(j).update();
+
+      if((int)(Math.random() * 1000) == 2) {
+        boids.get(j).setBoosting(true);
+      }
+
+      boids.get(j).border();
+    }
   }
 
 
@@ -91,10 +108,10 @@ public class Main extends AbstractGame {
 
     r.drawImage(background, 240, 160, 0);
 
-    /*for (int j = 0; j < starfield.length -1 ; j++) {
+    for (int j = 0; j < starfield.length -1 ; j++) {
       starfield[j].show(r, ge.getWidth(), ge.getHeight());
       starfield[j].update();
-    }*/
+    }
 
 
 
@@ -107,21 +124,26 @@ public class Main extends AbstractGame {
 
     r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
 
-
-    //i += .01;
+    if(ge.getInput().isButton(1)) {
+        i += .01;
+    }
 
     if(ge.getInput().getMouseX() > 180 && ge.getInput().getMouseX() < 305 && ge.getInput().getMouseY() > 30 && ge.getInput().getMouseY() < 70 || ussEnterprise.getPos().getX() > 180 && ussEnterprise.getPos().getX() < 315 && ussEnterprise.getPos().getY() > 30 && ussEnterprise.getPos().getY() < 70) {
       if(!ge.getInput().isButton(1) && !ge.getInput().isKey(KeyEvent.VK_ENTER)) {
         r.drawImage(hover, 250, 50, 0);
-        r.drawText("Settings", 195, 38, 0xffff00ff);
+        r.drawText("Settings", 195, 38, 0x8f858af2);
       }
       if(ge.getInput().isButton(1) || ge.getInput().isKey(KeyEvent.VK_ENTER)) {
         r.drawImage(clicked, 250, 50, 0);
-        r.drawText("Settings", 195, 38, 0xffff00ff);
+        r.drawText("Settings", 195, 38, 0x6F858af2);
       }
     } else {
         r.drawImage(noHover, 250, 50, 0);
-        r.drawText("Settings", 195, 38, 0xffff00ff);
+        r.drawText("Settings", 195, 38, 0xFF858af2);
+    }
+
+    for (int j = 0; j < boids.size(); j++) {
+      boids.get(j).show(r);
     }
 
 

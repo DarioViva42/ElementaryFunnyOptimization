@@ -4,6 +4,8 @@ import com.efo.engine.Engine;
 import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
 
+//Selfmade
+
 public class Star {
 
     // Attributes ---------------------------------

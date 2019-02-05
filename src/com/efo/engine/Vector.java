@@ -1,5 +1,7 @@
 package com.efo.engine;
- //Selfmade
+
+//Selfmade
+
 public class Vector {
   // Attributes ----------------------------------
   private double x;

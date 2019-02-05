@@ -7,6 +7,7 @@ import com.efo.engine.gfx.ImageTile;
 import java.awt.Color;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class Renderer {
   private int pW, pH; //pixel width and height
@@ -95,8 +96,9 @@ public class Renderer {
         color = image.getP()[x+y*image.getW()];
 
         setPixel(rX + offX,rY + offY, color);
-        if (angle != 0) {
-          setPixel(rX + offX, rY + offY - 1, color);
+
+        if (angle % 90 != 0) {
+            setPixel(rX + offX, rY + offY - 1, color);
         }
       }
     }
@@ -122,7 +124,7 @@ public class Renderer {
 
     for(int y = newY;  y < newHeight; y++) {
       for(int x = newX; x < newWidth; x++) {
-        setPixel(x + offX,y + offY, image.getP()[(x+tileX*image.getTileW()) + (y+tileY*image.getTileH()) * image.getW()]);
+        setPixel(x + offX,y + offY, image.getP()[(x+tileX*image.getTileW()) + (y + tileY * image.getTileH()) * image.getW()]);
       }
     }
   }

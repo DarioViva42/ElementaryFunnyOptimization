@@ -11,15 +11,15 @@ public class Ship {
     private Vector gunPos;// Position der Waffe (Vorne)
     private Vector vel;   // Geschwidigkeit
     private Vector acc;   // Beschleunigung
-    private Image schiff;
+    private Image enterprise;
 
     private boolean isTurningL = false;
     private boolean isTurningR = false;
     private boolean isBoosting = false;
-    private double alphaVel;  // Die Winkelgeschwindigkeit des Schiffes
+    private double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
     private double alphaAcc;  // Die Winkelbeschleunigung
     private double alpha;     // Der Winkel
-    private double maxTurnAcc = 0.16;
+    private double maxTurnAcc = 0.35;
 
 
     // Constructor ---------------------------------
@@ -30,15 +30,15 @@ public class Ship {
         this.alpha = alpha % 360;
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
-        schiff = new Image("/ship.png");
+        enterprise = new Image("/ship.png");
     }
 
     // Methods -------------------------------------
-    void show(Renderer r){
-      r.drawImage(schiff, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.alpha + 90));
+    public void show(Renderer r){
+      r.drawImage(enterprise, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.alpha + 90));
     }
 
-    void turn() {
+    public void turn() {
         if (isTurningL && isTurningR){
             this.alphaAcc = 0;
         } else if (isTurningL){
@@ -50,30 +50,30 @@ public class Ship {
         }
     }
 
-  /*Projectile shoot() {
+  /*public Projectile shoot() {
     Projectile geschoss = new Projectile(this.gunPos, this.alpha);
     return geschoss;
   }*/
 
-    Vector getPos() {
+    public Vector getPos() {
         Vector position = this.pos;
         return position;
     }
 
-    void boost(){
+    public void boost(){
         if(isBoosting){
-            this.acc.setP(0.02, this.alpha);
+            this.acc.setP(0.2, this.alpha);
         } else {
             this.acc.setP(0, this.alpha);
         }
     }
 
-    double getAbsVel() {
+    public double getAbsVel() {
         double absoluteVelocity = this.vel.getLength();
         return absoluteVelocity;
     }
 
-    void update(){
+    public void update(){
         boost();
         turn();
         this.vel.add(this.acc);
@@ -89,6 +89,41 @@ public class Ship {
         //Turning Drag
         this.alphaVel *= 0.9855;
     }
+
+    public void border() {
+
+        if(this.pos.getX() < -10) {
+            this.pos.setC(480 + 10,this.pos.getY());
+        } else if(this.pos.getX() > (480 + 10)) {
+            this.pos.setC(-10,this.pos.getY());
+
+        } else if(this.pos.getY() < -10) {
+            this.pos.setC(this.pos.getX(),320 +  10);
+
+        }else if(this.pos.getY() > (320 + 10)) {
+            this.pos.setC(this.pos.getX(), -10);
+        }
+
+    }
+
+    //Boid Controlls -----------------------------------
+
+    public void bBoost() {
+
+    }
+
+    public void bTurn() {
+
+    }
+
+    public void bShoot() {
+
+    }
+
+    public void bAlgorithm() {
+
+    }
+
 
     public boolean isTurningL() {
         return isTurningL;
