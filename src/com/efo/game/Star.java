@@ -9,38 +9,37 @@ import com.efo.engine.Vector;
 public class Star {
 
     // Attributes ---------------------------------
-    Vector pos;
-    Vector vel;
-    double starSize;
+    private Vector pos;
+    private Vector vel;
+    private double starSize;
 
     //Math.random speed
-    double sVel;
+    private double sVel;
     //static angle for the Stars
-    double sAngle = 140;
+    private double sAngle = 140;
 
     //Star size
-    double stSiLower = 1.5;
-    double stSiUpper = 1.8;
-    double stSiPow = 10;
-    double stSiModeration = 120;
+    private double stSiLower = 1.5;
+    private double stSiUpper = 1.8;
+    private double stSiPow = 10;
+    private double stSiModeration = 120;
 
     //starSize to velocity Mapping
-    double lowerStarSize = 0.5;
-    double upperStarSize = 3;
-    double lowerVel = 0;
-    double upperVel = 0.5;
+    private double lowerStarSize = 0.5;
+    private double upperStarSize = 3;
+    private double lowerVel = 0;
+    private double upperVel = 0.5;
 
 
-    int width = 480, height = 320;
+    private int width = 480, height = 320;
 
     // Constructor --------------------------------
-    Star() {
-
+    public Star() {
         double sX = random(0,width);
         double sY = random(0,height);
         pos = new Vector(sX,sY,"c");
 
-        sVel = 0.3;
+        sVel = 0.1;
         this.vel = new Vector(sVel,sAngle,"p");
         //newSizeVel();
     }
@@ -121,12 +120,12 @@ public class Star {
         }
     }
 
-    void update() {
+    public void update() {
         this.pos.add(this.vel);
     }
 
 
-    void newSizeVel() {
+    public void newSizeVel() {
         // starSizeModeration für Darios bildschirm halbieren!(60), für Luis(120)
         this.starSize = (Math.pow((Math.random() * ( stSiUpper - stSiLower )) + stSiLower,stSiPow))/stSiModeration;
 

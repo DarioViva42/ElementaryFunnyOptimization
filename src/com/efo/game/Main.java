@@ -7,8 +7,6 @@ import com.efo.engine.Vector;
 import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
-
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
@@ -23,7 +21,7 @@ public class Main extends AbstractGame {
   private Star s;
   private Ship ussEnterprise;
   private float temp = 0f;
-  private LinkedList<Ship> boids = new LinkedList<Ship>();
+  private LinkedList<Boid> boids = new LinkedList<Boid>();
   private int enemyCount = 5;
 
   public Main() {
@@ -35,7 +33,7 @@ public class Main extends AbstractGame {
     hover = new Image("/hover.png");
 
       for (int j = 0; j < enemyCount; j++) {
-          boids.add(new Ship(new Vector(50,50,"c"),270));
+          boids.add(new Boid());
       }
 
 
@@ -91,11 +89,8 @@ public class Main extends AbstractGame {
     ussEnterprise.border();
 
     for (int j = 0; j < boids.size(); j++) {
-      boids.get(j).update();
+      boids.get(j).update(ge.getInput(),ussEnterprise);
 
-      if((int)(Math.random() * 1000) == 2) {
-        boids.get(j).setBoosting(true);
-      }
 
       boids.get(j).border();
     }

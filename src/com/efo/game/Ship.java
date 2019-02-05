@@ -7,27 +7,37 @@ import com.efo.engine.gfx.Image;
 //Selfmade
 public class Ship {
     // Attributes ----------------------------------
-    private Vector pos;   // Position
-    private Vector gunPos;// Position der Waffe (Vorne)
-    private Vector vel;   // Geschwidigkeit
-    private Vector acc;   // Beschleunigung
-    private Image enterprise;
+    protected Vector pos;   // Position
+    protected Vector gunPos;// Position der Waffe (Vorne)
+    protected Vector vel;   // Geschwidigkeit
+    protected Vector acc;   // Beschleunigung
+    protected Image enterprise;
 
     private boolean isTurningL = false;
     private boolean isTurningR = false;
     private boolean isBoosting = false;
-    private double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
-    private double alphaAcc;  // Die Winkelbeschleunigung
-    private double alpha;     // Der Winkel
-    private double maxTurnAcc = 0.35;
+    protected double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
+    protected double alphaAcc;  // Die Winkelbeschleunigung
+    protected double alpha;     // Der Winkel
+    protected double maxTurnAcc = 0.35;
 
 
-    // Constructor ---------------------------------
+    // Constructors --------------------------------
+    Ship() {
+        pos = new Vector(0,0,"c");
+        alphaVel = 0;
+        alphaAcc = 0;
+        alpha = 0;
+        vel = new Vector(0.0,0.0,"c");
+        acc = new Vector(0.0,0.0,"c");
+        enterprise = new Image("/ship.png");
+    }
+
     Ship(Vector pos, double alpha) {
         this.pos = pos;
-        this.alphaVel = 0;
-        this.alphaAcc = 0;
-        this.alpha = alpha % 360;
+        alphaVel = 0;
+        alphaAcc = 0;
+        alpha = alpha % 360;
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
         enterprise = new Image("/ship.png");
@@ -76,10 +86,10 @@ public class Ship {
     public void update(){
         boost();
         turn();
-        this.vel.add(this.acc);
-        this.pos.add(this.vel);
-        this.alphaVel += alphaAcc;
-        this.alpha = (this.alpha + alphaVel) % 360;
+        vel.add(acc);
+        pos.add(vel);
+        alphaVel += alphaAcc;
+        alpha = (alpha + alphaVel) % 360;
 
         //drag
         double l = this.vel.getLength();
@@ -106,23 +116,7 @@ public class Ship {
 
     }
 
-    //Boid Controlls -----------------------------------
 
-    public void bBoost() {
-
-    }
-
-    public void bTurn() {
-
-    }
-
-    public void bShoot() {
-
-    }
-
-    public void bAlgorithm() {
-
-    }
 
 
     public boolean isTurningL() {

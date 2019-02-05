@@ -7,7 +7,7 @@ public class Vector {
   private double x;
   private double y;
   private double vLength;
-  private double alpha;
+  private double angle;
 
 
   // Constructor ---------------------------------
@@ -22,7 +22,7 @@ public class Vector {
         break;
       case "p": case "P": case "Polar": case "polar":
         this.vLength = xl;
-        this.alpha = ya;
+        this.angle = ya;
 
         calcCoord(xl, ya);
         break;
@@ -36,15 +36,15 @@ public class Vector {
   // Methods -------------------------------------
   private void calcPol(double x, double y){
     if (x > 0.0) {
-      this.alpha = (Math.toDegrees(Math.atan(y / x))+360)%360;
+      this.angle = (Math.toDegrees(Math.atan(y / x))+360)%360;
     } else if (x < 0.0) {
-      this.alpha = 180 + Math.toDegrees(Math.atan(y/x));
+      this.angle = 180 + Math.toDegrees(Math.atan(y/x));
     } else if(x == 0 && y > 0) {
-      this.alpha = 90;
+      this.angle = 90;
     } else if(x == 0 && y < 0) {
-      this.alpha = 270;
+      this.angle = 270;
     } else if(x == 0 && y == 0) {
-      this.alpha = 0;
+      this.angle = 0;
     } else {
       System.out.println("Da lief etwas sehr falsch in calcPol");
     }
@@ -52,23 +52,52 @@ public class Vector {
   }
 
   private void calcCoord(double l, double a){
-    this.x = l*Math.cos(Math.toRadians(a));
-    this.y = l*Math.sin(Math.toRadians(a));
+    this.x = l * Math.cos(Math.toRadians(a));
+    this.y = l * Math.sin(Math.toRadians(a));
   }
 
-  public void add(Vector b) {
-    this.x += b.getX();
-    this.y += b.getY();
+  public void add(Vector other) {
+    this.x += other.getX();
+    this.y += other.getY();
     calcPol(this.x, this.y);
   }
 
-  public Vector add(Vector b, boolean test) {
+  public void sub(Vector other) {
+    this.x -= other.getX();
+    this.y -= other.getY();
+    calcPol(this.x, this.y);
+  }
+
+  public void mult(Double Factor) {
+    this.x *= Factor;
+    this.y *= Factor;
+    calcPol(this.x, this.y);
+  }
+
+  public Vector add(Vector other, boolean test) {
     Vector giveVec;
-    double x = this.getX() + b.getX();
-    double y = this.getY() + b.getY();
-    giveVec = new Vector(x, y, "C");
+    double x = this.getX() + other.getX();
+    double y = this.getY() + other.getY();
+    giveVec = new Vector(x, y, "c");
     return giveVec;
   }
+
+  public Vector sub(Vector other, boolean test) {
+    Vector giveVec;
+    double x = this.getX() - other.getX();
+    double y = this.getY() - other.getY();
+    giveVec = new Vector(x, y, "c");
+    return giveVec;
+  }
+
+  public Vector mult(Vector other, boolean test) {
+    Vector giveVec;
+    double x = this.getX() * other.getX();
+    double y = this.getY() * other.getY();
+    giveVec = new Vector(x, y, "c");
+    return giveVec;
+  }
+  
 
   public double distance(Vector b) {
     double distance = Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2));
@@ -81,7 +110,7 @@ public class Vector {
   }
 
   public double getAngle() {
-    return this.alpha;
+    return this.angle;
 
   }
 
@@ -103,7 +132,13 @@ public class Vector {
 
   public void setP(double vLength, double angle) {
     this.vLength = vLength;
-    this.alpha = angle;
+    this.angle = angle;
     calcCoord(vLength, angle);
   }
+  
+  public void setLength(int length) {
+    vLength = length;
+    calcCoord(length,angle);
+  }
+
 }
