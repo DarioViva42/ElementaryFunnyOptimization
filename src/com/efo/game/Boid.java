@@ -22,25 +22,25 @@ public class Boid extends Ship {
         desired = (new Vector(uss.getX(),uss.getY(),"c")).sub(pos,true);
 
         desired.setLength(1);
-        desired.mult(2.0);
+        desired.mult(1.5);
 
         steering = desired.sub(vel,true);
 
-        if(desired.getLength() > 1.4) {
-            vel.add(steering);
-            pos.add(vel);
-            alphaVel += alphaAcc;
-            alpha = (alpha + alphaVel) % 360;
+        //System.out.println("Steering: " + steering.getLength() + " Desired: " + desired.getLength());
 
-            //drag
-            double l = this.vel.getLength();
-            double a = this.vel.getAngle();
-            //Velocity Drag
-            this.vel.setP(0.992 * l, a);
-            //Turning Drag
-            this.alphaVel *= 0.9855;
+        vel.add(steering);
+        pos.add(vel);
+        alphaVel += alphaAcc;
+        alpha = (alpha + alphaVel) % 360;
 
-        }
+        //drag
+        double l = this.vel.getLength();
+        double a = this.vel.getAngle();
+        //Velocity Drag
+        this.vel.setP(0.992 * l, a);
+        //Turning Drag
+        this.alphaVel *= 0.9855;
+
     }
 
     @Override
