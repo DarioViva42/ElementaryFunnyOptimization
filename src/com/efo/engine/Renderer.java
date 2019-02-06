@@ -81,27 +81,72 @@ public class Renderer {
   }
 
   public void drawImage(Image image, int offX, int offY, double angle) {
-    int tX, tY, rX, rY, color;
+    int rX, rY, color;
     int w = image.getW();
     int h = image.getH();
 
-    for(int y = 0;  y < h; y++) {
-      for(int x = 0; x < w; x++) {
-        tX = x - w / 2;
-        tY = y - h / 2;
+	  if (angle != 0) {
 
-        rX =(int)(tX * Math.cos(angle) - tY * Math.sin(angle));
-        rY =(int)(tX * Math.sin(angle) + tY * Math.cos(angle));
+		  int berX = (int)((Math.abs(w * Math.cos(angle)) + Math.abs(h * Math.sin(angle)))/2)+2;
+		  int berY = (int)((Math.abs(w * Math.sin(angle)) + Math.abs(h * Math.cos(angle)))/2)+2;
 
-        color = image.getP()[x+y*image.getW()];
+		  //Dont Render
+		  if(offX < -berX) return;
+		  if(offY < -berY) return;
+		  if(offX - berX >= pW) return;
+		  if(offY - berY >= pH) return;
 
-        setPixel(rX + offX,rY + offY, color);
+		  int newX = -berX;
+		  int newY = -berY;
+		  int newWidth = berX;
+		  int newHeight = berY;
 
-        if (angle % 90 != 0) {
-            setPixel(rX + offX, rY + offY - 1, color);
-        }
-      }
-    }
+		  //Clipping
+		  if(offX + newX < 0) {newX -= offX + newX;}
+		  if(offY + newY < 0) {newY -= offY + newY;}
+		  if(newWidth + offX >= pW) {newWidth -= (newWidth + offX - pW);}
+		  if(newHeight + offY >= pH) {newHeight -= (newHeight + offY - pH);}
+
+		  for (int y = newY; y < newHeight; y++) {
+			  for (int x = newX; x < newWidth; x++) {
+
+				  rX = (int) (x * Math.cos(angle) + y * Math.sin(angle) + w/2.0);
+				  rY = (int) (-x * Math.sin(angle) + y * Math.cos(angle) + h/2.0);
+
+				  if (rX < w && rX >= 0 && rY < h && rY >= 0) {
+					  color = image.getP()[rX + rY * image.getW()];
+					  setPixel(x + offX, y + offY, color);
+				  }
+			  }
+		  }
+	  } else{
+
+		  //Dont Render
+		  if(offX < -w/2) return;
+		  if(offY < -h/2) return;
+		  if(offX - w/2 >= pW) return;
+		  if(offY - h/2 >= pH) return;
+
+		  int newX = 0;
+		  int newY = 0;
+		  int newWidth = w;
+		  int newHeight = h;
+
+		  //Clipping
+		  if(offX < w/2) {newX -= offX - w/2;}
+		  if(offY < h/2) {newY -= offY - h/2;}
+		  if(newWidth + offX - w/2 >= pW) {newWidth -= (newWidth + offX - pW - w/2);}
+		  if(newHeight + offY - h/2>= pH) {newHeight -= (newHeight + offY - pH - h/2);}
+
+		  for (int y = newY; y < newHeight; y++) {
+			  for (int x = newX; x < newWidth; x++) {
+		      color = image.getP()[x + y * image.getW()];
+		      setPixel(x -w/2 + offX, y - h/2 + offY, color);
+			  }
+		  }
+	  }
+
+
   }
 
   public void drawImageTile(ImageTile image, int offX, int offY, int tileX, int tileY){
@@ -109,7 +154,7 @@ public class Renderer {
     if(offX < -image.getTileW()) return;
     if(offY < -image.getTileH()) return;
     if(offX >= pW) return;
-    if(offY >= pW) return;
+    if(offY >= pH) return;
 
     int newX = 0;
     int newY = 0;
