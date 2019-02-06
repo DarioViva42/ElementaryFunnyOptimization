@@ -22,7 +22,7 @@ public class Main extends AbstractGame {
   private Ship ussEnterprise;
   private float temp = 0f;
   private LinkedList<Boid> boids = new LinkedList<Boid>();
-  private int enemyCount = 1;
+  private int enemyCount = 5;
 
   public Main() {
 
@@ -88,12 +88,12 @@ public class Main extends AbstractGame {
     ussEnterprise.update();
     ussEnterprise.border();
 
+
     for (int j = 0; j < boids.size(); j++) {
-      boids.get(j).update(ge.getInput(),ussEnterprise);
-
-
+      boids.get(j).update(ge.getInput(),ussEnterprise.getPos(),boids);
       boids.get(j).border();
     }
+
   }
 
 
@@ -101,7 +101,7 @@ public class Main extends AbstractGame {
   @Override
   public void render(Engine ge, Renderer r) {
 
-    r.drawImage(background, 240, 160, 0);
+    r.drawImage(background, 240, 159, 0);
 
     for (int j = 0; j < starfield.length -1 ; j++) {
       starfield[j].show(r, ge.getWidth(), ge.getHeight());
@@ -143,9 +143,6 @@ public class Main extends AbstractGame {
 
 
     ussEnterprise.show(r);
-
-
-
 
   }
 
