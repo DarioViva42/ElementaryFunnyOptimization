@@ -5,6 +5,8 @@ import com.efo.engine.Renderer;
 import com.efo.engine.Tupel;
 import com.efo.engine.Vector;
 
+import java.util.LinkedList;
+
 public class Boid extends Ship {
 
     //Attributes
@@ -16,6 +18,7 @@ public class Boid extends Ship {
 
     //Constructor
     public Boid() {
+
         pos = new Vector ((int)(Math.random()* 480),(int)(Math.random()* 320),"c");
         steer = new Vector(0,0,"p");
         desired = new Vector(0,0,"p");
@@ -23,11 +26,17 @@ public class Boid extends Ship {
         acc = new Vector(0,0,"p");
         futureLocation = new Vector(0,0,"p");
         rad = new Vector(0,0,"p");
+
     }
 
     //Methods
-    public void update(Input in, Vector target) {
-        floating();
+    public void update(Input in, Vector target, LinkedList<Boid> boids) {
+        distance = pos.distance(target);
+
+            seperate(boids);
+            //seek(target);
+            //floating();
+
 
         //System.out.println("steer: " + steer.getLength() + " Desired: " + desired.getLength());
 
@@ -36,13 +45,10 @@ public class Boid extends Ship {
         alphaVel += alphaAcc;
         alpha = (alpha + alphaVel) % 360;
 
-        //drag
-        double l = this.vel.getLength();
-        double a = this.vel.getAngle();
         //Velocity Drag
-        this.vel.setP(0.992 * l, a);
+        vel.setP(0.992 * vel.getLength(), vel.getAngle());
         //Turning Drag
-        this.alphaVel *= 0.9855;
+        alphaVel *= 0.9855;
 
     }
 
@@ -70,15 +76,6 @@ public class Boid extends Ship {
             radAngle += firstRing;
         }
 
-        /*if(rand <= 1) {
-            radAngle -= 15;
-        } else if(rand >= 14){
-            radAngle += 15;
-        } else if (rand <= 2 && rand <= 7) {
-            radAngle -= 5;
-        } else {
-            radAngle += 5;
-        }*/
 
         rad.setP(radiusLength,radAngle);
 
@@ -94,8 +91,20 @@ public class Boid extends Ship {
         acc.setP(steer.getLength(),steer.getAngle());
     }
 
+    public void flocking(LinkedList<Boid> boids) {
+        /*Vector sep = seperate(boids);
+        Vector ali = align(boids);
+        Vector coh = cohesion(boids);
+
+        sep.mult(1.5);
+        ali.mult(1.0);
+        coh.mult(1.0);
+
+        */
+    }
+
     public void seek(Vector target) {
-        distance = pos.distance(target);
+
         //desired = target - location
         desired = (new Vector(target.getX(),target.getY(),"c")).sub(pos,true);
         desired.mult(0.005);
@@ -110,7 +119,6 @@ public class Boid extends Ship {
     }
 
     public void flee(Vector target) {
-        distance = pos.distance(target);
         if(distance < 80) {
             desired = (pos).sub(new Vector(target.getX(), target.getY(), "c"), true);
 
@@ -126,4 +134,17 @@ public class Boid extends Ship {
         }
     }
 
+    public void seperate(LinkedList<Boid> boids) {
+        int desiredSeperation = 200;
+
+        for(Boid other: boids) {
+            Double d = pos.distance(other.pos);
+
+            if((d > 0) && (d < desiredSeperation)) {
+                Vector diff = pos.sub(other.pos,true);
+
+                diff.setLength(1);
+            }
+        }
+    }
 }

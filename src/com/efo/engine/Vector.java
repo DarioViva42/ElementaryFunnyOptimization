@@ -17,7 +17,6 @@ public class Vector {
           this.x = xl;
         this.y = ya;
 
-
         calcPol(xl, ya);
         break;
       case "p": case "P": case "Polar": case "polar":
@@ -29,7 +28,6 @@ public class Vector {
       default:
         System.out.println("Da lief etwas falsch in Vector");
     }
-
   }
 
 
