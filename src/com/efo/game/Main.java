@@ -90,7 +90,7 @@ public class Main extends AbstractGame {
 
 
     for (int j = 0; j < boids.size(); j++) {
-      boids.get(j).update(ge.getInput(),ussEnterprise.getPos(),boids);
+      boids.get(j).update(ge.getInput(),boids);
       boids.get(j).border();
     }
 

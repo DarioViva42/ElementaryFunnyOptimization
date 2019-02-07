@@ -10,8 +10,8 @@ import java.util.LinkedList;
 public class Boid extends Ship {
 
     //Attributes
-    Vector steer, desired, futureLocation, rad;
-    double maxSpeed = 3, maxForce = 0.05, distance, radiusLength = 10, futureLocationDistance = 20, radAngle = 180;
+    Vector futureLocation, rad, desired, steer;
+    double maxSpeed, maxForce, distance, radiusLength, futureLocationDistance = 20, radAngle = 180;
     int[][] steeringRange = {{3}, {4, 11}, {12, 27}, {28, 43}, {44, 51}, {52}};
     int firstRing = 15, secondRing = 10, thirdRing = 5;
 
@@ -20,28 +20,25 @@ public class Boid extends Ship {
     public Boid() {
 
         pos = new Vector((int) (Math.random() * 480), (int) (Math.random() * 320), "c");
-        steer = new Vector(0, 0, "p");
-        desired = new Vector(0, 0, "p");
-        vel = new Vector(0, 90, "p");
+        vel = new Vector(0, 0, "p");
         acc = new Vector(0, 0, "p");
+
         futureLocation = new Vector(0, 0, "p");
         rad = new Vector(0, 0, "p");
 
+        maxSpeed = 3;
+        maxForce = 0.05;
+        radiusLength = 10;
     }
 
     //Methods
-    public void update(Input in, Vector target, LinkedList<Boid> boids) {
-        distance = pos.distance(target);
-
-        //flocking(boids);
-        //seek(target);
-        floating();
-
-
-        //System.out.println("steer: " + steer.getLength() + " Desired: " + desired.getLength());
+    public void update(Input in, LinkedList<Boid> boids) {
+        flocking(boids);
 
         vel.add(acc);
+        vel.limit(maxSpeed);
         pos.add(vel);
+
         alphaVel += alphaAcc;
         alpha = (alpha + alphaVel) % 360;
 
@@ -50,11 +47,99 @@ public class Boid extends Ship {
         //Turning Drag
         alphaVel *= 0.9855;
 
+        acc.mult(0.0);
     }
 
     @Override
     public void show(Renderer r) {
         r.drawImage(enterprise, (int) this.pos.getX(), (int) this.pos.getY(), Math.toRadians(vel.getAngle() + 90));
+    }
+
+    public void flocking(LinkedList<Boid> boids) {
+        Vector sep = seperate(boids);
+        Vector ali = align(boids);
+        Vector coh = cohesion(boids);
+
+        sep.mult(1.5);
+        ali.mult(1.0);
+        coh.mult(1.0);
+
+        applyForce(sep);
+        applyForce(ali);
+        applyForce(coh);
+    }
+
+    public Vector seperate(LinkedList<Boid> boids) {
+        Double desiredSeperation = 25.0;
+        Vector steer = new Vector(0,0, "p");
+        Double count = 0.0;
+
+        for (Boid other: boids) {
+            Double d = this.pos.distance(other.pos);
+            if((d > 0) && (d < desiredSeperation)) {
+                Vector diff = this.pos.sub(other.pos,true);
+                diff.setLength(1);
+                diff.div(d);
+                steer.add(diff);
+                count++;
+            }
+        }
+
+        if(count > 0) {
+            steer.div(count);
+        }
+
+        if(steer.getLength() > 0) {
+            steer.setLength(1);
+            steer.mult(maxSpeed);
+            steer.sub(vel);
+            steer.limit(maxForce);
+        }
+        return steer;
+    }
+
+    public Vector align(LinkedList<Boid> boids) {
+        float neighborDistance = 50;
+        Vector sum = new Vector(0,0, "p");
+        Double count = 0.0;
+        for (Boid other: boids) {
+            Double d = this.pos.distance(other.pos);
+            if((d > 0) && (d < neighborDistance)) {
+                sum.add(other.vel);
+                count++;
+            }
+        }
+        if(count > 0) {
+            sum.div(count);
+            sum.setLength(1);
+            sum.mult(maxSpeed);
+            Vector steer = sum.sub(vel,true);
+            steer.limit(maxForce);
+            return steer;
+        } else {
+            return new Vector(0,0,"p");
+        }
+    }
+
+    public Vector cohesion(LinkedList<Boid> boids) {
+        float neighborDistance = 50;
+        Vector sum = new Vector(0,0,"p");
+        Double count = 0.0;
+
+        for (Boid other: boids) {
+            Double d = this.pos.distance(other.pos);
+            if((d > 0) && (d < neighborDistance)) {
+                sum.add(other.pos);
+                count++;
+            }
+        }
+        if(count > 0) {
+            sum.div(count);
+            return seek(sum);
+        }
+        else {
+            return new Vector(0,0,"p");
+        }
     }
 
     public void floating() {
@@ -91,33 +176,17 @@ public class Boid extends Ship {
         acc.setP(steer.getLength(), steer.getAngle());
     }
 
-    public void flocking(LinkedList<Boid> boids) {
-        Vector sep = seperate(boids);
-        //Vector ali = align(boids);
-        //Vector coh = cohesion(boids);
+    public Vector seek(Vector target) {
 
-        sep.mult(1.5);
-        //ali.mult(1.0);
-        ////acc.add(ali);
-        //acc.add(coh);
-
-        acc.div(1.0);
-
-    }
-
-    public void seek(Vector target) {
-
-        //desired = target - location
-        desired = (new Vector(target.getX(), target.getY(), "c")).sub(pos, true);
-        desired.mult(0.005);
+        Vector desired = (new Vector(target.getX(), target.getY(), "c")).sub(pos, true);
         desired.setLength(1);
         desired.mult(maxSpeed);
 
-        steer = desired.sub(vel, true);
+        Vector steer = desired.sub(vel, true);
 
         steer.limit(maxForce);
 
-        acc.setP(steer.getLength(), steer.getAngle());
+        return steer;
     }
 
     public void flee(Vector target) {
@@ -136,32 +205,9 @@ public class Boid extends Ship {
         }
     }
 
-    public Vector seperate(LinkedList<Boid> boids) {
-        float desiredSeperation = 100;
 
-        Vector sum = new Vector(0, 0, "c");
-        int count = 0;
 
-        for(Boid other : boids) {
-            Double d = pos.distance(other.pos);
-
-            if ((d > 0) && (d < desiredSeperation)) {
-                Vector diff = pos.sub(other.pos, true);
-                diff.setLength(1);
-                sum.add(diff);
-                count++;
-            }
-        }
-        sum.div((double) count);
-
-        sum.setLength((int) maxSpeed);
-        Vector steer = sum.sub(vel, true);
-        steer.limit(maxForce);
-
-        return steer;
-    }
-
-    public void applyForce(Vector xVector) {
-        acc.add(xVector);
+    public void applyForce(Vector force) {
+        acc.add(force);
     }
 }
