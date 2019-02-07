@@ -22,7 +22,7 @@ public class Main extends AbstractGame {
   private Ship ussEnterprise;
   private float temp = 0f;
   private LinkedList<Boid> boids = new LinkedList<Boid>();
-  private int enemyCount = 5;
+  private int enemyCount = 10;
 
   public Main() {
 
