@@ -14,7 +14,7 @@ public class Vector {
   public Vector(double xl, double ya, String test) {
     switch(test){
       case "c": case "C": case "coord": case "Coord": case "coordinate": case "Coordinate":
-          this.x = xl;
+        this.x = xl;
         this.y = ya;
 
         calcPol(xl, ya);
