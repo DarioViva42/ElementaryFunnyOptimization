@@ -13,10 +13,9 @@ import java.util.LinkedList;
 public class Main extends AbstractGame {
 
   private ImageTile image;
-  private Image image2, noHover, hover, clicked;
+  private Image mouse, noHover, hover, clicked;
   private Image background;
   private SoundClip clip;
-  private double i;
   private Star[] starfield = new Star[400];
   private Star s;
   private Ship ussEnterprise;
@@ -27,7 +26,7 @@ public class Main extends AbstractGame {
   public Main() {
 
     image = new ImageTile("/explosion.png", 16, 16);
-    image2 = new Image("/test2.png");
+    mouse = new Image("/Mouse.png");
     noHover = new Image("/noHover.png");
     clicked = new Image("/clicked.png");
     hover = new Image("/hover.png");
@@ -39,7 +38,6 @@ public class Main extends AbstractGame {
 
 
     background = new Image("/mainMenuBackground.jpg");
-    i = 0;
 
     s = new Star();
     ussEnterprise = new Ship(new Vector(150, 150, "c"),270);
@@ -117,11 +115,7 @@ public class Main extends AbstractGame {
             (int)temp, 0);*/
 
 
-    r.drawImage(image2, ge.getInput().getMouseX(), ge.getInput().getMouseY(), i);
-
-    if(ge.getInput().isButton(1)) {
-        i += .01;
-    }
+    r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
 
     if(ge.getInput().getMouseX() > 180 && ge.getInput().getMouseX() < 305 && ge.getInput().getMouseY() > 30 && ge.getInput().getMouseY() < 70 || ussEnterprise.getPos().getX() > 180 && ussEnterprise.getPos().getX() < 315 && ussEnterprise.getPos().getY() > 30 && ussEnterprise.getPos().getY() < 70) {
       if(!ge.getInput().isButton(1) && !ge.getInput().isKey(KeyEvent.VK_ENTER)) {
