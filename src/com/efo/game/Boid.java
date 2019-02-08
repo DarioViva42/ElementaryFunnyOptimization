@@ -33,7 +33,16 @@ public class Boid extends Ship {
 
     //Methods
     public void update(Input in, LinkedList<Boid> boids) {
-        flocking(boids);
+        int count = 0;
+        for (Boid other: boids) {
+            Double d = this.pos.distance(other.pos);
+            if((d > 0) && (d < 50)) {
+                count++;
+            }
+        }
+        if(count > 0) {
+            flocking(boids);
+        } else { floating(); }
 
         vel.add(acc);
         vel.limit(maxSpeed);
@@ -173,7 +182,7 @@ public class Boid extends Ship {
 
         steer.limit(maxForce);
 
-        acc.setP(steer.getLength(), steer.getAngle());
+        applyForce(steer);
     }
 
     public Vector seek(Vector target) {
