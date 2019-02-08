@@ -91,8 +91,9 @@ public class Main extends AbstractGame {
     for (int j = 0; j < boids.size(); j++) {
       boids.get(j).update(ge.getInput(),boids);
       boids.get(j).border();
+      System.out.println("Boid " + j + ": " + boids.get(j).peripheralVision(boids));
     }
-    System.out.println(boids.get(0).peripheralVision(boids));
+
   }
 
 
@@ -116,7 +117,7 @@ public class Main extends AbstractGame {
             (int)temp, 0);*/
 
 
-    r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
+
 
     if(ge.getInput().getMouseX() > 180 && ge.getInput().getMouseX() < 305 && ge.getInput().getMouseY() > 30 && ge.getInput().getMouseY() < 70 || ussEnterprise.getPos().getX() > 180 && ussEnterprise.getPos().getX() < 315 && ussEnterprise.getPos().getY() > 30 && ussEnterprise.getPos().getY() < 70) {
       if(!ge.getInput().isButton(1) && !ge.getInput().isKey(KeyEvent.VK_ENTER)) {
@@ -139,6 +140,8 @@ public class Main extends AbstractGame {
 
     ussEnterprise.show(r);
 
+
+    r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
   }
 
   public static void main(String[] args) {

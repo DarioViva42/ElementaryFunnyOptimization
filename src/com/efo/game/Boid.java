@@ -4,6 +4,7 @@ import com.efo.engine.Input;
 import com.efo.engine.Renderer;
 import com.efo.engine.Tupel;
 import com.efo.engine.Vector;
+import com.efo.engine.gfx.Image;
 
 import java.util.LinkedList;
 
@@ -11,6 +12,7 @@ public class Boid extends Ship {
 
     //Attributes
     private Vector futureLocation, rad, desired, steer;
+    private Image xWing;
     private double maxSpeed, maxForce, distance, radiusLength, futureLocationDistance = 20, radAngle = 180;
     private int[][] steeringRange = {{3}, {4, 11}, {12, 27}, {28, 43}, {44, 51}, {52}};
     private int firstRing = 15, secondRing = 10, thirdRing = 5;
@@ -29,6 +31,8 @@ public class Boid extends Ship {
         maxSpeed = 3;
         maxForce = 0.05;
         radiusLength = 10;
+
+        xWing = new Image("/xWing.png");
     }
 
     //Methods
@@ -61,7 +65,7 @@ public class Boid extends Ship {
 
     @Override
     public void show(Renderer r) {
-        r.drawImage(enterprise, (int) this.pos.getX(), (int) this.pos.getY(), Math.toRadians(vel.getAngle() + 90));
+        r.drawImage(xWing, (int) this.pos.getX(), (int) this.pos.getY(), Math.toRadians(vel.getAngle()));
     }
 
     public void flocking(LinkedList<Boid> boids) {
@@ -134,16 +138,14 @@ public class Boid extends Ship {
         //Vector sum = new Vector(0,0,"p");
         Double count = 0.0;
 
-        Vector offSetFront = new Vector(40,this.vel.getAngle(),"p");
-        offSetFront.add(this.pos);
-
         /*System.out.println("offx: " + (int)offSetFront.getX() + " offy: " + (int)offSetFront.getY());
         System.out.println("x: " + (int)this.pos.getX() + " y: " + (int)this.pos.getY());
         System.out.println((int)this.vel.getAngle());*/
 
         for (Boid other:boids) {
-            Double d = offSetFront.distance(other.pos);
-            if((d > 0) && (d < 50)) {
+            Vector diff = other.pos.sub(this.pos,true);
+            boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 30;
+            if((diff.getLength() > 0) && (diff.getLength() < 50) && isTargetFront) {
                 //sum.add(other.vel);
                 count++;
             }

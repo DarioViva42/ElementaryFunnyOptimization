@@ -11,7 +11,7 @@ public class Ship {
     protected Vector gunPos;// Position der Waffe (Vorne)
     protected Vector vel;   // Geschwidigkeit
     protected Vector acc;   // Beschleunigung
-    protected Image enterprise;
+    protected Image falcon;
 
     private boolean isTurningL = false;
     private boolean isTurningR = false;
@@ -30,7 +30,7 @@ public class Ship {
         alpha = 0;
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
-        enterprise = new Image("/ship.png");
+        falcon = new Image("/ship.png");
     }
 
     Ship(Vector pos, double alpha) {
@@ -40,12 +40,12 @@ public class Ship {
         alpha = alpha % 360;
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
-        enterprise = new Image("/ship.png");
+        falcon = new Image("/falcon.png");
     }
 
     // Methods -------------------------------------
     public void show(Renderer r){
-      r.drawImage(enterprise, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.alpha + 90));
+      r.drawImage(falcon, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.alpha));
     }
 
     public void turn() {
