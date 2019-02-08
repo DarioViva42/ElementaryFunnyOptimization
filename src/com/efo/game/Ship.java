@@ -22,7 +22,7 @@ public class Ship {
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
     protected double maxTurnAcc = 0.35;
-    protected double shootForce = 1.0;
+    protected double shootForce = 10.0;
 
     public static LinkedList<Projectile> projectiles= new LinkedList<>();
 
@@ -101,9 +101,9 @@ public class Ship {
         double l = this.vel.getLength();
         double a = this.vel.getAngle();
         //Velocity Drag
-        this.vel.setP(0.992 * l, a);
+        this.vel.setP(0.95 * l, a);
         //Turning Drag
-        this.alphaVel *= 0.9855;
+        this.alphaVel *= 0.95;
     }
 
     public void border() {

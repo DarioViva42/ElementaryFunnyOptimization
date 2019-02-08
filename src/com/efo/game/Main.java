@@ -46,8 +46,8 @@ public class Main extends AbstractGame {
       starfield[j] = new Star();
     }
 
-    //clip = new SoundClip("/audio/test.wav")
-    //clip.setVolume(-20);
+    clip = new SoundClip("/audio/explosion.wav");
+    clip.setVolume(-20);
   }
 
   @Override
@@ -81,6 +81,7 @@ public class Main extends AbstractGame {
     }
     if(ge.getInput().isKeyDown(KeyEvent.VK_SPACE)){
     	ussEnterprise.shoot();
+    	clip.play();
     }
 
 	  for (int i = 0; i < Ship.projectiles.size(); i++) {
@@ -161,6 +162,13 @@ public class Main extends AbstractGame {
     Engine ge = new Engine(new Main());
     //Initiate Game Settings here
 
+    Vector v1 = new Vector(2, 6, "c");
+    Vector v2 = new Vector(5, 1, "c");
+    Vector v3 = new Vector(4, 4, "c");
+    Vector v4 = new Vector(5, 5, "c");
+
+    //double x = (this.b - line.b) / (this.m - line.m);
+   // double y = this.m * x + this.b;
 
     ge.start();
 
