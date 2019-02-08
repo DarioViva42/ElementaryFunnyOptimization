@@ -64,7 +64,7 @@ NICE-TO-HAVE
 - Verschiedene Schiff Modelle
 - Verschiedene Hintergründe
 - andere ästhetische Anpassungen
-
+- Trümmer wenn Schiff kaputt geht
 
 
 
