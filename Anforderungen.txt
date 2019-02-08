@@ -1,67 +1,69 @@
-Das Programm lässt den Spieler zwischen Zwei Modi wählen
+Das Programm lÃ¤sst den Spieler zwischen Zwei Modi wÃ¤hlen
 
 Im ersten Modus (PvP) kann der Spieler im Local-Coop gegen einen seiner
-Kollegen an einem PC kämpfen
+Kollegen an einem PC kÃ¤mpfen
 
 Im zweiten Modus (PvE) tritt der Spieler gegen einen Schwarm von Bots an,
-die in immer neuen Wellen immer stärker werden.
+die in immer neuen Wellen immer stÃ¤rker werden.
 
-Das Spiel wurde zum größten Teil in IntelliJ entwickelt doch einige
-Klassen (z.B. Vector) wurden von einem unserer früheren Objekte aus Processing
+Das Spiel wurde zum grÃ¶ÃŸten Teil in IntelliJ entwickelt doch einige
+Klassen (z.B. Vector) wurden von einem unserer frÃ¼heren Objekte aus Processing
 kopiert und auf die Engine angepasst.
 
+
 Die Engine ist inspiriert von Majoolwip's 2D Engine interpretation.
+https://www.youtube.com/watch?v=4iPEjFUZNsw
 
-Der Flocking Simulation Algorithmus ist auf Craig Reynolds zurückzuführen.
+Der Flocking Simulation Algorithmus ist auf Craig Reynolds zurÃ¼ckzufÃ¼hren.
+https://www.red3d.com/cwr/boids/
 
 
-
-Kurze erklärung zur Engine:
+Kurze erklÃ¤rung zur Engine:
 Die Engine Klasse versorgt uns mit dem Game-Loop, auf welchem der Renderer die
 Frames berechnet.
 
-Der Renderer/Die Renderer Klasse füllt einen Canvas der auf ein BufferedImage
-für die Pixeldaten zugreift und sich auf einem JFrame befindet.
+Der Renderer/Die Renderer Klasse fÃ¼llt einen Canvas der auf ein BufferedImage
+fÃ¼r die Pixeldaten zugreift und sich auf einem JFrame befindet.
 
-Klassen die wir für allgemein wichtig empfanden wie Vector trennten wir vom
-Spiel und übergaben sie der Engine.
+Klassen die wir fÃ¼r allgemein wichtig empfanden wie Vector trennten wir vom
+Spiel und Ã¼bergaben sie der Engine.
 
 Engine und Spiel sind wie schon angedeutet von einander getrennt, was
-die Engine zu einer "Standalone-Engine" macht und freiere modifikation zulässt.
+die Engine zu einer "Standalone-Engine" macht und freiere modifikation zulÃ¤sst.
 
 Das Spiel stellt sich zusammen aus einer Ship Klasse, einer Boid Klasse die
 von Ship erbt und der Main Klasse welche auch die main Methode beinhaltet.
 
-Das Schiff empfängt Player-Input wohingegen die Boids ihre Ziele und
+Das Schiff empfÃ¤ngt Player-Input wohingegen die Boids ihre Ziele und
 ihren Weg algorithmisch berechnen.
 
 Die Boids sollen autonom nach dem Spieler suchen und eliminieren.
 
-Die erhöhung des Schwierigkeitsgrades wird mit Sicherheit nicht durch
-höhere Schadenswerte sondern durch erhöhung der "Intelligenz" der Boids
+Die erhÃ¶hung des Schwierigkeitsgrades wird mit Sicherheit nicht durch
+hÃ¶here Schadenswerte sondern durch erhÃ¶hung der "Intelligenz" der Boids
 erreicht werden.
 
-Neben funktionalität der Engine und der Spielbarkeit haben wir uns intensiv
-mit Anti-Aliasing beschäftigt und auch damit wie man Bilder am besten
+Neben funktionalitÃ¤t der Engine und der Spielbarkeit haben wir uns intensiv
+mit Anti-Aliasing beschÃ¤ftigt und auch damit wie man Bilder am besten
 rotierend animiert und die zu malenden Pixel richtig berechnet.
 
 MUST HAVE
 
-- Hauptmenü mit verschiedenen Spielmodi
+- HauptmenÃ¼ mit verschiedenen Spielmodi
 - Local-Coop
 - Boid Algorithmus (Flocking)
 - "Ti Fighter Algorithmus"TM R C
-(Algorithmus der die Schiffe sich wie ein Raumschiff verhalten lässt
-und zu eliminierende Ziele verfolgt und ähnliches)
+  (Algorithmus der die Schiffe sich wie ein Raumschiff verhalten lÃ¤sst
+  und zu eliminierende Ziele verfolgt und Ã¤hnliches)
 - Funktionale Engine
 
 NICE-TO-HAVE
 
-- Selbst designete Knöpfe
+- Selbst designete KnÃ¶pfe
 - Selbst designete Schiffe
 - Verschiedene Schiff Modelle
-- Verschiedene Hintergründe
-- andere ästhetische Anpassungen
+- Verschiedene HintergrÃ¼nde
+- andere Ã¤sthetische Anpassungen
 
 
 
