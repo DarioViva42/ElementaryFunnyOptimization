@@ -4,6 +4,8 @@ import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
 import com.efo.engine.gfx.Image;
 
+import java.util.LinkedList;
+
 //Selfmade
 public class Ship {
     // Attributes ----------------------------------
@@ -20,6 +22,9 @@ public class Ship {
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
     protected double maxTurnAcc = 0.35;
+    protected double shootForce = 1.0;
+
+    public static LinkedList<Projectile> projectiles= new LinkedList<>();
 
 
     // Constructors --------------------------------
@@ -60,10 +65,11 @@ public class Ship {
         }
     }
 
-  /*public Projectile shoot() {
-    Projectile geschoss = new Projectile(this.gunPos, this.alpha);
-    return geschoss;
-  }*/
+  public void shoot() {
+    Projectile geschoss = new Projectile(new Vector(this.pos.getX(), this.pos.getY(), "c"),
+                                         new Vector(this.shootForce, this.alpha, "p"));
+    projectiles.add(geschoss);
+  }
 
     public Vector getPos() {
         Vector position = this.pos;

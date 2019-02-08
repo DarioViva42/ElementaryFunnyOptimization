@@ -79,11 +79,20 @@ public class Main extends AbstractGame {
     if(ge.getInput().isKeyUp(KeyEvent.VK_D)){
       ussEnterprise.setTurningR(false);
     }
-    temp += dt * 20;
-
-    if(temp >= 4){
-      temp = 0;
+    if(ge.getInput().isKeyDown(KeyEvent.VK_SPACE)){
+    	ussEnterprise.shoot();
     }
+
+	  for (int i = 0; i < Ship.projectiles.size(); i++) {
+		  Ship.projectiles.get(i).update();
+		  if (Ship.projectiles.get(i).getPos().getX() < -4 ||
+		      Ship.projectiles.get(i).getPos().getX() > 484 ||
+				  Ship.projectiles.get(i).getPos().getY() < -4 ||
+				  Ship.projectiles.get(i).getPos().getY() > 324){
+			  Ship.projectiles.remove(i);
+		  }
+	  }
+	  System.out.println(Ship.projectiles.size());
     ussEnterprise.update();
     ussEnterprise.border();
 
@@ -109,7 +118,9 @@ public class Main extends AbstractGame {
     }
 
 
-
+	  for (Projectile projectile:Ship.projectiles) {
+		  projectile.show(r);
+	  }
 
     /*r.drawImageTile(image,
             (ge.getInput().getMouseX())-(image.getTileW()/2),
@@ -139,6 +150,7 @@ public class Main extends AbstractGame {
 
 
     ussEnterprise.show(r);
+	  r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
 
 
     r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
