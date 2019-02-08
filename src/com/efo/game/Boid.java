@@ -10,10 +10,10 @@ import java.util.LinkedList;
 public class Boid extends Ship {
 
     //Attributes
-    Vector futureLocation, rad, desired, steer;
-    double maxSpeed, maxForce, distance, radiusLength, futureLocationDistance = 20, radAngle = 180;
-    int[][] steeringRange = {{3}, {4, 11}, {12, 27}, {28, 43}, {44, 51}, {52}};
-    int firstRing = 15, secondRing = 10, thirdRing = 5;
+    private Vector futureLocation, rad, desired, steer;
+    private double maxSpeed, maxForce, distance, radiusLength, futureLocationDistance = 20, radAngle = 180;
+    private int[][] steeringRange = {{3}, {4, 11}, {12, 27}, {28, 43}, {44, 51}, {52}};
+    private int firstRing = 15, secondRing = 10, thirdRing = 5;
 
 
     //Constructor
@@ -127,6 +127,31 @@ public class Boid extends Ship {
             return steer;
         } else {
             return new Vector(0,0,"p");
+        }
+    }
+
+    public boolean peripheralVision(LinkedList<Boid> boids) {
+        //Vector sum = new Vector(0,0,"p");
+        Double count = 0.0;
+
+        Vector offSetFront = new Vector(40,this.vel.getAngle(),"p");
+        offSetFront.add(this.pos);
+
+        /*System.out.println("offx: " + (int)offSetFront.getX() + " offy: " + (int)offSetFront.getY());
+        System.out.println("x: " + (int)this.pos.getX() + " y: " + (int)this.pos.getY());
+        System.out.println((int)this.vel.getAngle());*/
+
+        for (Boid other:boids) {
+            Double d = offSetFront.distance(other.pos);
+            if((d > 0) && (d < 50)) {
+                //sum.add(other.vel);
+                count++;
+            }
+        }
+        if(count > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

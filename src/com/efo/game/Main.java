@@ -8,6 +8,7 @@ import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
 import java.awt.event.KeyEvent;
+import java.sql.SQLOutput;
 import java.util.LinkedList;
 
 public class Main extends AbstractGame {
@@ -21,8 +22,8 @@ public class Main extends AbstractGame {
   private Star s;
   private Ship ussEnterprise;
   private float temp = 0f;
-  private LinkedList<Boid> boids = new LinkedList<Boid>();
-  private int enemyCount = 20;
+  private LinkedList<Boid> boids = new LinkedList<>();
+  private int enemyCount = 2;
 
   public Main() {
 
@@ -93,7 +94,7 @@ public class Main extends AbstractGame {
       boids.get(j).update(ge.getInput(),boids);
       boids.get(j).border();
     }
-
+    System.out.println(boids.get(0).peripheralVision(boids));
   }
 
 
