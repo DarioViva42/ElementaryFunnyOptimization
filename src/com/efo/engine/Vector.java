@@ -78,8 +78,7 @@ public class Vector {
       y /= Nenner;
       calcPol(x, y);
     } else {
-      System.out.println("Division with Zero");
-      System.exit(0);
+
     }
   }
 
