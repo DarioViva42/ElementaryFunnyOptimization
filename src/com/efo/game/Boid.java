@@ -22,6 +22,7 @@ public class Boid extends Ship {
     public Boid() {
 
         pos = new Vector((int) (Math.random() * 480), (int) (Math.random() * 320), "c");
+	      oldPos.setC(pos.getX(), pos.getY());
         vel = new Vector(0, 0, "p");
         acc = new Vector(0, 0, "p");
 
@@ -50,6 +51,7 @@ public class Boid extends Ship {
 
         vel.add(acc);
         vel.limit(maxSpeed);
+	      oldPos.setC(pos.getX(), pos.getY());
         pos.add(vel);
 
         alphaVel += alphaAcc;

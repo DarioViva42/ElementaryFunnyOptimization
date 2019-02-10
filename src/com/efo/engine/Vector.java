@@ -37,14 +37,14 @@ public class Vector {
       angle = (Math.toDegrees(Math.atan(y / x))+360)%360;
     } else if (x < 0.0) {
       angle = 180 + Math.toDegrees(Math.atan(y/x));
-    } else if(x == 0 && y > 0) {
+    } else if(x == 0 && y > 0.0) {
       angle = 90;
-    } else if(x == 0 && y < 0) {
+    } else if(x == 0 && y < 0.0) {
       angle = 270;
-    } else if(x == 0 && y == 0) {
-      angle = 0;
+    } else if(x == 0 && y == 0.0) {
+      angle = 0.0;
     } else {
-      System.out.println("Da lief etwas sehr falsch in calcPol");
+      System.out.println("Da lief etwas sehr falsch in calcPol.");
     }
     vLength = (double)Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
   }
@@ -106,6 +106,53 @@ public class Vector {
     return giveVec;
   }
   
+  public static boolean collisionTest(Vector newV, Vector oldV, Vector newW, Vector oldW){
+    double deltaVy = oldV.getY()-newV.getY();
+    double deltaVx = oldV.getX()-newV.getX();
+    double deltaWy = oldW.getY()-newW.getY();
+    double deltaWx = oldW.getX()-newW.getX();
+
+    if(deltaVx==0 && deltaVy==0 && deltaWx==0 && deltaWy==0){
+      return false;
+    }
+
+    // berechne Steigungen der Geradengleichungen
+    double vm = deltaVy/deltaVx;
+    double wm = deltaWy/deltaWx;
+    if (vm == wm){
+      return false;
+    }
+
+    // berechne Y-Achsenabschnitte
+    double vb = oldV.getY() - vm * oldV.getX();
+    double wb = oldW.getY() - wm * oldW.getX();
+
+    // berechene Schnittpunkt
+    double x = Math.abs((vb - wb) / (vm - wm));
+    double y = vm * x + vb;
+
+    Vector intersection = new Vector(x, y, "c");
+
+    double distance = 12.0;
+
+    // finde heraus ob Schnittpunkt höchstens <distance> von den zurückgelegten Strecken entfernt ist.
+
+    System.out.println((int)intersection.distance(oldV) +" "+(int)intersection.distance(oldW)+" "+
+        (int)intersection.distance(newV)+" "+ (int)intersection.distance(newW));
+    return (
+      x < Math.max(newV.getX(), oldV.getX()) &&
+      x > Math.min(newV.getX(), oldV.getX()) &&
+      x < Math.max(newW.getX(), oldW.getX()) &&
+      x > Math.min(newW.getX(), oldW.getX()) &&
+      y < Math.max(newV.getY(), oldV.getY()) &&
+      y > Math.min(newV.getY(), oldV.getY()) &&
+      y < Math.max(newW.getY(), oldW.getY()) &&
+      y > Math.min(newW.getY(), oldW.getY()) ||
+          Math.min(Math.min(intersection.distance(oldV), intersection.distance(oldW)),
+                   Math.min(intersection.distance(newV), intersection.distance(newW))) < distance
+    );
+
+  }
 
   public double distance(Vector b) {
     double distance = Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2));

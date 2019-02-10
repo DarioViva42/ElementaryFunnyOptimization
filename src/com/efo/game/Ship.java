@@ -10,18 +10,15 @@ import java.util.LinkedList;
 public class Ship {
     // Attributes ----------------------------------
     protected Vector pos;   // Position
+    protected Vector oldPos;// Position im letzten Frame
     protected Vector gunPos;// Position der Waffe (Vorne)
     protected Vector vel;   // Geschwidigkeit
     protected Vector acc;   // Beschleunigung
     protected Image falcon;
 
-    private boolean isTurningL = false;
-    private boolean isTurningR = false;
-    private boolean isBoosting = false;
     protected double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
-    protected double maxTurnAcc = 0.35;
     protected double shootForce = 10.0;
 
     public static LinkedList<Projectile> projectiles= new LinkedList<>();
@@ -30,6 +27,7 @@ public class Ship {
     // Constructors --------------------------------
     Ship() {
         pos = new Vector(0,0,"c");
+        oldPos = new Vector(0,0,"c");
         alphaVel = 0;
         alphaAcc = 0;
         alpha = 0;
@@ -40,6 +38,7 @@ public class Ship {
 
     Ship(Vector pos, double alpha) {
         this.pos = pos;
+        oldPos = new Vector(getX(),getY(),"c");
         alphaVel = 0;
         alphaAcc = 0;
         alpha = alpha % 360;
@@ -53,16 +52,8 @@ public class Ship {
       r.drawImage(falcon, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.alpha));
     }
 
-    public void turn() {
-        if (isTurningL && isTurningR){
-            this.alphaAcc = 0;
-        } else if (isTurningL){
-            this.alphaAcc = -maxTurnAcc;
-        } else if (isTurningR){
-            this.alphaAcc = maxTurnAcc;
-        } else {
-            this.alphaAcc = 0;
-        }
+    public void turn(double turn) {
+      this.alphaAcc = turn;
     }
 
   public void shoot() {
@@ -76,12 +67,8 @@ public class Ship {
         return position;
     }
 
-    public void boost(){
-        if(isBoosting){
-            this.acc.setP(0.2, this.alpha);
-        } else {
-            this.acc.setP(0, this.alpha);
-        }
+    public void setBoost(double boost) {
+      this.acc.setP(boost, this.alpha);
     }
 
     public double getAbsVel() {
@@ -90,9 +77,8 @@ public class Ship {
     }
 
     public void update(){
-        boost();
-        turn();
         vel.add(acc);
+        oldPos.setC(pos.getX(), pos.getY());
         pos.add(vel);
         alphaVel += alphaAcc;
         alpha = (alpha + alphaVel) % 360;
@@ -122,38 +108,11 @@ public class Ship {
 
     }
 
-
-
-
-    public boolean isTurningL() {
-        return isTurningL;
-    }
-
-    public boolean isTurningR() {
-        return isTurningR;
-    }
-
-    public boolean isBoosting() {
-        return isBoosting;
-    }
-
     public double getX() {
         return this.pos.getX();
     }
 
     public double getY() {
         return this.pos.getY();
-    }
-
-    public void setTurningL(boolean turningL) {
-        isTurningL = turningL;
-    }
-
-    public void setTurningR(boolean turningR) {
-        isTurningR = turningR;
-    }
-
-    public void setBoosting(boolean boosting) {
-        isBoosting = boosting;
     }
 }

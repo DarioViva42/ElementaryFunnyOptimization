@@ -58,32 +58,24 @@ public class Main extends AbstractGame {
     if(ge.getInput().isKeyUp(KeyEvent.VK_S)) {
       System.out.println("S was Released");
     }
-    if(ge.getInput().isKeyDown(KeyEvent.VK_W)){
-      ussEnterprise.setBoosting(true);
+    if(ge.getInput().isKey(KeyEvent.VK_W)){
+      ussEnterprise.setBoost(.2);
+    } else {
+      ussEnterprise.setBoost(0);
     }
-    if(ge.getInput().isKeyUp(KeyEvent.VK_W)){
-      ussEnterprise.setBoosting(false);
-    }
-    if(ge.getInput().isKeyUp(KeyEvent.VK_W)){
-      ussEnterprise.setBoosting(false);
-    }
-    if(ge.getInput().isKeyDown(KeyEvent.VK_A)){
-      ussEnterprise.setTurningL(true);
-    }
-    if(ge.getInput().isKeyUp(KeyEvent.VK_A)){
-      ussEnterprise.setTurningL(false);
-    }
-    if(ge.getInput().isKeyDown(KeyEvent.VK_D)){
-      ussEnterprise.setTurningR(true);
-    }
-    if(ge.getInput().isKeyUp(KeyEvent.VK_D)){
-      ussEnterprise.setTurningR(false);
+    if(ge.getInput().isKey(KeyEvent.VK_A) && !ge.getInput().isKey(KeyEvent.VK_D)){
+      ussEnterprise.turn(-.42);
+    } else if(ge.getInput().isKey(KeyEvent.VK_D)){
+      ussEnterprise.turn(0.42);
+    } else {
+      ussEnterprise.turn(0);
     }
     if(ge.getInput().isKeyDown(KeyEvent.VK_SPACE)){
     	ussEnterprise.shoot();
     	clip.play();
     }
 
+    // remove Projectiles that are out of bounds
 	  for (int i = 0; i < Ship.projectiles.size(); i++) {
 		  Ship.projectiles.get(i).update();
 		  if (Ship.projectiles.get(i).getPos().getX() < -4 ||
@@ -93,16 +85,18 @@ public class Main extends AbstractGame {
 			  Ship.projectiles.remove(i);
 		  }
 	  }
-	  System.out.println(Ship.projectiles.size());
+
+
+    for (Boid enemy:boids) {
+      enemy.update(ge.getInput(),boids);
+      if(Vector.collisionTest(enemy.pos, enemy.oldPos, ussEnterprise.pos, ussEnterprise.oldPos)){
+        System.out.println("did someone actually crash");
+        clip.play();
+      }
+      enemy.border();
+    }
     ussEnterprise.update();
     ussEnterprise.border();
-
-
-    for (int j = 0; j < boids.size(); j++) {
-      boids.get(j).update(ge.getInput(),boids);
-      boids.get(j).border();
-      System.out.println("Boid " + j + ": " + boids.get(j).peripheralVision(boids));
-    }
 
   }
 
@@ -113,9 +107,10 @@ public class Main extends AbstractGame {
 
     r.drawImage(background, 240, 159, 0);
 
-    for (int j = 0; j < starfield.length -1 ; j++) {
-      starfield[j].show(r, ge.getWidth(), ge.getHeight());
-      starfield[j].update();
+
+    for (Star star:starfield) {
+      star.show(r, ge.getWidth(), ge.getHeight());
+      star.update();
     }
 
 
@@ -161,14 +156,6 @@ public class Main extends AbstractGame {
 
     Engine ge = new Engine(new Main());
     //Initiate Game Settings here
-
-    Vector v1 = new Vector(2, 6, "c");
-    Vector v2 = new Vector(5, 1, "c");
-    Vector v3 = new Vector(4, 4, "c");
-    Vector v4 = new Vector(5, 5, "c");
-
-    //double x = (this.b - line.b) / (this.m - line.m);
-   // double y = this.m * x + this.b;
 
     ge.start();
 
