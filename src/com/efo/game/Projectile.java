@@ -7,16 +7,16 @@ import com.efo.engine.gfx.Image;
 public class Projectile {
 	private Vector pos;
 	private Vector vel;
-	private Image munition;
+	private Image laser;
 
 	public Projectile(Vector pos, Vector vel) {
 		this.pos = pos;
 		this.vel = vel;
-		this.munition = new Image("/Munition.png");
+		this.laser = new Image("/Munition.png");
 	}
 
 	public void show(Renderer r){
-		r.drawImage(munition, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.vel.getAngle()));
+		r.drawImage(laser, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.vel.getAngle()));
 	}
 
 	public void update() {

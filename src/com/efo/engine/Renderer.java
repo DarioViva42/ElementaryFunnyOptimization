@@ -146,7 +146,6 @@ public class Renderer {
 		  }
 	  }
 
-
   }
 
   public void drawImageTile(ImageTile image, int offX, int offY, int tileX, int tileY){

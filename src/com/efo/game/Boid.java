@@ -15,11 +15,11 @@ public class Boid extends Ship {
     private Image xWing;
     private double maxSpeed, maxForce, distance, radiusLength, futureLocationDistance = 20, radAngle = 180;
     private int[][] steeringRange = {{3}, {4, 11}, {12, 27}, {28, 43}, {44, 51}, {52}};
-    private int firstRing = 15, secondRing = 10, thirdRing = 5;
+    private int firstRing = 10, secondRing = 0, thirdRing = 0;
 
 
     //Constructor
-    public Boid() {
+    public Boid(String Faction) {
 
         pos = new Vector((int) (Math.random() * 480), (int) (Math.random() * 320), "c");
 	      oldPos.setC(pos.getX(), pos.getY());
@@ -33,7 +33,13 @@ public class Boid extends Ship {
         maxForce = 0.05;
         radiusLength = 10;
 
-        xWing = new Image("/xWing.png");
+        if(Faction == "empire" || Faction == "Empire" || Faction == "imperium" || Faction == "Imperium") {
+            xWing = new Image("/xWing.png");
+        } else if(Faction == "republic" || Faction == "Republic" || Faction == "republik" || Faction == "Republik"){
+            xWing = new Image("/tieFighter.png");
+        }
+
+
     }
 
     //Methods
@@ -58,9 +64,9 @@ public class Boid extends Ship {
         alpha = (alpha + alphaVel) % 360;
 
         //Velocity Drag
-        vel.setP(0.992 * vel.getLength(), vel.getAngle());
+        vel.setP(0.962 * vel.getLength(), vel.getAngle());
         //Turning Drag
-        alphaVel *= 0.9855;
+        alphaVel *= 0.000855;
 
         acc.mult(0.0);
     }
@@ -72,20 +78,22 @@ public class Boid extends Ship {
 
     public void flocking(LinkedList<Boid> boids) {
         Vector sep = seperate(boids);
-        Vector ali = align(boids);
         Vector coh = cohesion(boids);
+        Vector ali = align(boids);
 
-        sep.mult(1.5);
-        ali.mult(1.0);
-        coh.mult(1.0);
+        floating();
 
-        applyForce(sep);
+        //sep.mult(1.5);
+        //coh.mult(1.0);
+        ali.mult(5.0);
+
+        //applyForce(sep);
+        //applyForce(coh);
         applyForce(ali);
-        applyForce(coh);
     }
 
     public Vector seperate(LinkedList<Boid> boids) {
-        Double desiredSeperation = 25.0;
+        Double desiredSeperation = 60.0;
         Vector steer = new Vector(0,0, "p");
         Double count = 0.0;
 
@@ -160,7 +168,7 @@ public class Boid extends Ship {
     }
 
     public Vector cohesion(LinkedList<Boid> boids) {
-        float neighborDistance = 50;
+        float neighborDistance = 80;
         Vector sum = new Vector(0,0,"p");
         Double count = 0.0;
 
@@ -214,6 +222,8 @@ public class Boid extends Ship {
         applyForce(steer);
     }
 
+
+
     public Vector seek(Vector target) {
 
         Vector desired = (new Vector(target.getX(), target.getY(), "c")).sub(pos, true);
@@ -243,7 +253,11 @@ public class Boid extends Ship {
         }
     }
 
-
+    @Override
+    public void shoot() {
+        projectiles.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10,vel.getAngle(),"p"),true)),
+                new Vector(this.shootForce, vel.getAngle(), "p")));
+    }
 
     public void applyForce(Vector force) {
         acc.add(force);

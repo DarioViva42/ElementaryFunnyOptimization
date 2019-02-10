@@ -57,9 +57,8 @@ public class Ship {
     }
 
   public void shoot() {
-    Projectile geschoss = new Projectile(new Vector(this.pos.getX(), this.pos.getY(), "c"),
-                                         new Vector(this.shootForce, this.alpha, "p"));
-    projectiles.add(geschoss);
+    projectiles.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10,this.alpha,"p"),true)),
+            new Vector(this.shootForce, this.alpha, "p")));
   }
 
     public Vector getPos() {

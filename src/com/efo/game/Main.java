@@ -20,9 +20,9 @@ public class Main extends AbstractGame {
   private Star[] starfield = new Star[400];
   private Star s;
   private Ship ussEnterprise;
-  private float temp = 0f;
-  private LinkedList<Boid> boids = new LinkedList<>();
-  private int enemyCount = 2;
+  private float tempX = 0f, tempY = 0f;
+  private LinkedList<Boid> republic, empire;
+  private int enemyCount = 5;
 
   public Main() {
 
@@ -32,8 +32,12 @@ public class Main extends AbstractGame {
     clicked = new Image("/clicked.png");
     hover = new Image("/hover.png");
 
+    republic = new LinkedList<>();
+    empire = new LinkedList<>();
+
       for (int j = 0; j < enemyCount; j++) {
-          boids.add(new Boid());
+          republic.add(new Boid("republic"));
+          empire.add(new Boid("empire"));
       }
 
 
@@ -58,11 +62,11 @@ public class Main extends AbstractGame {
     if(ge.getInput().isKeyUp(KeyEvent.VK_S)) {
       System.out.println("S was Released");
     }
-    if(ge.getInput().isKey(KeyEvent.VK_W)){
-      ussEnterprise.setBoost(.2);
-    } else {
-      ussEnterprise.setBoost(0);
-    }
+	  if(ge.getInput().isKey(KeyEvent.VK_W)){
+		  ussEnterprise.setBoost(.2);
+	  } else {
+		  ussEnterprise.setBoost(0);
+	  }
     if(ge.getInput().isKey(KeyEvent.VK_A) && !ge.getInput().isKey(KeyEvent.VK_D)){
       ussEnterprise.turn(-.42);
     } else if(ge.getInput().isKey(KeyEvent.VK_D)){
@@ -75,7 +79,17 @@ public class Main extends AbstractGame {
     	clip.play();
     }
 
-    // remove Projectiles that are out of bounds
+
+
+    tempX += 1/5.0;
+    if(tempX > 4) {
+        tempX = 0;
+        tempY ++;
+        if(tempY > 3) {
+            tempY = 0;
+        }
+    }
+	  // remove Projectiles that are out of bounds
 	  for (int i = 0; i < Ship.projectiles.size(); i++) {
 		  Ship.projectiles.get(i).update();
 		  if (Ship.projectiles.get(i).getPos().getX() < -4 ||
@@ -98,6 +112,15 @@ public class Main extends AbstractGame {
     ussEnterprise.update();
     ussEnterprise.border();
 
+
+    for (int j = 0; j < republic.size(); j++) {
+      republic.get(j).update(ge.getInput(),republic);
+      republic.get(j).border();
+
+      empire.get(j).update(ge.getInput(),empire);
+      empire.get(j).border();
+    }
+
   }
 
 
@@ -118,10 +141,7 @@ public class Main extends AbstractGame {
 		  projectile.show(r);
 	  }
 
-    /*r.drawImageTile(image,
-            (ge.getInput().getMouseX())-(image.getTileW()/2),
-            (ge.getInput().getMouseY())-(image.getTileH()/2),
-            (int)temp, 0);*/
+
 
 
 
@@ -140,14 +160,19 @@ public class Main extends AbstractGame {
         r.drawText("Settings", 195, 38, 0xFF858af2);
     }
 
-    for (int j = 0; j < boids.size(); j++) {
-      boids.get(j).show(r);
+    for (int j = 0; j < empire.size(); j++) {
+      republic.get(j).show(r);
+      empire.get(j).show(r);
     }
 
 
     ussEnterprise.show(r);
-	  r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
 
+
+    r.drawImageTile(image,
+      (ge.getInput().getMouseX())-(image.getTileW()/2),
+      (ge.getInput().getMouseY())-(image.getTileH()/2),
+      (int)tempX, (int)tempY);
 
     r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
   }
