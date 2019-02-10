@@ -22,7 +22,9 @@ public class Main extends AbstractGame {
   private Ship ussEnterprise;
   private float tempX = 0f, tempY = 0f;
   private LinkedList<Boid> republic, empire;
-  private int enemyCount = 5;
+  private int enemyCount = 1;
+
+  Vector intersection;
 
   public Main() {
 
@@ -36,7 +38,7 @@ public class Main extends AbstractGame {
     empire = new LinkedList<>();
 
       for (int j = 0; j < enemyCount; j++) {
-          republic.add(new Boid("republic"));
+          //republic.add(new Boid("republic"));
           empire.add(new Boid("empire"));
       }
 
@@ -101,12 +103,15 @@ public class Main extends AbstractGame {
 	  }
 
 
-    for (Boid enemy:boids) {
-      enemy.update(ge.getInput(),boids);
-      if(Vector.collisionTest(enemy.pos, enemy.oldPos, ussEnterprise.pos, ussEnterprise.oldPos)){
-        System.out.println("did someone actually crash");
-        clip.play();
-      }
+    for (Boid enemy:empire) {
+      enemy.update(ge.getInput(),empire);
+
+	    if(Vector.collisionTest( enemy.pos.add(new Vector((10, enemy.vel.getAngle()), "p"), true),
+	    enemy.oldPos,
+			    ussEnterprise.pos, ussEnterprise.oldPos)){
+		    System.out.println("Sie sind collidiert");
+	    }
+
       enemy.border();
     }
     ussEnterprise.update();
@@ -114,8 +119,8 @@ public class Main extends AbstractGame {
 
 
     for (int j = 0; j < republic.size(); j++) {
-      republic.get(j).update(ge.getInput(),republic);
-      republic.get(j).border();
+      //republic.get(j).update(ge.getInput(),republic);
+      //republic.get(j).border();
 
       empire.get(j).update(ge.getInput(),empire);
       empire.get(j).border();
@@ -161,8 +166,16 @@ public class Main extends AbstractGame {
     }
 
     for (int j = 0; j < empire.size(); j++) {
-      republic.get(j).show(r);
+      //republic.get(j).show(r);
       empire.get(j).show(r);
+
+	    intersection = Vector.intersection( empire.get(j).pos,  empire.get(j).oldPos, ussEnterprise.pos, ussEnterprise.oldPos);
+	    //System.out.println("did someone actually crash");
+	    //clip.play();
+	    if (intersection != null){
+		    r.drawImage(mouse, (int)intersection.getX(), (int)intersection.getY(), 0);
+	    }
+
     }
 
 

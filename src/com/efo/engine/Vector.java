@@ -2,6 +2,8 @@ package com.efo.engine;
 
 //Selfmade
 
+import java.awt.geom.Line2D;
+
 public class Vector {
   // Attributes ----------------------------------
   private double x;
@@ -105,22 +107,35 @@ public class Vector {
     giveVec = new Vector(x, y, "c");
     return giveVec;
   }
-  
-  public static boolean collisionTest(Vector newV, Vector oldV, Vector newW, Vector oldW){
+
+	public static boolean collisionTest(Vector newV, Vector oldV, Vector newW, Vector oldW) {
+		return Line2D.linesIntersect(newV.getX(), newV.getY(), oldV.getX(), oldV.getY(),
+				newW.getX(), newW.getY(), oldW.getX(), oldW.getY());
+	}
+
+  public static Vector intersection(Vector newV, Vector oldV, Vector newW, Vector oldW){
+  	// Wäre toll gewesen, wenn es funktioniert hätte aber irgendwie funzt es nicht
     double deltaVy = oldV.getY()-newV.getY();
     double deltaVx = oldV.getX()-newV.getX();
     double deltaWy = oldW.getY()-newW.getY();
     double deltaWx = oldW.getX()-newW.getX();
 
-    if(deltaVx==0 && deltaVy==0 && deltaWx==0 && deltaWy==0){
-      return false;
-    }
+    // Objekt V beschreibt keine Linie
+	  if(deltaVx == 0 && deltaVy == 0){
+	  	return null;
+	  }
+	  // Objekt W beschreibt keine Linie
+	  if(deltaWx == 0 && deltaWy == 0){
+		  return null;
+	  }
 
     // berechne Steigungen der Geradengleichungen
     double vm = deltaVy/deltaVx;
     double wm = deltaWy/deltaWx;
+
+    // beide Objekte fliegen in die Selbe Richtung, darum gibt es keinen Schnittpunkt
     if (vm == wm){
-      return false;
+      return null;
     }
 
     // berechne Y-Achsenabschnitte
@@ -132,26 +147,7 @@ public class Vector {
     double y = vm * x + vb;
 
     Vector intersection = new Vector(x, y, "c");
-
-    double distance = 12.0;
-
-    // finde heraus ob Schnittpunkt höchstens <distance> von den zurückgelegten Strecken entfernt ist.
-
-    System.out.println((int)intersection.distance(oldV) +" "+(int)intersection.distance(oldW)+" "+
-        (int)intersection.distance(newV)+" "+ (int)intersection.distance(newW));
-    return (
-      x < Math.max(newV.getX(), oldV.getX()) &&
-      x > Math.min(newV.getX(), oldV.getX()) &&
-      x < Math.max(newW.getX(), oldW.getX()) &&
-      x > Math.min(newW.getX(), oldW.getX()) &&
-      y < Math.max(newV.getY(), oldV.getY()) &&
-      y > Math.min(newV.getY(), oldV.getY()) &&
-      y < Math.max(newW.getY(), oldW.getY()) &&
-      y > Math.min(newW.getY(), oldW.getY()) ||
-          Math.min(Math.min(intersection.distance(oldV), intersection.distance(oldW)),
-                   Math.min(intersection.distance(newV), intersection.distance(newW))) < distance
-    );
-
+    return intersection;
   }
 
   public double distance(Vector b) {

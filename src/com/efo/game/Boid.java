@@ -36,7 +36,7 @@ public class Boid extends Ship {
         if(Faction == "empire" || Faction == "Empire" || Faction == "imperium" || Faction == "Imperium") {
             xWing = new Image("/xWing.png");
         } else if(Faction == "republic" || Faction == "Republic" || Faction == "republik" || Faction == "Republik"){
-            xWing = new Image("/tieFighter.png");
+            xWing = new Image("/xWing.png");
         }
 
 
