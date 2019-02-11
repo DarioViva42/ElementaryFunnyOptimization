@@ -193,4 +193,8 @@ public class Vector {
     }
   }
 
+  //Math Map function
+  public static Double map(Double x, Double fromRangeMin, Double fromRangeMax , Double toRangeMin, Double toRangeMax) {
+    return (x - fromRangeMin)*((toRangeMax - toRangeMin) / (fromRangeMax - fromRangeMin)) + toRangeMin;
+  }
 }

@@ -22,7 +22,7 @@ public class Main extends AbstractGame {
   private Ship ussEnterprise;
   private float tempX = 0f, tempY = 0f;
   private LinkedList<Boid> republic, empire;
-  private int enemyCount = 1;
+  private int enemyCount = 4;
 
   Vector intersection;
 
@@ -34,11 +34,13 @@ public class Main extends AbstractGame {
     clicked = new Image("/clicked.png");
     hover = new Image("/hover.png");
 
+
+
     republic = new LinkedList<>();
     empire = new LinkedList<>();
 
       for (int j = 0; j < enemyCount; j++) {
-          //republic.add(new Boid("republic"));
+          republic.add(new Boid("republic"));
           empire.add(new Boid("empire"));
       }
 
@@ -48,6 +50,7 @@ public class Main extends AbstractGame {
 
     s = new Star();
     ussEnterprise = new Ship(new Vector(150, 150, "c"),270);
+
     for (int j = 0; j < starfield.length; j++) {
       starfield[j] = new Star();
     }
@@ -58,6 +61,7 @@ public class Main extends AbstractGame {
 
   @Override
   public void update(Engine ge, float dt) {
+      //Player Input
     if(ge.getInput().isKeyDown(KeyEvent.VK_S)) {
       System.out.println("S was Pressed");
     }
@@ -81,8 +85,7 @@ public class Main extends AbstractGame {
     	clip.play();
     }
 
-
-
+     //Framework for Image Tile
     tempX += 1/5.0;
     if(tempX > 4) {
         tempX = 0;
@@ -91,36 +94,43 @@ public class Main extends AbstractGame {
             tempY = 0;
         }
     }
+
 	  // remove Projectiles that are out of bounds
-	  for (int i = 0; i < Ship.projectiles.size(); i++) {
-		  Ship.projectiles.get(i).update();
-		  if (Ship.projectiles.get(i).getPos().getX() < -4 ||
-		      Ship.projectiles.get(i).getPos().getX() > 484 ||
-				  Ship.projectiles.get(i).getPos().getY() < -4 ||
-				  Ship.projectiles.get(i).getPos().getY() > 324){
-			  Ship.projectiles.remove(i);
-		  }
-	  }
+      for (Projectile empire: Vehicle.empireLasers) {
+          empire.update();
+      }
+      for (Projectile republic: Vehicle.republicLasers) {
+          republic.update();
+      }
+
+      for (int j = 0; j < Vehicle.republicLasers.size(); j++) {
+          if (Vehicle.republicLasers.get(j).getPos().getX() < -4 ||
+                  Vehicle.republicLasers.get(j).getPos().getX() > 484 ||
+                  Vehicle.republicLasers.get(j).getPos().getY() < -4 ||
+                  Vehicle.republicLasers.get(j).getPos().getY() > 324) {
+              Vehicle.republicLasers.remove(j);
+          }
+      }
+
+      for (int i = 0; i < Vehicle.empireLasers.size(); i++) {
+          if (Vehicle.empireLasers.get(i).getPos().getX() < -4 ||
+                  Vehicle.empireLasers.get(i).getPos().getX() > 484 ||
+                  Vehicle.empireLasers.get(i).getPos().getY() < -4 ||
+                  Vehicle.empireLasers.get(i).getPos().getY() > 324) {
+              Vehicle.empireLasers.remove(i);
+          }
+      }
 
 
-    for (Boid enemy:empire) {
-      enemy.update(ge.getInput(),empire);
 
-	    if(Vector.collisionTest( enemy.pos.add(new Vector((10, enemy.vel.getAngle()), "p"), true),
-	    enemy.oldPos,
-			    ussEnterprise.pos, ussEnterprise.oldPos)){
-		    System.out.println("Sie sind collidiert");
-	    }
 
-      enemy.border();
-    }
     ussEnterprise.update();
     ussEnterprise.border();
 
 
     for (int j = 0; j < republic.size(); j++) {
-      //republic.get(j).update(ge.getInput(),republic);
-      //republic.get(j).border();
+      republic.get(j).update(ge.getInput(),republic);
+      republic.get(j).border();
 
       empire.get(j).update(ge.getInput(),empire);
       empire.get(j).border();
@@ -141,16 +151,19 @@ public class Main extends AbstractGame {
       star.update();
     }
 
+    for (Projectile projectile: Vehicle.empireLasers) {
+      projectile.show(r);
+    }
 
-	  for (Projectile projectile:Ship.projectiles) {
-		  projectile.show(r);
-	  }
+    for (Projectile projectile: Vehicle.republicLasers) {
+      projectile.show(r);
+    }
 
 
 
 
 
-
+    //Test Button abfrage
     if(ge.getInput().getMouseX() > 180 && ge.getInput().getMouseX() < 305 && ge.getInput().getMouseY() > 30 && ge.getInput().getMouseY() < 70 || ussEnterprise.getPos().getX() > 180 && ussEnterprise.getPos().getX() < 315 && ussEnterprise.getPos().getY() > 30 && ussEnterprise.getPos().getY() < 70) {
       if(!ge.getInput().isButton(1) && !ge.getInput().isKey(KeyEvent.VK_ENTER)) {
         r.drawImage(hover, 250, 50, 0);
@@ -165,16 +178,17 @@ public class Main extends AbstractGame {
         r.drawText("Settings", 195, 38, 0xFF858af2);
     }
 
+    //Draw Ships
     for (int j = 0; j < empire.size(); j++) {
-      //republic.get(j).show(r);
+      republic.get(j).show(r);
       empire.get(j).show(r);
 
-	    intersection = Vector.intersection( empire.get(j).pos,  empire.get(j).oldPos, ussEnterprise.pos, ussEnterprise.oldPos);
+	    /*intersection = Vector.intersection( empire.get(j).pos,  empire.get(j).oldPos, ussEnterprise.pos, ussEnterprise.oldPos);
 	    //System.out.println("did someone actually crash");
 	    //clip.play();
 	    if (intersection != null){
 		    r.drawImage(mouse, (int)intersection.getX(), (int)intersection.getY(), 0);
-	    }
+	    }*/
 
     }
 

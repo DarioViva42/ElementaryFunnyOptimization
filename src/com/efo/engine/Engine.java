@@ -94,10 +94,6 @@ public class Engine implements Runnable {
 
       if (render) {
 
-
-
-
-
         renderer.clear();
 
         game.render(this,renderer);
@@ -108,18 +104,8 @@ public class Engine implements Runnable {
           renderer.antiAliasing();
         }
 
-
-
-
-
         window.update();
         frames++;
-
-
-
-
-
-
 
       } else {
         try {
