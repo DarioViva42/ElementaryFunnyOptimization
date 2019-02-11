@@ -76,11 +76,9 @@ public class Vector {
 
   public void div(Double Nenner) {
     if(Nenner != 0) {
-      x /= Nenner;
-      y /= Nenner;
-      calcPol(x, y);
-    } else {
-
+      Double f = this.x / Nenner;
+      Double g = this.y / Nenner;
+      calcPol(f, g);
     }
   }
 
@@ -187,8 +185,8 @@ public class Vector {
   }
 
   public void limit(Double limit) {
-    if(vLength > limit) {
-      vLength = limit;
+    if(this.vLength > limit) {
+      this.vLength = limit;
       calcCoord(vLength,angle);
     }
   }

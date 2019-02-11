@@ -22,7 +22,8 @@ public class Main extends AbstractGame {
   private Ship ussEnterprise;
   private float tempX = 0f, tempY = 0f;
   private LinkedList<Boid> republic, empire;
-  private int enemyCount = 4;
+  private int enemyCount = 2;
+  private LinkedList<Vector> deathVector;
 
   Vector intersection;
 
@@ -34,7 +35,7 @@ public class Main extends AbstractGame {
     clicked = new Image("/clicked.png");
     hover = new Image("/hover.png");
 
-
+    deathVector = new LinkedList<>();
 
     republic = new LinkedList<>();
     empire = new LinkedList<>();
@@ -103,6 +104,14 @@ public class Main extends AbstractGame {
           republic.update();
       }
 
+      for (int i = 0; i < republic.size(); i++) {
+          republic.get(i).peripheralVision(empire);
+      }
+
+      for (int i = 0; i < empire.size(); i++) {
+          empire.get(i).peripheralVision(republic);
+      }
+
       for (int j = 0; j < Vehicle.republicLasers.size(); j++) {
           if (Vehicle.republicLasers.get(j).getPos().getX() < -4 ||
                   Vehicle.republicLasers.get(j).getPos().getX() > 484 ||
@@ -127,14 +136,21 @@ public class Main extends AbstractGame {
     ussEnterprise.update();
     ussEnterprise.border();
 
+      for (Boid xWing: republic) {
+          xWing.update(ge.getInput(),empire);
+          xWing.border();
+          if(xWing.dead()) {
+              xWing.alive = false;
+          }
+      }
 
-    for (int j = 0; j < republic.size(); j++) {
-      republic.get(j).update(ge.getInput(),republic);
-      republic.get(j).border();
-
-      empire.get(j).update(ge.getInput(),empire);
-      empire.get(j).border();
-    }
+      for (Boid tieFighter: empire) {
+          tieFighter.update(ge.getInput(),empire);
+          tieFighter.border();
+          if(tieFighter.dead()) {
+              tieFighter.alive = false;
+          }
+      }
 
   }
 
@@ -142,6 +158,21 @@ public class Main extends AbstractGame {
 
   @Override
   public void render(Engine ge, Renderer r) {
+
+      for (int f = 0; f < republic.size(); f++) {
+          if(republic.get(f).alive == false) {
+              deathVector.add(new Vector(republic.get(f).vel.getLength(),republic.get(f).vel.getAngle(),"p"));
+              republic.remove(f);
+          }
+      }
+
+      for (int f = 0; f < empire.size(); f++) {
+          if(empire.get(f).alive == false) {
+              deathVector.add(new Vector(empire.get(f).vel.getLength(),empire.get(f).vel.getAngle(),"p"));
+              empire.remove(f);
+          }
+      }
+
 
     r.drawImage(background, 240, 159, 0);
 
@@ -179,19 +210,18 @@ public class Main extends AbstractGame {
     }
 
     //Draw Ships
-    for (int j = 0; j < empire.size(); j++) {
-      republic.get(j).show(r);
-      empire.get(j).show(r);
-
-	    /*intersection = Vector.intersection( empire.get(j).pos,  empire.get(j).oldPos, ussEnterprise.pos, ussEnterprise.oldPos);
-	    //System.out.println("did someone actually crash");
-	    //clip.play();
-	    if (intersection != null){
-		    r.drawImage(mouse, (int)intersection.getX(), (int)intersection.getY(), 0);
-	    }*/
-
+      for (Boid xWing: republic) {
+          xWing.show(r);
     }
+      for (Boid tieFighter: empire) {
+          tieFighter.show(r);
+      }
 
+
+
+      for (Vector deathLine: deathVector) {
+          r.drawImageTile(image, 50,50,(int)tempX,(int)tempY);
+      }
 
     ussEnterprise.show(r);
 

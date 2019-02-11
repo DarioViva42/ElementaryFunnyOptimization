@@ -11,8 +11,9 @@ public class Boid extends Vehicle {
 
     //Attributes
     private Vector rad, desired, steer;
-    private double maxSpeed, maxForce, radiusLength, futureLocationDistance = 20, radAngle = 180;
-
+    private double maxSpeed, maxForce, radiusLength, futureLocationDistance = 80, radAngle = 180;
+    Double shotCap = 0.0, attackSpeed = 1.0/10.0;
+    boolean alive = true;
 
 
     //Constructor
@@ -28,12 +29,12 @@ public class Boid extends Vehicle {
 
         maxSpeed = 3;
         maxForce = 0.5;
-        radiusLength = 10;
+        radiusLength = 20;
 
-        if(Faction == "empire" || Faction == "Empire" || Faction == "imperium" || Faction == "Imperium") {
+        if(Faction == "republic" || Faction == "Republic" || Faction == "republik" || Faction == "Republik") {
             model = new Image("/xWing.png");
             faction = "republic";
-        } else if(Faction == "republic" || Faction == "Republic" || Faction == "republik" || Faction == "Republik"){
+        } else if(Faction == "empire" || Faction == "Empire" || Faction == "imperium" || Faction == "Imperium"){
             model = new Image("/tieFighter.png");
             faction = "empire";
         }
@@ -52,9 +53,8 @@ public class Boid extends Vehicle {
             }
         }
 
+        applyForce(floating());
         flocking(Faction);
-        floating();
-
 
         vel.add(acc);
         vel.limit(maxSpeed);
@@ -72,16 +72,16 @@ public class Boid extends Vehicle {
     }
 
     public void flocking(LinkedList<Boid> boids) {
-        Vector sep = seperate(boids);
-        Vector coh = cohesion(boids);
+        //Vector sep = seperate(boids);
+        //Vector coh = cohesion(boids);
         Vector ali = align(boids);
 
-        sep.mult(1.5);
-        coh.mult(1.0);
+        //sep.mult(1.5);
+        //coh.mult(1.0);
         ali.mult(1.0);
 
-        applyForce(sep);
-        applyForce(coh);
+        //applyForce(sep);
+        //applyForce(coh);
         applyForce(ali);
 
 
@@ -117,7 +117,7 @@ public class Boid extends Vehicle {
     }
 
     public Vector align(LinkedList<Boid> boids) {
-        float neighborDistance = 50;
+        float neighborDistance = 70;
         Vector sum = new Vector(0,0, "p");
         Double count = 0.0;
         for (Boid other: boids) {
@@ -128,7 +128,7 @@ public class Boid extends Vehicle {
             }
         }
         if(count > 0) {
-            sum.div(count);
+            sum.div((count));
             sum.setLength(1);
             sum.mult(maxSpeed);
             Vector steer = sum.sub(vel,true);
@@ -160,55 +160,81 @@ public class Boid extends Vehicle {
         }
     }
 
-    public boolean peripheralVision(LinkedList<Boid> boids) {
+    public void peripheralVision(LinkedList<Boid> boids) {
         //Vector sum = new Vector(0,0,"p");
         Double count = 0.0;
 
-        /*System.out.println("offx: " + (int)offSetFront.getX() + " offy: " + (int)offSetFront.getY());
-        System.out.println("x: " + (int)this.pos.getX() + " y: " + (int)this.pos.getY());
-        System.out.println((int)this.vel.getAngle());*/
-
-        for (Boid other:boids) {
+        for (Boid other: boids) {
             Vector diff = other.pos.sub(this.pos,true);
             boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 30;
-            if((diff.getLength() > 0) && (diff.getLength() < 50) && isTargetFront) {
+            if((diff.getLength() > 0) && (diff.getLength() < 700) && isTargetFront) {
                 //sum.add(other.vel);
                 count++;
             }
         }
         if(count > 0) {
-            return true;
+            shoot();
+        }
+    }
+
+    public boolean dead() {
+        int count = 0;
+        if (faction.equals("republic")) {
+            for (Projectile enemyLaser: Vehicle.empireLasers) {
+                Double d = this.pos.distance(enemyLaser.getPos());
+                if(d < 20) {
+                    count++;
+                }
+            }
+
+            if(count > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } else if (faction.equals("empire")) {
+            for (Projectile enemyLaser: Vehicle.republicLasers) {
+                Double d = this.pos.distance(enemyLaser.getPos());
+                if(d < 20) {
+                    count++;
+                }
+            }
+
+            if(count > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
     }
 
 
-
-    public void floating() {
+    public Vector floating() {
         Vector futureLocation = new Vector(0,0,"c");
         futureLocation.setP(futureLocationDistance, vel.getAngle());
         int rand = (int)(Math.random() * 40);
 
         if(rand < 10) {
-            radAngle += 10;
+            radAngle += 5;
         } else if(rand > 30) {
-            radAngle -= 10;
+            radAngle -= 5;
         } else {
-            return;
+
         }
 
         rad.setP(radiusLength, radAngle);
 
         desired = (futureLocation.add(rad, true));
-        desired.mult(0.005);
-        desired.setLength(1);
+        //desired.mult(0.5);
 
         steer = desired.sub(vel, true);
 
         steer.limit(maxForce);
 
-        applyForce(steer);
+        return steer;
     }
 
 
@@ -242,11 +268,23 @@ public class Boid extends Vehicle {
 
     public void shoot() {
         if(this.faction.equals("republic")) {
-            Vehicle.republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
-                    new Vector(this.shootForce, vel.getAngle(), "p")));
+            if(shotCap >= 1) {
+                Vehicle.republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
+                        new Vector(this.shootForce, vel.getAngle(), "p")));
+                shotCap = 0.0;
+            } else {
+                shotCap += attackSpeed;
+            }
+
+
         } else {
-            Vehicle.empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
-                    new Vector(this.shootForce, vel.getAngle(), "p")));
+            if(shotCap >= 1) {
+                Vehicle.empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
+                        new Vector(this.shootForce, vel.getAngle(), "p")));
+                shotCap = 0.0;
+            } else {
+                shotCap += attackSpeed;
+            }
         }
     }
 

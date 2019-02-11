@@ -16,7 +16,7 @@ public class Ship extends Vehicle{
 
     // Constructors --------------------------------
     Ship() {
-        faction = "republic";
+        faction = "empire";
 
         pos = new Vector(0,0,"c");
         oldPos = new Vector(0,0,"c");
