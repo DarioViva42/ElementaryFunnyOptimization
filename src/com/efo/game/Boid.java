@@ -167,7 +167,7 @@ public class Boid extends Vehicle {
         for (Boid other: boids) {
             Vector diff = other.pos.sub(this.pos,true);
             boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 30;
-            if((diff.getLength() > 0) && (diff.getLength() < 700) && isTargetFront) {
+            if((diff.getLength() > 0) && (diff.getLength() < 200) && isTargetFront) {
                 //sum.add(other.vel);
                 count++;
             }
