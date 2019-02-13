@@ -8,9 +8,12 @@ public class Button {
     private String state, name;
     private Image noHover, hover, clicked;
     private int offX, offY, width, height;
+    private String [] states;
 
     public Button(int offX, int offY, String name) {
         state = "noHover";
+        states = new String[2];
+        Arrays.fill(states, "noHover");
         this.name = name;
         noHover = new Image("/noHover.png");
         clicked = new Image("/clicked.png");
@@ -23,11 +26,10 @@ public class Button {
 
     public void update(Vector [] objects, boolean [] tests){
         // Eingaben passen nicht
-        if (objects.length != tests.length || objects.length == 0){
+        if (objects.length != tests.length || objects.length != 2){
             System.out.println("Da lief was falsch in Update Button");
             return;
         }
-        String [] newState = new String[objects.length];
 
         for (int i = 0; i < objects.length; i++) {
             // hover oder nicht hover
@@ -38,43 +40,43 @@ public class Button {
             ){
                 // clicked oder nicht clicked
                 if(tests [i]){
-                    if(this.state.equals("draggedAway")){
-                        newState[i] = "clicked";
+                    if(this.states[i].equals("draggedAway")){
+                        states[i] = "clicked";
                     } else{
-                        if (this.state.equals("movedIn") || this.state.equals("noHover")) {
-                            newState[i] = "movedIn";
+                        if (this.states[i].equals("movedIn") || this.states[i].equals("noHover")) {
+                            states[i] = "movedIn";
                         } else {
-                            newState[i] = "clicked";
+                            states[i] = "clicked";
                         }
                     }
                 } else{
-                    if (this.state.equals("clicked")){
-                        newState[i] = "released";
+                    if (this.states[i].equals("clicked")){
+                        states[i] = "released";
                     } else {
-                        newState[i] = "hover";
+                        states[i] = "hover";
                     }
                 }
             } else{
                 if(tests [i]) {
-                    if (this.state.equals("clicked") || this.state.equals("draggedAway")) {
-                        newState[i] = "draggedAway";
+                    if (this.states[i].equals("clicked") || this.states[i].equals("draggedAway")) {
+                        states[i] = "draggedAway";
                     } else {
-                        newState[i] = "noHover";
+                        states[i] = "noHover";
                     }
                 } else{
-                    newState[i] = "noHover";
+                    states[i] = "noHover";
                 }
             }
         }
-        if (Arrays.asList(newState).contains("clicked")){
+        if (Arrays.asList(states).contains("clicked")){
             state = "clicked";
-        } else if (Arrays.asList(newState).contains("released")){
+        } else if (Arrays.asList(states).contains("released")){
             state = "released";
-        } else if (Arrays.asList(newState).contains("movedIn")){
+        } else if (Arrays.asList(states).contains("movedIn")){
             state = "movedIn";
-        } else if (Arrays.asList(newState).contains("hover")){
+        } else if (Arrays.asList(states).contains("hover")){
             state = "hover";
-        } else if (Arrays.asList(newState).contains("draggedAway")){
+        } else if (Arrays.asList(states).contains("draggedAway")){
             state = "draggedAway";
         } else{
             state = "noHover";
