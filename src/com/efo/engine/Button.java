@@ -24,6 +24,20 @@ public class Button {
         height = noHover.getH();
     }
 
+    public Button(int offX, int offY, String name, String hoverPath, String noHoverPath, String clickedPath) {
+        state = "noHover";
+        states = new String[2];
+        Arrays.fill(states, "noHover");
+        this.name = name;
+        noHover = new Image(noHoverPath);
+        clicked = new Image(clickedPath);
+        hover = new Image(hoverPath);
+        this.offX = offX;
+        this.offY = offY;
+        width = noHover.getW();
+        height = noHover.getH();
+    }
+
     public void update(Vector [] objects, boolean [] tests){
         // Eingaben passen nicht
         if (objects.length != tests.length || objects.length != 2){
