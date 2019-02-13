@@ -38,7 +38,11 @@ public class Button {
             ){
                 // clicked oder nicht clicked
                 if(tests [i]){
-                    newState[i] = "clicked";
+                    if(this.state.equals("movedIn") || this.state.equals("noHover")){
+                        newState[i] = "movedIn";
+                    } else {
+                        newState[i] = "clicked";
+                    }
                 } else{
                     if (this.state.equals("clicked")){
                         newState[i] = "released";
@@ -54,6 +58,8 @@ public class Button {
             state = "clicked";
         } else if (Arrays.asList(newState).contains("released")){
             state = "released";
+        } else if (Arrays.asList(newState).contains("movedIn")){
+            state = "movedIn";
         } else if (Arrays.asList(newState).contains("hover")){
             state = "hover";
         } else{
@@ -63,7 +69,7 @@ public class Button {
 
     public void show(Renderer r){
         switch (state){
-            case "hover": case "released":
+            case "hover": case "released": case "movedIn":
                 r.drawImage(hover, offX, offY, 0);
                 r.drawText(name, offX - width/2 + 20, offY - height/2 + 13, 0x8f858af2);
                 break;

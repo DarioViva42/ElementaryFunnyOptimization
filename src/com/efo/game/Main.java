@@ -111,6 +111,16 @@ public class Main extends AbstractGame {
       PvE.update(inputPos, inputTest);
       PvP.update(inputPos, inputTest);
 
+      if (PvP.testAction()){
+          System.out.println("Gehe ins PvP");
+      }
+      if (settings.testAction()){
+          System.out.println("Gehe in  Settings");
+      }
+      if (PvE.testAction()){
+          System.out.println("Gehe ins PvE");
+      }
+
 
 	  // remove Projectiles that are out of bounds
       for (Projectile empire: Vehicle.empireLasers) {
