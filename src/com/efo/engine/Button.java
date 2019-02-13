@@ -38,10 +38,14 @@ public class Button {
             ){
                 // clicked oder nicht clicked
                 if(tests [i]){
-                    if(this.state.equals("movedIn") || this.state.equals("noHover")){
-                        newState[i] = "movedIn";
-                    } else {
+                    if(this.state.equals("draggedAway")){
                         newState[i] = "clicked";
+                    } else{
+                        if (this.state.equals("movedIn") || this.state.equals("noHover")) {
+                            newState[i] = "movedIn";
+                        } else {
+                            newState[i] = "clicked";
+                        }
                     }
                 } else{
                     if (this.state.equals("clicked")){
@@ -51,7 +55,15 @@ public class Button {
                     }
                 }
             } else{
-                newState[i] = "noHover";
+                if(tests [i]) {
+                    if (this.state.equals("clicked") || this.state.equals("draggedAway")) {
+                        newState[i] = "draggedAway";
+                    } else {
+                        newState[i] = "noHover";
+                    }
+                } else{
+                    newState[i] = "noHover";
+                }
             }
         }
         if (Arrays.asList(newState).contains("clicked")){
@@ -62,6 +74,8 @@ public class Button {
             state = "movedIn";
         } else if (Arrays.asList(newState).contains("hover")){
             state = "hover";
+        } else if (Arrays.asList(newState).contains("draggedAway")){
+            state = "draggedAway";
         } else{
             state = "noHover";
         }
@@ -74,10 +88,10 @@ public class Button {
                 r.drawText(name, offX - width/2 + 20, offY - height/2 + 13, 0x8f858af2);
                 break;
             case "clicked":
-                r.drawImage(clicked, offX, offY, 0);
-                r.drawText(name, offX - width/2 + 20, offY - height/2 + 13, 0x6F858af2);
+                r.drawImage(clicked, offX, offY + 1, 0);
+                r.drawText(name, offX - width/2 + 20, offY - height/2 + 14, 0x6F858af2);
                 break;
-            case "noHover":
+            case "noHover": case "draggedAway":
                 r.drawImage(noHover, offX, offY, 0);
                 r.drawText(name, offX - width/2 + 20, offY - height/2 + 13, 0xFF858af2);
                 break;
