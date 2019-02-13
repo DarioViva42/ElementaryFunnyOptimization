@@ -8,7 +8,6 @@ import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
 import java.awt.event.KeyEvent;
-import java.sql.SQLOutput;
 import java.util.LinkedList;
 
 public class Main extends AbstractGame {
@@ -22,13 +21,15 @@ public class Main extends AbstractGame {
   private Ship ussEnterprise;
   private float tempX = 0f, tempY = 0f;
   private LinkedList<Boid> republic, empire;
-  private int enemyCount = 2;
+  private int enemyCount = 10;
   private LinkedList<Vector> deathVector;
+  private LinkedList<ImageTile> explosions;
 
   Vector intersection;
 
   public Main() {
 
+    explosions = new LinkedList<>();
     image = new ImageTile("/explosion.png", 16, 16);
     mouse = new Image("/Mouse.png");
     noHover = new Image("/noHover.png");
@@ -42,7 +43,7 @@ public class Main extends AbstractGame {
 
       for (int j = 0; j < enemyCount; j++) {
           republic.add(new Boid("republic"));
-          empire.add(new Boid("empire"));
+          //empire.add(new Boid("empire"));
       }
 
 
@@ -86,15 +87,16 @@ public class Main extends AbstractGame {
     	clip.play();
     }
 
-     //Framework for Image Tile
-    tempX += 1/5.0;
-    if(tempX > 4) {
-        tempX = 0;
-        tempY ++;
-        if(tempY > 3) {
-            tempY = 0;
-        }
-    }
+      tempX += 1 / 5.0;
+      if (tempX > 4) {
+          tempX = 0;
+          tempY++;
+          if (tempY > 3) {
+              tempY = 0;
+          }
+      }
+
+
 
 	  // remove Projectiles that are out of bounds
       for (Projectile empire: Vehicle.empireLasers) {
@@ -161,14 +163,14 @@ public class Main extends AbstractGame {
 
       for (int f = 0; f < republic.size(); f++) {
           if(republic.get(f).alive == false) {
-              deathVector.add(new Vector(republic.get(f).vel.getLength(),republic.get(f).vel.getAngle(),"p"));
+              deathVector.add(new Vector(republic.get(f).pos.getX(),republic.get(f).pos.getY(),"c"));
               republic.remove(f);
           }
       }
 
       for (int f = 0; f < empire.size(); f++) {
           if(empire.get(f).alive == false) {
-              deathVector.add(new Vector(empire.get(f).vel.getLength(),empire.get(f).vel.getAngle(),"p"));
+              deathVector.add(new Vector(empire.get(f).pos.getX(),empire.get(f).pos.getY(),"c"));
               empire.remove(f);
           }
       }
@@ -217,11 +219,16 @@ public class Main extends AbstractGame {
           tieFighter.show(r);
       }
 
+      //explosions.add(new ImageTile("/explosion.png",16,16));
 
 
-      for (Vector deathLine: deathVector) {
-          r.drawImageTile(image, 50,50,(int)tempX,(int)tempY);
-      }
+      /*for (Vector deathLine: deathVector) {
+          r.drawImageTile(image, );
+      }*/
+
+      //for (ImageTile expl: explosions) {
+
+      //}
 
     ussEnterprise.show(r);
 

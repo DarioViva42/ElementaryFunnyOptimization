@@ -168,7 +168,7 @@ public class Renderer {
 
     for(int y = newY;  y < newHeight; y++) {
       for(int x = newX; x < newWidth; x++) {
-        setPixel(x + offX,y + offY, image.getP()[(x+tileX*image.getTileW()) + (y + tileY * image.getTileH()) * image.getW()]);
+        setPixel(x + offX,y + offY, image.getP()[(x + tileX * image.getTileW()) + (y + tileY * image.getTileH()) * image.getW()]);
       }
     }
   }

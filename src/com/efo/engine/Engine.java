@@ -1,7 +1,6 @@
 package com.efo.engine;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 public class Engine implements Runnable {
 
