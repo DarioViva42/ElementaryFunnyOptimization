@@ -1,9 +1,6 @@
 package com.efo.game;
 
-import com.efo.engine.AbstractGame;
-import com.efo.engine.Engine;
-import com.efo.engine.Renderer;
-import com.efo.engine.Vector;
+import com.efo.engine.*;
 import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
@@ -24,6 +21,10 @@ public class Main extends AbstractGame {
   private int enemyCount = 10;
   private LinkedList<Vector> deathVector;
   private LinkedList<ImageTile> explosions;
+
+  private Button settings, PvE, PvP;
+  private Vector[] inputPos;
+  private boolean[] inputTest;
 
   Vector intersection;
 
@@ -59,6 +60,13 @@ public class Main extends AbstractGame {
 
     clip = new SoundClip("/audio/explosion.wav");
     clip.setVolume(-20);
+
+    settings = new Button(100, 100, "Settings");
+    PvE = new Button(100, 150, "PvE");
+    PvP = new Button(100, 200, "PvP");
+
+    inputPos = new Vector[2];
+    inputTest = new boolean[2];
   }
 
   @Override
@@ -96,6 +104,12 @@ public class Main extends AbstractGame {
           }
       }
 
+      inputPos = new Vector[]{ussEnterprise.pos, new Vector(ge.getInput().getMouseX(), ge.getInput().getMouseY(), "c")};
+      inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
+
+      settings.update(inputPos, inputTest);
+      PvE.update(inputPos, inputTest);
+      PvP.update(inputPos, inputTest);
 
 
 	  // remove Projectiles that are out of bounds
@@ -193,23 +207,9 @@ public class Main extends AbstractGame {
     }
 
 
-
-
-
-    //Test Button abfrage
-    if(ge.getInput().getMouseX() > 180 && ge.getInput().getMouseX() < 305 && ge.getInput().getMouseY() > 30 && ge.getInput().getMouseY() < 70 || ussEnterprise.getPos().getX() > 180 && ussEnterprise.getPos().getX() < 315 && ussEnterprise.getPos().getY() > 30 && ussEnterprise.getPos().getY() < 70) {
-      if(!ge.getInput().isButton(1) && !ge.getInput().isKey(KeyEvent.VK_ENTER)) {
-        r.drawImage(hover, 250, 50, 0);
-        r.drawText("Settings", 195, 38, 0x8f858af2);
-      }
-      if(ge.getInput().isButton(1) || ge.getInput().isKey(KeyEvent.VK_ENTER)) {
-        r.drawImage(clicked, 250, 50, 0);
-        r.drawText("Settings", 195, 38, 0x6F858af2);
-      }
-    } else {
-        r.drawImage(noHover, 250, 50, 0);
-        r.drawText("Settings", 195, 38, 0xFF858af2);
-    }
+    settings.show(r);
+    PvE.show(r);
+    PvP.show(r);
 
     //Draw Ships
       for (Boid xWing: republic) {
