@@ -38,7 +38,7 @@ public class Button {
         height = noHover.getH();
     }
 
-    public void update(Vector [] objects, boolean [] tests){
+    public void update(Vector[] objects, boolean[] tests){
         // Eingaben passen nicht
         if (objects.length != tests.length || objects.length != 2){
             System.out.println("Da lief was falsch in Update Button");
@@ -48,7 +48,7 @@ public class Button {
         for (int i = 0; i < objects.length; i++) {
             // hover oder nicht hover
             if(objects[i].getX() < (this.offX + width/2) &&
-                objects[i].getX() > (this.offX -width/2) &&
+                objects[i].getX() > (this.offX - width/2) &&
                 objects[i].getY() < (this.offY + height/2) &&
                 objects[i].getY() > (this.offY - height/2)
             ){

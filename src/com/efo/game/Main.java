@@ -22,7 +22,7 @@ public class Main extends AbstractGame {
   private LinkedList<Vector> deathVector;
   private LinkedList<ImageTile> explosions;
 
-  private Button settings, PvE, PvP;
+  private Button settings, PvE, PvP, Exit;
   private Vector[] inputPos;
   private boolean[] inputTest;
 
@@ -61,9 +61,10 @@ public class Main extends AbstractGame {
     clip = new SoundClip("/audio/explosion.wav");
     clip.setVolume(-20);
 
-    settings = new Button(100, 100, "Settings");
-    PvE = new Button(100, 150, "PvE");
-    PvP = new Button(100, 200, "PvP");
+    PvP = new Button(100, 100, " PvP");
+    PvE = new Button(100, 150, " PvE");
+    settings = new Button(100, 200, "Settings");
+    Exit = new Button(385,270," Exit", "/exitHover.png","/exitNoHover.png","/exitClicked.png");
 
     inputPos = new Vector[2];
     inputTest = new boolean[2];
@@ -107,18 +108,23 @@ public class Main extends AbstractGame {
       inputPos = new Vector[]{ussEnterprise.pos, new Vector(ge.getInput().getMouseX(), ge.getInput().getMouseY(), "c")};
       inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
 
-      settings.update(inputPos, inputTest);
+
       PvE.update(inputPos, inputTest);
       PvP.update(inputPos, inputTest);
+      settings.update(inputPos, inputTest);
+      Exit.update(inputPos,inputTest);
 
-      if (PvP.testAction()){
+      if(PvP.testAction()) {
           System.out.println("Gehe ins PvP");
       }
-      if (settings.testAction()){
+      if(settings.testAction()) {
           System.out.println("Gehe in  Settings");
       }
-      if (PvE.testAction()){
+      if(PvE.testAction()) {
           System.out.println("Gehe ins PvE");
+      }
+      if(Exit.testAction()) {
+          System.exit(0);
       }
 
 
@@ -217,9 +223,11 @@ public class Main extends AbstractGame {
     }
 
 
-    settings.show(r);
+
     PvE.show(r);
     PvP.show(r);
+    settings.show(r);
+    Exit.show(r);
 
     //Draw Ships
       for (Boid xWing: republic) {
