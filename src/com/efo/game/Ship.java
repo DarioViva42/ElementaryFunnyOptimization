@@ -95,7 +95,7 @@ public class Ship extends Vehicle{
     public void show(Renderer r){
         r.drawImage(model, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.alpha));
         for (Explosion ex: explosions) {
-            ex.show(r,(int)pos.add(new Vector(Math.random()*10,Math.random()*360,"p"),true).getX(),(int)pos.add(new Vector(Math.random()*4,Math.random()*360,"p"),true).getY());
+            ex.show(r);
         }
     }
 
@@ -120,7 +120,7 @@ public class Ship extends Vehicle{
                 if(d < 30) {
                     HP--;
                     clip.play();
-                    explosions.add(new Explosion(10,5.0));
+                    explosions.add(new Explosion(10,5.0,pos.add(new Vector(Math.random()*10,Math.random()*360,"p"),true)));
                     empireLasers.remove(i);
                 }
             }
@@ -137,7 +137,7 @@ public class Ship extends Vehicle{
                 if(d < 30) {
                     HP--;
                     clip.play();
-                    explosions.add(new Explosion(10,5.0));
+                    explosions.add(new Explosion(10,5.0,pos.add(new Vector(Math.random()*10,Math.random()*360,"p"),true)));
                     republicLasers.remove(i);
                 }
             }

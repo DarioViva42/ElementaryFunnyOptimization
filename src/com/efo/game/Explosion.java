@@ -1,6 +1,7 @@
 package com.efo.game;
 
 import com.efo.engine.Renderer;
+import com.efo.engine.Vector;
 import com.efo.engine.gfx.ImageTile;
 
 public class Explosion {
@@ -10,9 +11,11 @@ public class Explosion {
     boolean finished = false;
     Double spriteDuration;
     float tempX, tempY;
+    Vector pos;
 
 
-    Explosion(int spriteCount, Double spriteDuration) {
+    Explosion(int spriteCount, Double spriteDuration, Vector pos) {
+        this.pos = pos;
         frame = 0;
         explosion = new ImageTile("/explosion.png", 16,16);
         this.frameCount = spriteCount;
@@ -21,8 +24,8 @@ public class Explosion {
         this.frameCount = (int)(spriteCount * spriteDuration);
     }
 
-    public void show(Renderer r, int x, int y) {
-        r.drawImageTile(this.explosion,x-(explosion.getTileH()/2),y-(explosion.getTileH()/2), (int)this.tempX,(int)this.tempY);
+    public void show(Renderer r) {
+        r.drawImageTile(this.explosion,(int)pos.getX()-(explosion.getTileH()/2),(int)pos.getY()-(explosion.getTileH()/2), (int)this.tempX,(int)this.tempY);
     }
 
     public void update() {
