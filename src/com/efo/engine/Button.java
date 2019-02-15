@@ -40,7 +40,7 @@ public class Button {
 
     public void update(Vector[] objects, boolean[] tests){
         // Eingaben passen nicht
-        if (objects.length != tests.length || objects.length != 2){
+        if (objects.length != tests.length /*|| objects.length != 2*/){
             System.out.println("Da lief was falsch in Update Button");
             return;
         }

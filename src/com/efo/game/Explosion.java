@@ -23,10 +23,11 @@ public class Explosion {
     }
 
     public void update() {
+
         //Framework for explosion
         tempX += 1 / spriteDuration;
         if(tempX % 1 > 0) {
-            spriteCount++;
+            spriteCount--;
         }
         if (tempX > 4) {
             tempX = 0;

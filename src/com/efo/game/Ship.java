@@ -39,6 +39,7 @@ public class Ship extends Vehicle{
         acc = new Vector(0.0,0.0,"c");
         model = new Image("/ship.png");
         HP = 10;
+
     }
 
     Ship(Vector pos, double alpha, String name) {

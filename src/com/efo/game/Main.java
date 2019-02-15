@@ -25,6 +25,8 @@ public class Main extends AbstractGame {
   private Vector[] inputPos;
   private boolean[] inputTest;
 
+  private Explosion ex = new Explosion(6,5.0);
+
   Vector intersection;
 
   public Main() {
@@ -42,7 +44,7 @@ public class Main extends AbstractGame {
     empire = new LinkedList<>();
 
       for (int j = 0; j < enemyCount; j++) {
-          republic.add(new Boid("republic"));
+          //republic.add(new Boid("republic"));
           //empire.add(new Boid("empire"));
       }
 
@@ -73,6 +75,10 @@ public class Main extends AbstractGame {
   @Override
   public void update(Engine ge, float dt) {
 
+      ex.update();
+
+
+
       for(Ship player: players) {
           //Player 1 Input
           if(player.playerName.equals("Player1")) {
@@ -94,7 +100,7 @@ public class Main extends AbstractGame {
               } else {
                   player.turn(0);
               }
-              if (ge.getInput().isKeyDown(KeyEvent.VK_SPACE)) {
+              if (ge.getInput().isKeyDown(KeyEvent.VK_C)) {
                   player.shoot();
 
               }
@@ -102,25 +108,25 @@ public class Main extends AbstractGame {
 
           if(player.playerName.equals("Player2")) {
               //Player 2 Input
-              if (ge.getInput().isKeyDown(KeyEvent.VK_DOWN)) {
+              if (ge.getInput().isKeyDown(KeyEvent.VK_J)) {
                   System.out.println("S was Pressed");
               }
-              if (ge.getInput().isKeyUp(KeyEvent.VK_DOWN)) {
+              if (ge.getInput().isKeyUp(KeyEvent.VK_J)) {
                   System.out.println("S was Released");
               }
-              if (ge.getInput().isKey(KeyEvent.VK_UP)) {
+              if (ge.getInput().isKey(KeyEvent.VK_U)) {
                   player.setBoost(.2);
               } else {
                   player.setBoost(0);
               }
-              if (ge.getInput().isKey(KeyEvent.VK_LEFT) && !ge.getInput().isKey(KeyEvent.VK_RIGHT)) {
+              if (ge.getInput().isKey(KeyEvent.VK_H) && !ge.getInput().isKey(KeyEvent.VK_RIGHT)) {
                   player.turn(-.42);
-              } else if (ge.getInput().isKey(KeyEvent.VK_RIGHT)) {
+              } else if (ge.getInput().isKey(KeyEvent.VK_K)) {
                   player.turn(0.42);
               } else {
                   player.turn(0);
               }
-              if (ge.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
+              if (ge.getInput().isKeyDown(KeyEvent.VK_B)) {
                   player.shoot();
               }
           }
@@ -136,9 +142,12 @@ public class Main extends AbstractGame {
           }
       }
 
-      if(players.size() > 0) inputPos = new Vector[]{players.get(0).pos, new Vector(ge.getInput().getMouseX(), ge.getInput().getMouseY(), "c")};
-      inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
 
+
+      if(players.size() > 0) {
+          inputPos = new Vector[]{players.get(0).pos, new Vector(ge.getInput().getMouseX(), ge.getInput().getMouseY(), "c")};
+          inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
+      }
 
       PvE.update(inputPos, inputTest);
       PvP.update(inputPos, inputTest);
@@ -295,12 +304,14 @@ public class Main extends AbstractGame {
       }
 
 
-    r.drawImageTile(image,
+    /*r.drawImageTile(image,
       (ge.getInput().getMouseX())-(image.getTileW()/2),
       (ge.getInput().getMouseY())-(image.getTileH()/2),
-      (int)tempX, (int)tempY);
+      (int)tempX, (int)tempY);*/
 
     r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
+
+    ex.show(r,ge.getInput().getMouseX(),ge.getInput().getMouseY());
   }
 
   public static void main(String[] args) {
