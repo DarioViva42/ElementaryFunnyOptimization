@@ -138,12 +138,15 @@ public class Main extends AbstractGame {
           Exit.update(inputPos, inputTest);
 
           if (PvP.testAction()) {
+              screen = "PvP";
               System.out.println("Gehe ins PvP");
           }
           if (settings.testAction()) {
+              screen = "Settings";
               System.out.println("Gehe in  Settings");
           }
           if (PvE.testAction()) {
+              screen = "PvE";
               System.out.println("Gehe ins PvE");
           }
           if (Exit.testAction()) {
@@ -259,10 +262,12 @@ public class Main extends AbstractGame {
 
 
 
-    PvE.show(r);
-    PvP.show(r);
-    settings.show(r);
-    Exit.show(r);
+    if (screen.equals("mainMenu")) {
+        PvE.show(r);
+        PvP.show(r);
+        settings.show(r);
+        Exit.show(r);
+    }
 
     //Draw Ships
       for (Boid xWing: republic) {
