@@ -18,7 +18,7 @@ public class Main extends AbstractGame {
   private float tempX = 0f, tempY = 0f;
   private LinkedList<Boid> republic, empire;
   private LinkedList<Ship> players;
-  private int enemyCount = 10;
+  private int enemyCount = 5;
   private LinkedList<Vector> deathVector;
   private LinkedList<ImageTile> explosions;
 
@@ -54,7 +54,7 @@ public class Main extends AbstractGame {
     s = new Star();
 
     players.add(new Ship(new Vector(150, 150, "c"),270));
-    players.add(new Ship(new Vector(250, 250, "c"),270));
+    //players.add(new Ship(new Vector(250, 250, "c"),270));
 
     for (int j = 0; j < starfield.length; j++) {
       starfield[j] = new Star();
@@ -85,14 +85,14 @@ public class Main extends AbstractGame {
 	  if(ge.getInput().isKey(KeyEvent.VK_W)){
 		  players.get(0).setBoost(.2);
 	  } else {
-          players.get(0).setBoost(0);
+          if(players.size() > 0) players.get(0).setBoost(0);
 	  }
     if(ge.getInput().isKey(KeyEvent.VK_A) && !ge.getInput().isKey(KeyEvent.VK_D)){
         players.get(0).turn(-.42);
     } else if(ge.getInput().isKey(KeyEvent.VK_D)){
         players.get(0).turn(0.42);
     } else {
-        players.get(0).turn(0);
+        if(players.size() > 0) players.get(0).turn(0);
     }
     if(ge.getInput().isKeyDown(KeyEvent.VK_SPACE)){
         players.get(0).shoot();
@@ -109,14 +109,14 @@ public class Main extends AbstractGame {
       if(ge.getInput().isKey(KeyEvent.VK_UP)){
           players.get(1).setBoost(.2);
       } else {
-          players.get(1).setBoost(0);
+          if(players.size() > 1) players.get(1).setBoost(0);
       }
       if(ge.getInput().isKey(KeyEvent.VK_LEFT) && !ge.getInput().isKey(KeyEvent.VK_RIGHT)){
           players.get(1).turn(-.42);
       } else if(ge.getInput().isKey(KeyEvent.VK_RIGHT)){
           players.get(1).turn(0.42);
       } else {
-          players.get(1).turn(0);
+          if(players.size() > 1) players.get(1).turn(0);
       }
       if(ge.getInput().isKeyDown(KeyEvent.VK_ENTER)){
           players.get(1).shoot();
@@ -133,7 +133,7 @@ public class Main extends AbstractGame {
           }
       }
 
-      inputPos = new Vector[]{players.get(0).pos, new Vector(ge.getInput().getMouseX(), ge.getInput().getMouseY(), "c")};
+      if(players.size() > 0) inputPos = new Vector[]{players.get(0).pos, new Vector(ge.getInput().getMouseX(), ge.getInput().getMouseY(), "c")};
       inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
 
 
@@ -165,11 +165,11 @@ public class Main extends AbstractGame {
       }
 
       for (int i = 0; i < republic.size(); i++) {
-          republic.get(i).peripheralVision(empire);
+          republic.get(i).peripheralVision(empire,players);
       }
 
       for (int i = 0; i < empire.size(); i++) {
-          empire.get(i).peripheralVision(republic);
+          empire.get(i).peripheralVision(republic,players);
       }
 
       for (int j = 0; j < Vehicle.republicLasers.size(); j++) {
@@ -194,7 +194,7 @@ public class Main extends AbstractGame {
 
 
       for (Boid xWing: republic) {
-          xWing.update(ge.getInput(),empire);
+          xWing.update(ge.getInput(),republic);
           xWing.border();
           if(xWing.dead()) {
               xWing.alive = false;
@@ -212,6 +212,9 @@ public class Main extends AbstractGame {
       for (Ship player: players) {
           player.update();
           player.border();
+          if(player.dead()) {
+              player.alive = false;
+          }
       }
 
   }
@@ -222,16 +225,23 @@ public class Main extends AbstractGame {
   public void render(Engine ge, Renderer r) {
 
       for (int f = 0; f < republic.size(); f++) {
-          if(republic.get(f).alive == false) {
-              deathVector.add(new Vector(republic.get(f).pos.getX(),republic.get(f).pos.getY(),"c"));
+          if(!republic.get(f).alive) {
+              //deathVector.add(new Vector(republic.get(f).pos.getX(),republic.get(f).pos.getY(),"c"));
               republic.remove(f);
           }
       }
 
       for (int f = 0; f < empire.size(); f++) {
-          if(empire.get(f).alive == false) {
-              deathVector.add(new Vector(empire.get(f).pos.getX(),empire.get(f).pos.getY(),"c"));
+          if(!empire.get(f).alive) {
+              //deathVector.add(new Vector(empire.get(f).pos.getX(),empire.get(f).pos.getY(),"c"));
               empire.remove(f);
+          }
+      }
+
+      for (int f = 0; f < players.size(); f++) {
+          if(!players.get(f).alive) {
+              //deathVector.add(new Vector(players.get(f).pos.getX(),players.get(f).pos.getY(),"c"));
+              players.remove(f);
           }
       }
 

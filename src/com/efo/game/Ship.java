@@ -13,6 +13,7 @@ public class Ship extends Vehicle{
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
     private int HP;
+    boolean alive = true;
 
 
     // Constructors --------------------------------
@@ -31,6 +32,8 @@ public class Ship extends Vehicle{
     }
 
     Ship(Vector pos, double alpha) {
+        faction = "empire";
+
         this.pos = pos;
         oldPos = new Vector(getX(),getY(),"c");
         alphaVel = 0;
@@ -39,9 +42,12 @@ public class Ship extends Vehicle{
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
         model = new Image("/falcon.png");
+        HP = 10;
     }
 
     public void update(){
+        System.out.println(this.HP);
+
         vel.add(acc);
         oldPos.setC(pos.getX(), pos.getY());
         pos.add(vel);
@@ -81,10 +87,11 @@ public class Ship extends Vehicle{
 
     public boolean dead() {
         if (faction.equals("republic")) {
-            for (Projectile enemyLaser: Vehicle.empireLasers) {
-                Double d = this.pos.distance(enemyLaser.getPos());
-                if(d < 20) {
+            for (int i = 0; i < empireLasers.size();i++) {
+                Double d = this.pos.distance(empireLasers.get(i).getPos());
+                if(d < 30) {
                     HP--;
+                    empireLasers.remove(i);
                 }
             }
 
@@ -95,10 +102,11 @@ public class Ship extends Vehicle{
             }
 
         } else if (faction.equals("empire")) {
-            for (Projectile enemyLaser: Vehicle.republicLasers) {
-                Double d = this.pos.distance(enemyLaser.getPos());
-                if(d < 20) {
+            for (int i = 0; i < republicLasers.size();i++) {
+                Double d = this.pos.distance(republicLasers.get(i).getPos());
+                if(d < 30) {
                     HP--;
+                    republicLasers.remove(i);
                 }
             }
 

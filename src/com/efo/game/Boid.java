@@ -160,18 +160,30 @@ public class Boid extends Vehicle {
         }
     }
 
-    public void peripheralVision(LinkedList<Boid> boids) {
+    public void peripheralVision(LinkedList<Boid> boids, LinkedList<Ship> players) {
         //Vector sum = new Vector(0,0,"p");
         Double count = 0.0;
 
         for (Boid other: boids) {
-            Vector diff = other.pos.sub(this.pos,true);
+            Vector diff = other.pos.sub(this.pos, true);
             boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 30;
-            if((diff.getLength() > 0) && (diff.getLength() < 200) && isTargetFront) {
+            if ((diff.getLength() > 0) && (diff.getLength() < 200) && isTargetFront) {
                 //sum.add(other.vel);
                 count++;
             }
         }
+
+        for (Ship player: players) {
+            if(!player.faction.equals(this.faction)) {
+                Vector diff = player.pos.sub(this.pos, true);
+                boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 30;
+                if ((diff.getLength() > 0) && (diff.getLength() < 200) && isTargetFront) {
+                    //sum.add(other.vel);
+                    count++;
+                }
+            }
+        }
+
         if(count > 0) {
             shoot();
         }
@@ -267,9 +279,9 @@ public class Boid extends Vehicle {
     }
 
     public void shoot() {
-        if(this.faction.equals("republic")) {
+        if(faction.equals("republic")) {
             if(shotCap >= 1) {
-                Vehicle.republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
+                republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
                         new Vector(this.shootForce, vel.getAngle(), "p")));
                 shotCap = 0.0;
             } else {
@@ -277,9 +289,9 @@ public class Boid extends Vehicle {
             }
 
 
-        } else {
+        } else if(faction.equals("empire")){
             if(shotCap >= 1) {
-                Vehicle.empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
+                empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
                         new Vector(this.shootForce, vel.getAngle(), "p")));
                 shotCap = 0.0;
             } else {

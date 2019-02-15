@@ -9,13 +9,13 @@ import java.util.LinkedList;
 public abstract class Vehicle {
 
     // Attributes ----------------------------------
-    protected Vector pos;   // Position
-    protected Vector oldPos;// Position im letzten Frame
+    protected Vector pos;
+    protected Vector oldPos;
     protected Vector gunPos;// Position der Waffe (Vorne)
-    protected Vector vel;   // Geschwidigkeit
-    protected Vector acc;   // Beschleunigung
+    protected Vector vel;
+    protected Vector acc;
     protected Image model;
-    String faction = "";
+    protected String faction = "";
 
 
     protected final double shootForce = 10.0;
