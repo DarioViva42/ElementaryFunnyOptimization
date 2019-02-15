@@ -2,8 +2,8 @@ package com.efo.game;
 
 import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
-import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
+
 
 import java.util.LinkedList;
 
@@ -14,41 +14,17 @@ public class Ship extends Vehicle{
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
     public String playerName;
-    private int HP;
+    private int HP = 20;
     boolean alive = true;
     LinkedList<Vector> exPos = new LinkedList<>();
-
-    private SoundClip clip;
-
-
+    int size = 15;
 
 
     // Constructors --------------------------------
-    Ship(String name) {
 
-        clip = new SoundClip("/audio/explosion.wav");
-        clip.setVolume(-20);
-        faction = "empire";
-        playerName = name;
+    Ship(Vector pos, double alpha, String name, String faction) {
 
-
-        pos = new Vector(0,0,"c");
-        oldPos = new Vector(0,0,"c");
-        alphaVel = 0;
-        alphaAcc = 0;
-        alpha = 0;
-        vel = new Vector(0.0,0.0,"c");
-        acc = new Vector(0.0,0.0,"c");
-        model = new Image("/ship.png");
-        HP = 10;
-
-    }
-
-    Ship(Vector pos, double alpha, String name) {
-
-        clip = new SoundClip("/audio/explosion.wav");
-        clip.setVolume(-20);
-        faction = "empire";
+        this.faction = faction;
         playerName = name;
 
         this.pos = pos;
@@ -59,7 +35,7 @@ public class Ship extends Vehicle{
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
         model = new Image("/falcon.png");
-        HP = 10;
+
     }
 
     public void update(){
@@ -106,22 +82,25 @@ public class Ship extends Vehicle{
     }
 
     public void shoot() {
+
         if(this.faction.equals("republic")) {
             Vehicle.republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
                     new Vector(this.shootForce, alpha, "p")));
+            sounds.get(5).play();
         } else {
             Vehicle.empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
                     new Vector(this.shootForce, alpha, "p")));
+            sounds.get(5).play();
         }
     }
 
-    public boolean dead() {
+    public boolean hit() {
         if (faction.equals("republic")) {
             for (int i = 0; i < empireLasers.size();i++) {
                 Double d = this.pos.distance(empireLasers.get(i).getPos());
-                if(d < 30) {
+                if(d < size) {
                     HP--;
-                    clip.play();
+                    sounds.get(0).play();
                     exPos.add(new Vector(Math.random()*10,Math.random()*360,"p"));
                     explosions.add(new Explosion(11,5.0));
                     empireLasers.remove(i);
@@ -137,10 +116,10 @@ public class Ship extends Vehicle{
         } else if (faction.equals("empire")) {
             for (int i = 0; i < republicLasers.size();i++) {
                 Double d = this.pos.distance(republicLasers.get(i).getPos());
-                if(d < 30) {
+                if(d < size) {
                     HP--;
-                    clip.play();
-                    exPos.add(new Vector(Math.random()*10,Math.random()*360,"p"));
+                    sounds.get(0).play();
+                    exPos.add(new Vector(Math.random()*13,Math.random()*360,"p"));
                     explosions.add(new Explosion(11,5.0));
                     republicLasers.remove(i);
                 }

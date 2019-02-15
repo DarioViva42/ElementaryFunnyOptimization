@@ -2,6 +2,7 @@ package com.efo.game;
 
 import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
+import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 
 import java.util.LinkedList;
@@ -16,6 +17,11 @@ public abstract class Vehicle {
     protected Vector acc;
     protected Image model;
     protected String faction = "";
+
+    // explosion 0, laser 1-5
+    protected static LinkedList<SoundClip> sounds = new LinkedList<>();
+
+
 
 
     protected final double shootForce = 10.0;

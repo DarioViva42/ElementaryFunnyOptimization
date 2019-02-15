@@ -3,6 +3,7 @@ package com.efo.engine;
 //Selfmade
 
 import java.awt.geom.Line2D;
+import java.util.Random;
 
 public class Vector {
   // Attributes ----------------------------------
@@ -194,5 +195,15 @@ public class Vector {
   //Math Map function
   public static Double map(Double x, Double fromRangeMin, Double fromRangeMax , Double toRangeMin, Double toRangeMax) {
     return (x - fromRangeMin)*((toRangeMax - toRangeMin) / (fromRangeMax - fromRangeMin)) + toRangeMin;
+  }
+
+  public static int getRandomNumberInRange(int min, int max) {
+
+    if (min >= max) {
+      throw new IllegalArgumentException("max must be greater than min");
+    }
+
+    Random r = new Random();
+    return r.nextInt((max - min) + 1) + min;
   }
 }

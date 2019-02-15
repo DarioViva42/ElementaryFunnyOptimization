@@ -4,6 +4,8 @@ import com.efo.engine.*;
 import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
+
+import javax.sound.sampled.Line;
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
@@ -11,13 +13,16 @@ public class Main extends AbstractGame {
 
   private ImageTile image;
   private Image background;
-  private Star[] starfield = new Star[400];
+  private Star[] starField = new Star[400];
   private Star s;
-  private float tempX = 0f, tempY = 0f;
   private LinkedList<Boid> republic, empire;
   private LinkedList<Ship> players;
-  private int enemyCount = 5;
-  private LinkedList<Vector> deathVector;
+  private int enemyCount = 3;
+
+  /*private LinkedList<Vector> deathPos;
+  private LinkedList<Vector> deathVel;
+  private LinkedList<Explosion> deathExplosions;*/
+
   private String screen;
 
   private Button settings, PvE, PvP, Exit;
@@ -26,10 +31,26 @@ public class Main extends AbstractGame {
 
   public Main() {
 
+      Vehicle.sounds.add(new SoundClip("/audio/explosion.wav"));
+      Vehicle.sounds.add(new SoundClip("/audio/laser1.wav"));
+      Vehicle.sounds.add(new SoundClip("/audio/laser2.wav"));
+      Vehicle.sounds.add(new SoundClip("/audio/laser3.wav"));
+      Vehicle.sounds.add(new SoundClip("/audio/laser4.wav"));
+      Vehicle.sounds.add(new SoundClip("/audio/laser5.wav"));
+
+      Vehicle.sounds.get(0).setVolume(-20);
+      Vehicle.sounds.get(1).setVolume(-20);
+      Vehicle.sounds.get(2).setVolume(-20);
+      Vehicle.sounds.get(3).setVolume(-20);
+      Vehicle.sounds.get(4).setVolume(-20);
+      Vehicle.sounds.get(5).setVolume(-20);
+
 
     image = new ImageTile("/explosion.png", 16, 16);
 
-    deathVector = new LinkedList<>();
+    /*deathPos = new LinkedList<>();
+    deathVel = new LinkedList<>();
+    deathExplosions = new LinkedList<>();*/
 
     republic = new LinkedList<>();
     empire = new LinkedList<>();
@@ -45,11 +66,11 @@ public class Main extends AbstractGame {
 
     s = new Star();
 
-    players.add(new Ship(new Vector(150, 150, "c"),270,"Player1"));
-    players.add(new Ship(new Vector(250, 250, "c"),270,"Player2"));
+    players.add(new Ship(new Vector(150, 150, "c"),270,"Player1", "republic"));
+    players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
 
-    for (int j = 0; j < starfield.length; j++) {
-      starfield[j] = new Star();
+    for (int j = 0; j < starField.length; j++) {
+      starField[j] = new Star();
     }
 
     screen = "mainMenu";
@@ -210,10 +231,14 @@ public class Main extends AbstractGame {
       for (Ship player: players) {
           player.update();
           player.border();
-          if(player.dead()) {
+          if(player.hit()) {
               player.alive = false;
           }
       }
+
+      /*for (int i = 0; i < deathPos.size(); i++) {
+          deathPos.add(deathVel.get(i));
+      }*/
 
   }
 
@@ -222,32 +247,44 @@ public class Main extends AbstractGame {
   @Override
   public void render(Engine ge, Renderer r) {
 
+      /*for (int i = 0; i < deathPos.size(); i++) {
+          deathExplosions.get(i).show(r,deathPos.get(i).add(deathVel.get(i),true));
+      }*/
+
       for (int f = 0; f < republic.size(); f++) {
           if(!republic.get(f).alive) {
-              //deathVector.add(new Vector(republic.get(f).pos.getX(),republic.get(f).pos.getY(),"c"));
+              /*deathExplosions.add(new Explosion(11,5.0));
+              deathPos.add(republic.get(f).pos);
+              deathVel.add(republic.get(f).vel);*/
               republic.remove(f);
           }
       }
 
       for (int f = 0; f < empire.size(); f++) {
           if(!empire.get(f).alive) {
-              //deathVector.add(new Vector(empire.get(f).pos.getX(),empire.get(f).pos.getY(),"c"));
+              /*deathExplosions.add(new Explosion(11,5.0));
+              deathPos.add(empire.get(f).pos);
+              deathVel.add(empire.get(f).vel);*/
               empire.remove(f);
           }
       }
 
       for (int f = 0; f < players.size(); f++) {
           if(!players.get(f).alive) {
-              //deathVector.add(new Vector(players.get(f).pos.getX(),players.get(f).pos.getY(),"c"));
+              /*deathExplosions.add(new Explosion(11,5.0));
+              deathPos.add(players.get(f).pos);
+              deathVel.add(players.get(f).vel);*/
               players.remove(f);
           }
       }
 
 
+
+
     r.drawImage(background, 240, 159, 0);
 
 
-    for (Star star:starfield) {
+    for (Star star:starField) {
       star.show(r, ge.getWidth(), ge.getHeight());
       star.update();
     }

@@ -16,6 +16,7 @@ public class Boid extends Vehicle {
     boolean alive = true;
     Vector exPos;
 
+    int laserSound = Vector.getRandomNumberInRange(1,3);
 
     //Constructor
     public Boid(String Faction) {
@@ -299,6 +300,7 @@ public class Boid extends Vehicle {
             if(shotCap >= 1) {
                 republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
                         new Vector(this.shootForce, vel.getAngle(), "p")));
+                sounds.get(laserSound).play();
                 shotCap = 0.0;
             } else {
                 shotCap += attackSpeed;
@@ -309,6 +311,7 @@ public class Boid extends Vehicle {
             if(shotCap >= 1) {
                 empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
                         new Vector(this.shootForce, vel.getAngle(), "p")));
+                sounds.get(laserSound).play();
                 shotCap = 0.0;
             } else {
                 shotCap += attackSpeed;
