@@ -11,11 +11,9 @@ public class Explosion {
     boolean finished = false;
     Double spriteDuration;
     float tempX, tempY;
-    Vector pos;
 
 
-    Explosion(int spriteCount, Double spriteDuration, Vector pos) {
-        this.pos = pos;
+    Explosion(int spriteCount, Double spriteDuration) {
         frame = 0;
         explosion = new ImageTile("/explosion.png", 16,16);
         this.frameCount = spriteCount;
@@ -24,7 +22,7 @@ public class Explosion {
         this.frameCount = (int)(spriteCount * spriteDuration);
     }
 
-    public void show(Renderer r) {
+    public void show(Renderer r, Vector pos) {
         r.drawImageTile(this.explosion,(int)pos.getX()-(explosion.getTileH()/2),(int)pos.getY()-(explosion.getTileH()/2), (int)this.tempX,(int)this.tempY);
     }
 

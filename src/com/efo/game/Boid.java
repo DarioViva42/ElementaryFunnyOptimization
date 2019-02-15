@@ -80,7 +80,7 @@ public class Boid extends Vehicle {
     public void show(Renderer r) {
         r.drawImage(model, (int) this.pos.getX(), (int) this.pos.getY(), Math.toRadians(vel.getAngle()));
         for (Explosion ex: explosions) {
-            ex.show(r);
+            ex.show(r,this.pos);
         }
     }
 
