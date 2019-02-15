@@ -95,8 +95,7 @@ public class Ship extends Vehicle{
     public void show(Renderer r){
         r.drawImage(model, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.alpha));
         for (Explosion ex: explosions) {
-            ex.show(r,(int)pos.getX(),(int)pos.getY());
-            System.out.println("hi");
+            ex.show(r,(int)pos.add(new Vector(Math.random()*10,Math.random()*360,"p"),true).getX(),(int)pos.add(new Vector(Math.random()*4,Math.random()*360,"p"),true).getY());
         }
     }
 
