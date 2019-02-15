@@ -19,7 +19,7 @@ public class Explosion {
     }
 
     public void show(Renderer r, int x, int y) {
-        r.drawImageTile(this.explosion,x,y, (int)this.tempX,(int)this.tempY);
+        r.drawImageTile(this.explosion,x-(explosion.getTileH()/2),y-(explosion.getTileH()/2), (int)this.tempX,(int)this.tempY);
     }
 
     public void update() {
