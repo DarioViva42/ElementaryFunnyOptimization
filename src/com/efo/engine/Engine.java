@@ -1,5 +1,7 @@
 package com.efo.engine;
 
+import com.efo.engine.gfx.Image;
+
 import java.awt.event.KeyEvent;
 
 public class Engine implements Runnable {
@@ -17,6 +19,7 @@ public class Engine implements Runnable {
   private int width = 480, height = 320;
   private float scale = 2f;
   private String title = "Star Wars Engine";
+  private Image mouse;
 
     // Constructor -------------------------
   public Engine(AbstractGame game) {
@@ -28,7 +31,7 @@ public class Engine implements Runnable {
     window = new Window(this);
     renderer = new Renderer(this);
     input = new Input(this);
-
+    mouse = new Image("/Mouse.png");
     antiAliasing = false;
     thread = new Thread(this);
     thread.run(); //Makes this main thread
@@ -97,7 +100,11 @@ public class Engine implements Runnable {
 
         game.render(this,renderer);
 
-        renderer.drawText("FPS: " + fps, 0, 0, 0xffffffff);
+        if (getInput().isKey(KeyEvent.VK_DELETE)){
+          renderer.drawText("FPS: " + fps, 0, 0, 0xffffffff);
+        }
+
+        renderer.drawImage(mouse, getInput().getMouseX(), getInput().getMouseY(), 0);
 
         if(antiAliasing) {
           renderer.antiAliasing();

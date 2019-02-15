@@ -10,7 +10,6 @@ import java.util.LinkedList;
 public class Main extends AbstractGame {
 
   private ImageTile image;
-  private Image mouse, noHover, hover, clicked;
   private Image background;
   private Star[] starfield = new Star[400];
   private Star s;
@@ -33,10 +32,6 @@ public class Main extends AbstractGame {
 
     explosions = new LinkedList<>();
     image = new ImageTile("/explosion.png", 16, 16);
-    mouse = new Image("/Mouse.png");
-    noHover = new Image("/noHover.png");
-    clicked = new Image("/clicked.png");
-    hover = new Image("/hover.png");
 
     deathVector = new LinkedList<>();
 
@@ -308,8 +303,6 @@ public class Main extends AbstractGame {
       (ge.getInput().getMouseX())-(image.getTileW()/2),
       (ge.getInput().getMouseY())-(image.getTileH()/2),
       (int)tempX, (int)tempY);*/
-
-    r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
 
     ex.show(r,ge.getInput().getMouseX(),ge.getInput().getMouseY());
   }
