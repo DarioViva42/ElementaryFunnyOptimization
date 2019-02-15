@@ -23,6 +23,8 @@ public abstract class Vehicle {
     public static LinkedList<Projectile> empireLasers = new LinkedList<>();
     public static LinkedList<Projectile> republicLasers = new LinkedList<>();
 
+    protected LinkedList<Explosion> explosions = new LinkedList<>();
+
     // Methods -------------------------------------
 
     public Vector getPos() {

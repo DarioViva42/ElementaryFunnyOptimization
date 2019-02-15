@@ -65,10 +65,23 @@ public class Boid extends Vehicle {
 
 
         acc.mult(0.0);
+
+        for (Explosion ex: explosions) {
+            ex.update();
+        }
+
+        for (int i = 0; i < explosions.size(); i++) {
+            if(explosions.get(i).isFinished()) {
+                explosions.remove(i);
+            }
+        }
     }
 
     public void show(Renderer r) {
         r.drawImage(model, (int) this.pos.getX(), (int) this.pos.getY(), Math.toRadians(vel.getAngle()));
+        for (Explosion ex: explosions) {
+            ex.show(r,(int)pos.getX(),(int)pos.getY());
+        }
     }
 
     public void flocking(LinkedList<Boid> boids) {
