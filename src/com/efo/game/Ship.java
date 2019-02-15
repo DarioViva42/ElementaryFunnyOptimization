@@ -76,6 +76,16 @@ public class Ship extends Vehicle{
         this.vel.setP(0.98 * l, a);
         //Turning Drag
         this.alphaVel *= 0.96;
+
+        for (Explosion ex: explosions) {
+            ex.update();
+        }
+
+        for (int i = 0; i < explosions.size(); i++) {
+            if(explosions.get(i).isFinished()) {
+                explosions.remove(i);
+            }
+        }
     }
 
     public void turn(double turn) {
@@ -84,6 +94,10 @@ public class Ship extends Vehicle{
 
     public void show(Renderer r){
         r.drawImage(model, (int)this.pos.getX(), (int)this.pos.getY(), Math.toRadians(this.alpha));
+        for (Explosion ex: explosions) {
+            ex.show(r,(int)pos.getX(),(int)pos.getY());
+            System.out.println("hi");
+        }
     }
 
     public void setBoost(double boost) {
@@ -107,6 +121,7 @@ public class Ship extends Vehicle{
                 if(d < 30) {
                     HP--;
                     clip.play();
+                    explosions.add(new Explosion(10,5.0));
                     empireLasers.remove(i);
                 }
             }
@@ -123,6 +138,7 @@ public class Ship extends Vehicle{
                 if(d < 30) {
                     HP--;
                     clip.play();
+                    explosions.add(new Explosion(10,5.0));
                     republicLasers.remove(i);
                 }
             }

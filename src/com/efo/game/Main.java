@@ -18,19 +18,16 @@ public class Main extends AbstractGame {
   private LinkedList<Ship> players;
   private int enemyCount = 5;
   private LinkedList<Vector> deathVector;
-  private LinkedList<ImageTile> explosions;
 
   private Button settings, PvE, PvP, Exit;
   private Vector[] inputPos;
   private boolean[] inputTest;
 
-  private Explosion ex = new Explosion(6,5.0);
-
   Vector intersection;
 
   public Main() {
 
-    explosions = new LinkedList<>();
+
     image = new ImageTile("/explosion.png", 16, 16);
 
     deathVector = new LinkedList<>();
@@ -39,7 +36,7 @@ public class Main extends AbstractGame {
     empire = new LinkedList<>();
 
       for (int j = 0; j < enemyCount; j++) {
-          //republic.add(new Boid("republic"));
+          republic.add(new Boid("republic"));
           //empire.add(new Boid("empire"));
       }
 
@@ -70,7 +67,8 @@ public class Main extends AbstractGame {
   @Override
   public void update(Engine ge, float dt) {
 
-      ex.update();
+
+
 
 
 
@@ -124,16 +122,6 @@ public class Main extends AbstractGame {
               if (ge.getInput().isKeyDown(KeyEvent.VK_B)) {
                   player.shoot();
               }
-          }
-      }
-
-
-      tempX += 1 / 5.0;
-      if (tempX > 4) {
-          tempX = 0;
-          tempY++;
-          if (tempY > 3) {
-              tempY = 0;
           }
       }
 
@@ -299,12 +287,6 @@ public class Main extends AbstractGame {
       }
 
 
-    /*r.drawImageTile(image,
-      (ge.getInput().getMouseX())-(image.getTileW()/2),
-      (ge.getInput().getMouseY())-(image.getTileH()/2),
-      (int)tempX, (int)tempY);*/
-
-    ex.show(r,ge.getInput().getMouseX(),ge.getInput().getMouseY());
   }
 
   public static void main(String[] args) {

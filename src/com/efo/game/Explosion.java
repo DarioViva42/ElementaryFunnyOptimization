@@ -6,16 +6,19 @@ import com.efo.engine.gfx.ImageTile;
 public class Explosion {
 
     private final ImageTile explosion;
-    private int spriteCount;
+    private int frameCount, frame;
     boolean finished = false;
     Double spriteDuration;
     float tempX, tempY;
 
 
     Explosion(int spriteCount, Double spriteDuration) {
+        frame = 0;
         explosion = new ImageTile("/explosion.png", 16,16);
-        this.spriteCount = spriteCount;
+        this.frameCount = spriteCount;
         this.spriteDuration = spriteDuration;
+
+        this.frameCount = (int)(spriteCount * spriteDuration);
     }
 
     public void show(Renderer r, int x, int y) {
@@ -27,7 +30,7 @@ public class Explosion {
         //Framework for explosion
         tempX += 1 / spriteDuration;
         if(tempX % 1 > 0) {
-            spriteCount--;
+            frame++;
         }
         if (tempX > 4) {
             tempX = 0;
@@ -37,13 +40,16 @@ public class Explosion {
             }
         }
 
-        if(spriteCount == 0) {
+        if(frame == frameCount) {
             finished = true;
         }
     }
 
-    public void getFrame() {
+    public int getFrame() {
+        return frame;
+    }
 
-
+    public boolean isFinished() {
+        return finished;
     }
 }
