@@ -2,6 +2,7 @@ package com.efo.game;
 
 import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
+import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 
 import java.util.LinkedList;
@@ -12,13 +13,22 @@ public class Ship extends Vehicle{
     protected double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
+    public String playerName;
     private int HP;
     boolean alive = true;
 
+    private SoundClip clip;
+
+
+
 
     // Constructors --------------------------------
-    Ship() {
+    Ship(String name) {
+
+        clip = new SoundClip("/audio/explosion.wav");
+        clip.setVolume(-20);
         faction = "empire";
+        playerName = name;
 
         pos = new Vector(0,0,"c");
         oldPos = new Vector(0,0,"c");
@@ -31,8 +41,12 @@ public class Ship extends Vehicle{
         HP = 10;
     }
 
-    Ship(Vector pos, double alpha) {
+    Ship(Vector pos, double alpha, String name) {
+
+        clip = new SoundClip("/audio/explosion.wav");
+        clip.setVolume(-20);
         faction = "empire";
+        playerName = name;
 
         this.pos = pos;
         oldPos = new Vector(getX(),getY(),"c");
@@ -91,6 +105,7 @@ public class Ship extends Vehicle{
                 Double d = this.pos.distance(empireLasers.get(i).getPos());
                 if(d < 30) {
                     HP--;
+                    clip.play();
                     empireLasers.remove(i);
                 }
             }
@@ -106,6 +121,7 @@ public class Ship extends Vehicle{
                 Double d = this.pos.distance(republicLasers.get(i).getPos());
                 if(d < 30) {
                     HP--;
+                    clip.play();
                     republicLasers.remove(i);
                 }
             }

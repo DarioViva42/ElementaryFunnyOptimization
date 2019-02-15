@@ -12,7 +12,6 @@ public class Main extends AbstractGame {
   private ImageTile image;
   private Image mouse, noHover, hover, clicked;
   private Image background;
-  private SoundClip clip;
   private Star[] starfield = new Star[400];
   private Star s;
   private float tempX = 0f, tempY = 0f;
@@ -44,7 +43,7 @@ public class Main extends AbstractGame {
 
       for (int j = 0; j < enemyCount; j++) {
           republic.add(new Boid("republic"));
-          empire.add(new Boid("empire"));
+          //empire.add(new Boid("empire"));
       }
 
     players = new LinkedList<>();
@@ -53,15 +52,14 @@ public class Main extends AbstractGame {
 
     s = new Star();
 
-    players.add(new Ship(new Vector(150, 150, "c"),270));
-    //players.add(new Ship(new Vector(250, 250, "c"),270));
+    players.add(new Ship(new Vector(150, 150, "c"),270,"Player1"));
+    players.add(new Ship(new Vector(250, 250, "c"),270,"Player2"));
 
     for (int j = 0; j < starfield.length; j++) {
       starfield[j] = new Star();
     }
 
-    clip = new SoundClip("/audio/explosion.wav");
-    clip.setVolume(-20);
+
 
     PvP = new Button(100, 100, " PvP");
     PvE = new Button(100, 150, " PvE");
@@ -75,52 +73,57 @@ public class Main extends AbstractGame {
   @Override
   public void update(Engine ge, float dt) {
 
-      //Player 1 Input
-    if(ge.getInput().isKeyDown(KeyEvent.VK_S)) {
-      System.out.println("S was Pressed");
-    }
-    if(ge.getInput().isKeyUp(KeyEvent.VK_S)) {
-      System.out.println("S was Released");
-    }
-	  if(ge.getInput().isKey(KeyEvent.VK_W)){
-		  players.get(0).setBoost(.2);
-	  } else {
-          if(players.size() > 0) players.get(0).setBoost(0);
-	  }
-    if(ge.getInput().isKey(KeyEvent.VK_A) && !ge.getInput().isKey(KeyEvent.VK_D)){
-        players.get(0).turn(-.42);
-    } else if(ge.getInput().isKey(KeyEvent.VK_D)){
-        players.get(0).turn(0.42);
-    } else {
-        if(players.size() > 0) players.get(0).turn(0);
-    }
-    if(ge.getInput().isKeyDown(KeyEvent.VK_SPACE)){
-        players.get(0).shoot();
-    	clip.play();
-    }
+      for(Ship player: players) {
+          //Player 1 Input
+          if(player.playerName.equals("Player1")) {
+              if (ge.getInput().isKeyDown(KeyEvent.VK_S)) {
+                  System.out.println("S was Pressed");
+              }
+              if (ge.getInput().isKeyUp(KeyEvent.VK_S)) {
+                  System.out.println("S was Released");
+              }
+              if (ge.getInput().isKey(KeyEvent.VK_W)) {
+                  player.setBoost(.2);
+              } else {
+                  player.setBoost(0);
+              }
+              if (ge.getInput().isKey(KeyEvent.VK_A) && !ge.getInput().isKey(KeyEvent.VK_D)) {
+                  player.turn(-.42);
+              } else if (ge.getInput().isKey(KeyEvent.VK_D)) {
+                  player.turn(0.42);
+              } else {
+                  player.turn(0);
+              }
+              if (ge.getInput().isKeyDown(KeyEvent.VK_SPACE)) {
+                  player.shoot();
 
-      //Player 2 Input
-      if(ge.getInput().isKeyDown(KeyEvent.VK_DOWN)) {
-          System.out.println("S was Pressed");
-      }
-      if(ge.getInput().isKeyUp(KeyEvent.VK_DOWN)) {
-          System.out.println("S was Released");
-      }
-      if(ge.getInput().isKey(KeyEvent.VK_UP)){
-          players.get(1).setBoost(.2);
-      } else {
-          if(players.size() > 1) players.get(1).setBoost(0);
-      }
-      if(ge.getInput().isKey(KeyEvent.VK_LEFT) && !ge.getInput().isKey(KeyEvent.VK_RIGHT)){
-          players.get(1).turn(-.42);
-      } else if(ge.getInput().isKey(KeyEvent.VK_RIGHT)){
-          players.get(1).turn(0.42);
-      } else {
-          if(players.size() > 1) players.get(1).turn(0);
-      }
-      if(ge.getInput().isKeyDown(KeyEvent.VK_ENTER)){
-          players.get(1).shoot();
-          clip.play();
+              }
+          }
+
+          if(player.playerName.equals("Player2")) {
+              //Player 2 Input
+              if (ge.getInput().isKeyDown(KeyEvent.VK_DOWN)) {
+                  System.out.println("S was Pressed");
+              }
+              if (ge.getInput().isKeyUp(KeyEvent.VK_DOWN)) {
+                  System.out.println("S was Released");
+              }
+              if (ge.getInput().isKey(KeyEvent.VK_UP)) {
+                  player.setBoost(.2);
+              } else {
+                  player.setBoost(0);
+              }
+              if (ge.getInput().isKey(KeyEvent.VK_LEFT) && !ge.getInput().isKey(KeyEvent.VK_RIGHT)) {
+                  player.turn(-.42);
+              } else if (ge.getInput().isKey(KeyEvent.VK_RIGHT)) {
+                  player.turn(0.42);
+              } else {
+                  player.turn(0);
+              }
+              if (ge.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
+                  player.shoot();
+              }
+          }
       }
 
 
