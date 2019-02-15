@@ -14,6 +14,7 @@ public class Boid extends Vehicle {
     private double maxSpeed, maxForce, radiusLength, futureLocationDistance = 80, radAngle = 180;
     Double shotCap = 0.0, attackSpeed = 1.0/10.0;
     boolean alive = true;
+    Vector exPos;
 
 
     //Constructor
@@ -209,6 +210,7 @@ public class Boid extends Vehicle {
                 Double d = this.pos.distance(enemyLaser.getPos());
                 if(d < 20) {
                     count++;
+                    explosions.add(new Explosion(11,5.0));
                 }
             }
 
@@ -223,6 +225,7 @@ public class Boid extends Vehicle {
                 Double d = this.pos.distance(enemyLaser.getPos());
                 if(d < 20) {
                     count++;
+                    explosions.add(new Explosion(11,5.0));
                 }
             }
 
