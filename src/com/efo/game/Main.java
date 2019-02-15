@@ -15,9 +15,9 @@ public class Main extends AbstractGame {
   private SoundClip clip;
   private Star[] starfield = new Star[400];
   private Star s;
-  private Ship ussEnterprise;
   private float tempX = 0f, tempY = 0f;
   private LinkedList<Boid> republic, empire;
+  private LinkedList<Ship> players;
   private int enemyCount = 10;
   private LinkedList<Vector> deathVector;
   private LinkedList<ImageTile> explosions;
@@ -44,15 +44,17 @@ public class Main extends AbstractGame {
 
       for (int j = 0; j < enemyCount; j++) {
           republic.add(new Boid("republic"));
-          //empire.add(new Boid("empire"));
+          empire.add(new Boid("empire"));
       }
 
-
+    players = new LinkedList<>();
 
     background = new Image("/mainMenuBackground.jpg");
 
     s = new Star();
-    ussEnterprise = new Ship(new Vector(150, 150, "c"),270);
+
+    players.add(new Ship(new Vector(150, 150, "c"),270));
+    players.add(new Ship(new Vector(250, 250, "c"),270));
 
     for (int j = 0; j < starfield.length; j++) {
       starfield[j] = new Star();
@@ -72,7 +74,8 @@ public class Main extends AbstractGame {
 
   @Override
   public void update(Engine ge, float dt) {
-      //Player Input
+
+      //Player 1 Input
     if(ge.getInput().isKeyDown(KeyEvent.VK_S)) {
       System.out.println("S was Pressed");
     }
@@ -80,21 +83,46 @@ public class Main extends AbstractGame {
       System.out.println("S was Released");
     }
 	  if(ge.getInput().isKey(KeyEvent.VK_W)){
-		  ussEnterprise.setBoost(.2);
+		  players.get(0).setBoost(.2);
 	  } else {
-		  ussEnterprise.setBoost(0);
+          players.get(0).setBoost(0);
 	  }
     if(ge.getInput().isKey(KeyEvent.VK_A) && !ge.getInput().isKey(KeyEvent.VK_D)){
-      ussEnterprise.turn(-.42);
+        players.get(0).turn(-.42);
     } else if(ge.getInput().isKey(KeyEvent.VK_D)){
-      ussEnterprise.turn(0.42);
+        players.get(0).turn(0.42);
     } else {
-      ussEnterprise.turn(0);
+        players.get(0).turn(0);
     }
     if(ge.getInput().isKeyDown(KeyEvent.VK_SPACE)){
-    	ussEnterprise.shoot();
+        players.get(0).shoot();
     	clip.play();
     }
+
+      //Player 2 Input
+      if(ge.getInput().isKeyDown(KeyEvent.VK_DOWN)) {
+          System.out.println("S was Pressed");
+      }
+      if(ge.getInput().isKeyUp(KeyEvent.VK_DOWN)) {
+          System.out.println("S was Released");
+      }
+      if(ge.getInput().isKey(KeyEvent.VK_UP)){
+          players.get(1).setBoost(.2);
+      } else {
+          players.get(1).setBoost(0);
+      }
+      if(ge.getInput().isKey(KeyEvent.VK_LEFT) && !ge.getInput().isKey(KeyEvent.VK_RIGHT)){
+          players.get(1).turn(-.42);
+      } else if(ge.getInput().isKey(KeyEvent.VK_RIGHT)){
+          players.get(1).turn(0.42);
+      } else {
+          players.get(1).turn(0);
+      }
+      if(ge.getInput().isKeyDown(KeyEvent.VK_ENTER)){
+          players.get(1).shoot();
+          clip.play();
+      }
+
 
       tempX += 1 / 5.0;
       if (tempX > 4) {
@@ -105,7 +133,7 @@ public class Main extends AbstractGame {
           }
       }
 
-      inputPos = new Vector[]{ussEnterprise.pos, new Vector(ge.getInput().getMouseX(), ge.getInput().getMouseY(), "c")};
+      inputPos = new Vector[]{players.get(0).pos, new Vector(ge.getInput().getMouseX(), ge.getInput().getMouseY(), "c")};
       inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
 
 
@@ -165,9 +193,6 @@ public class Main extends AbstractGame {
 
 
 
-    ussEnterprise.update();
-    ussEnterprise.border();
-
       for (Boid xWing: republic) {
           xWing.update(ge.getInput(),empire);
           xWing.border();
@@ -182,6 +207,11 @@ public class Main extends AbstractGame {
           if(tieFighter.dead()) {
               tieFighter.alive = false;
           }
+      }
+
+      for (Ship player: players) {
+          player.update();
+          player.border();
       }
 
   }
@@ -247,8 +277,9 @@ public class Main extends AbstractGame {
       //for (ImageTile expl: explosions) {
 
       //}
-
-    ussEnterprise.show(r);
+      for (Ship player: players) {
+          player.show(r);
+      }
 
 
     r.drawImageTile(image,

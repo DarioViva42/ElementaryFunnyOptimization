@@ -12,6 +12,7 @@ public class Ship extends Vehicle{
     protected double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
+    private int HP;
 
 
     // Constructors --------------------------------
@@ -26,6 +27,7 @@ public class Ship extends Vehicle{
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
         model = new Image("/ship.png");
+        HP = 10;
     }
 
     Ship(Vector pos, double alpha) {
@@ -74,6 +76,39 @@ public class Ship extends Vehicle{
         } else {
             Vehicle.empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
                     new Vector(this.shootForce, alpha, "p")));
+        }
+    }
+
+    public boolean dead() {
+        if (faction.equals("republic")) {
+            for (Projectile enemyLaser: Vehicle.empireLasers) {
+                Double d = this.pos.distance(enemyLaser.getPos());
+                if(d < 20) {
+                    HP--;
+                }
+            }
+
+            if(HP <= 0) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } else if (faction.equals("empire")) {
+            for (Projectile enemyLaser: Vehicle.republicLasers) {
+                Double d = this.pos.distance(enemyLaser.getPos());
+                if(d < 20) {
+                    HP--;
+                }
+            }
+
+            if(HP <= 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 }
