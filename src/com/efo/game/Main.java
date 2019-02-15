@@ -18,12 +18,11 @@ public class Main extends AbstractGame {
   private LinkedList<Ship> players;
   private int enemyCount = 5;
   private LinkedList<Vector> deathVector;
+  private String screen;
 
   private Button settings, PvE, PvP, Exit;
   private Vector[] inputPos;
   private boolean[] inputTest;
-
-  Vector intersection;
 
   public Main() {
 
@@ -53,7 +52,7 @@ public class Main extends AbstractGame {
       starfield[j] = new Star();
     }
 
-
+    screen = "mainMenu";
 
     PvP = new Button(100, 100, " PvP");
     PvE = new Button(100, 150, " PvE");
@@ -132,24 +131,25 @@ public class Main extends AbstractGame {
           inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
       }
 
-      PvE.update(inputPos, inputTest);
-      PvP.update(inputPos, inputTest);
-      settings.update(inputPos, inputTest);
-      Exit.update(inputPos,inputTest);
+      if (screen.equals("mainMenu")) {
+          PvE.update(inputPos, inputTest);
+          PvP.update(inputPos, inputTest);
+          settings.update(inputPos, inputTest);
+          Exit.update(inputPos, inputTest);
 
-      if(PvP.testAction()) {
-          System.out.println("Gehe ins PvP");
+          if (PvP.testAction()) {
+              System.out.println("Gehe ins PvP");
+          }
+          if (settings.testAction()) {
+              System.out.println("Gehe in  Settings");
+          }
+          if (PvE.testAction()) {
+              System.out.println("Gehe ins PvE");
+          }
+          if (Exit.testAction()) {
+              System.exit(0);
+          }
       }
-      if(settings.testAction()) {
-          System.out.println("Gehe in  Settings");
-      }
-      if(PvE.testAction()) {
-          System.out.println("Gehe ins PvE");
-      }
-      if(Exit.testAction()) {
-          System.exit(0);
-      }
-
 
 	  // remove Projectiles that are out of bounds
       for (Projectile empire: Vehicle.empireLasers) {
