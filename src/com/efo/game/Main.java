@@ -10,7 +10,6 @@ import java.util.LinkedList;
 public class Main extends AbstractGame {
 
   private ImageTile image;
-  private Image mouse, noHover, hover, clicked;
   private Image background;
   private Star[] starfield = new Star[400];
   private Star s;
@@ -19,21 +18,16 @@ public class Main extends AbstractGame {
   private LinkedList<Ship> players;
   private int enemyCount = 5;
   private LinkedList<Vector> deathVector;
+  private String screen;
 
   private Button settings, PvE, PvP, Exit;
   private Vector[] inputPos;
   private boolean[] inputTest;
 
-  Vector intersection;
-
   public Main() {
 
 
     image = new ImageTile("/explosion.png", 16, 16);
-    mouse = new Image("/Mouse.png");
-    noHover = new Image("/noHover.png");
-    clicked = new Image("/clicked.png");
-    hover = new Image("/hover.png");
 
     deathVector = new LinkedList<>();
 
@@ -58,7 +52,7 @@ public class Main extends AbstractGame {
       starfield[j] = new Star();
     }
 
-
+    screen = "mainMenu";
 
     PvP = new Button(100, 100, " PvP");
     PvE = new Button(100, 150, " PvE");
@@ -137,24 +131,28 @@ public class Main extends AbstractGame {
           inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
       }
 
-      PvE.update(inputPos, inputTest);
-      PvP.update(inputPos, inputTest);
-      settings.update(inputPos, inputTest);
-      Exit.update(inputPos,inputTest);
+      if (screen.equals("mainMenu")) {
+          PvE.update(inputPos, inputTest);
+          PvP.update(inputPos, inputTest);
+          settings.update(inputPos, inputTest);
+          Exit.update(inputPos, inputTest);
 
-      if(PvP.testAction()) {
-          System.out.println("Gehe ins PvP");
+          if (PvP.testAction()) {
+              screen = "PvP";
+              System.out.println("Gehe ins PvP");
+          }
+          if (settings.testAction()) {
+              screen = "Settings";
+              System.out.println("Gehe in  Settings");
+          }
+          if (PvE.testAction()) {
+              screen = "PvE";
+              System.out.println("Gehe ins PvE");
+          }
+          if (Exit.testAction()) {
+              System.exit(0);
+          }
       }
-      if(settings.testAction()) {
-          System.out.println("Gehe in  Settings");
-      }
-      if(PvE.testAction()) {
-          System.out.println("Gehe ins PvE");
-      }
-      if(Exit.testAction()) {
-          System.exit(0);
-      }
-
 
 	  // remove Projectiles that are out of bounds
       for (Projectile empire: Vehicle.empireLasers) {
@@ -264,10 +262,12 @@ public class Main extends AbstractGame {
 
 
 
-    PvE.show(r);
-    PvP.show(r);
-    settings.show(r);
-    Exit.show(r);
+    if (screen.equals("mainMenu")) {
+        PvE.show(r);
+        PvP.show(r);
+        settings.show(r);
+        Exit.show(r);
+    }
 
     //Draw Ships
       for (Boid xWing: republic) {
@@ -290,11 +290,6 @@ public class Main extends AbstractGame {
       for (Ship player: players) {
           player.show(r);
       }
-
-
-
-    r.drawImage(mouse, ge.getInput().getMouseX(), ge.getInput().getMouseY(), 0);
-
 
 
   }
