@@ -8,7 +8,7 @@ public class HPBar {
 
     Vector pos;
     boolean test = false;
-    int maxHP, x, length = 25;
+    int maxHP, x, length = 25, angle = 90;
     Double tenPercentHP;
     String status = "";
     Image bar = new Image("/fullBar.png");
@@ -17,11 +17,11 @@ public class HPBar {
         x = 1;
         tenPercentHP = ship.getHP()/10.0;
         maxHP = ship.getHP();
-        pos = ship.pos.add(new Vector(length,270,"p"),true);
+        pos = ship.pos.add(new Vector(length,angle,"p"),true);
     }
 
     public void update(Ship ship) {
-        this.pos = ship.pos.add(new Vector(length,270,"p"),true);
+        this.pos = ship.pos.add(new Vector(length,angle,"p"),true);
 
         if(ship.getHP() <= (maxHP - (x * tenPercentHP))) {
             test = true;

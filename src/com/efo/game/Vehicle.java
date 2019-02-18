@@ -66,5 +66,7 @@ public abstract class Vehicle {
         }
     }
 
-
+    public String getFaction() {
+        return faction;
+    }
 }

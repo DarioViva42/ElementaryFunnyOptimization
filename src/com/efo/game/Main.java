@@ -26,7 +26,8 @@ public class Main extends AbstractGame {
 
   private String screen;
 
-  private Button settings, PvE, PvP, Exit;
+  private Button PvE, PvP, Exit;
+  //private Button settings;
   private Vector[] inputPos;
   private boolean[] inputTest;
 
@@ -58,7 +59,7 @@ public class Main extends AbstractGame {
 
       for (int j = 0; j < enemyCount; j++) {
           republic.add(new Boid("republic"));
-          //empire.add(new Boid("empire"));
+          empire.add(new Boid("empire"));
       }
 
     players = new LinkedList<>();
@@ -82,7 +83,7 @@ public class Main extends AbstractGame {
 
     PvP = new Button(100, 100, " PvP");
     PvE = new Button(100, 150, " PvE");
-    settings = new Button(100, 200, "Settings");
+    //settings = new Button(100, 200, "Settings");
     Exit = new Button(385,270," Exit", "/exitHover.png","/exitNoHover.png","/exitClicked.png");
 
     inputPos = new Vector[2];
@@ -92,8 +93,14 @@ public class Main extends AbstractGame {
   @Override
   public void update(Engine ge, float dt) {
 
-
-
+      //Win Situation
+      if(players.size() == 1 && players.get(0).getFaction().equals("republic") && empire.size() == 0) {
+          System.out.println("The Republic has Won!");
+          System.exit(0);
+      } else if(players.size() == 1 && players.get(0).getFaction().equals("empire") && republic.size() == 0) {
+          System.out.println("The Empire has Won!");
+          System.exit(0);
+      }
 
 
       for(Ship player: players) {
@@ -159,17 +166,17 @@ public class Main extends AbstractGame {
       if (screen.equals("mainMenu")) {
           PvE.update(inputPos, inputTest);
           PvP.update(inputPos, inputTest);
-          settings.update(inputPos, inputTest);
+          //settings.update(inputPos, inputTest);
           Exit.update(inputPos, inputTest);
 
           if (PvP.testAction()) {
               screen = "PvP";
               System.out.println("Gehe ins PvP");
           }
-          if (settings.testAction()) {
+          /*if (settings.testAction()) {
               screen = "Settings";
               System.out.println("Gehe in  Settings");
-          }
+          }*/
           if (PvE.testAction()) {
               screen = "PvE";
               System.out.println("Gehe ins PvE");
@@ -317,7 +324,7 @@ public class Main extends AbstractGame {
     if (screen.equals("mainMenu")) {
         PvE.show(r);
         PvP.show(r);
-        settings.show(r);
+        //settings.show(r);
         Exit.show(r);
     }
 
