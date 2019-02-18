@@ -18,6 +18,7 @@ public class Main extends AbstractGame {
   private LinkedList<Boid> republic, empire;
   private LinkedList<Ship> players;
   private int enemyCount = 3;
+  private LinkedList<HPBar> bars;
 
   /*private LinkedList<Vector> deathPos;
   private LinkedList<Vector> deathVel;
@@ -61,13 +62,17 @@ public class Main extends AbstractGame {
       }
 
     players = new LinkedList<>();
+    bars = new LinkedList<>();
 
     background = new Image("/mainMenuBackground.jpg");
 
     s = new Star();
 
     players.add(new Ship(new Vector(150, 150, "c"),270,"Player1", "republic"));
+    bars.add(new HPBar(players.get(0)));
     players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
+    bars.add(new HPBar(players.get(1)));
+
 
     for (int j = 0; j < starField.length; j++) {
       starField[j] = new Star();
@@ -86,7 +91,6 @@ public class Main extends AbstractGame {
 
   @Override
   public void update(Engine ge, float dt) {
-
 
 
 
@@ -211,7 +215,7 @@ public class Main extends AbstractGame {
 
 
 
-
+      //Deathcheck, update xWings pos and check if out of border
       for (Boid xWing: republic) {
           xWing.update(ge.getInput(),republic);
           xWing.border();
@@ -220,6 +224,7 @@ public class Main extends AbstractGame {
           }
       }
 
+      //Deathcheck, update TieFighter pos and check if out of border
       for (Boid tieFighter: empire) {
           tieFighter.update(ge.getInput(),empire);
           tieFighter.border();
@@ -236,20 +241,18 @@ public class Main extends AbstractGame {
           }
       }
 
+      for (int i = 0; i < bars.size(); i++) {
+          bars.get(i).update(players.get(i));
+          if(!players.get(i).alive) {
+              bars.remove(i);
+          }
+      }
+
       /*for (int i = 0; i < deathPos.size(); i++) {
           deathPos.add(deathVel.get(i));
       }*/
 
-  }
 
-
-
-  @Override
-  public void render(Engine ge, Renderer r) {
-
-      /*for (int i = 0; i < deathPos.size(); i++) {
-          deathExplosions.get(i).show(r,deathPos.get(i).add(deathVel.get(i),true));
-      }*/
 
       for (int f = 0; f < republic.size(); f++) {
           if(!republic.get(f).alive) {
@@ -277,6 +280,18 @@ public class Main extends AbstractGame {
               players.remove(f);
           }
       }
+  }
+
+
+
+  @Override
+  public void render(Engine ge, Renderer r) {
+
+      /*for (int i = 0; i < deathPos.size(); i++) {
+          deathExplosions.get(i).show(r,deathPos.get(i).add(deathVel.get(i),true));
+      }*/
+
+
 
 
 
@@ -328,7 +343,9 @@ public class Main extends AbstractGame {
           player.show(r);
       }
 
-
+      for (HPBar bar: bars) {
+          bar.show(r);
+      }
   }
 
   public static void main(String[] args) {

@@ -14,7 +14,7 @@ public class Ship extends Vehicle{
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
     public String playerName;
-    private int HP = 20;
+    private int HP = 10;
     boolean alive = true;
     LinkedList<Vector> exPos = new LinkedList<>();
     int size = 15;
@@ -39,7 +39,7 @@ public class Ship extends Vehicle{
     }
 
     public void update(){
-        System.out.println(this.HP);
+        //System.out.println(this.HP);
 
         vel.add(acc);
         oldPos.setC(pos.getX(), pos.getY());
@@ -133,5 +133,9 @@ public class Ship extends Vehicle{
         } else {
             return false;
         }
+    }
+
+    public int getHP() {
+        return HP;
     }
 }
