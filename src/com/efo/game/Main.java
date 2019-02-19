@@ -11,6 +11,7 @@ import java.util.LinkedList;
 public class Main extends AbstractGame {
 
   private Image background, victory, defeat, royal, rebelV, empireV;
+  private Image soundIcon, musicIcon;
   private Star[] starField = new Star[400];
   private Star s;
   private LinkedList<Boid> rebel, empire;
@@ -26,6 +27,7 @@ public class Main extends AbstractGame {
 
   private String screen;
 
+  private Checkbox sound, music;
   private Button PvE, PvP, Exit, Coop , toMainMenu;
   //private Button settings;
   private Vector[] inputPos;
@@ -98,6 +100,9 @@ public class Main extends AbstractGame {
     Exit = new Button(385,270," Exit", "/exitHover.png","/exitNoHover.png","/exitClicked.png");
     toMainMenu = new Button(385,270," Menu", "/exitHover.png", "/exitNoHover.png", "/exitClicked.png");
 
+
+		sound = new Checkbox(300, 50, soundIcon);
+	  music = new Checkbox(430, 50, musicIcon);
 
     inputPos = new Vector[2];
     inputTest = new boolean[2];
@@ -206,6 +211,9 @@ public class Main extends AbstractGame {
           Coop.update(inputPos, inputTest);
           //settings.update(inputPos, inputTest);
           Exit.update(inputPos, inputTest);
+
+          sound.update(inputPos, inputTest);
+          music.update(inputPos, inputTest);
 
           if(PvP.testAction()) {
               screen = "PvP";
@@ -471,6 +479,9 @@ public class Main extends AbstractGame {
         Coop.show(r);
         //settings.show(r);
         Exit.show(r);
+
+        sound.show(r);
+        music.show(r);
     }
 
     //Draw Ships
