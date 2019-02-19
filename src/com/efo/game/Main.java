@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class Main extends AbstractGame {
 
   private ImageTile image;
-  private Image background;
+  private Image background, soundIcon, musicIcon;
   private Star[] starField = new Star[400];
   private Star s;
   private LinkedList<Boid> republic, empire;
@@ -28,6 +28,7 @@ public class Main extends AbstractGame {
   private String screen;
 
   private Button PvE, PvP, Exit, Coop ,Victory;
+  private Checkbox sound, music;
   //private Button settings;
   private Vector[] inputPos;
   private boolean[] inputTest;
@@ -68,6 +69,8 @@ public class Main extends AbstractGame {
 
 
     background = new Image("/mainMenuBackground.jpg");
+	  soundIcon = new Image("/soundIcon.png");
+	  musicIcon = new Image("/musicIcon.png");
 
     s = new Star();
 
@@ -88,7 +91,8 @@ public class Main extends AbstractGame {
     //settings = new Button(100, 200, "Settings");
     Exit = new Button(385,270," Exit", "/exitHover.png","/exitNoHover.png","/exitClicked.png");
 
-
+		sound = new Checkbox(300, 50, soundIcon);
+	  music = new Checkbox(430, 50, musicIcon);
 
     inputPos = new Vector[2];
     inputTest = new boolean[2];
@@ -186,6 +190,9 @@ public class Main extends AbstractGame {
           //settings.update(inputPos, inputTest);
           Exit.update(inputPos, inputTest);
 
+          sound.update(inputPos, inputTest);
+          music.update(inputPos, inputTest);
+
           if(PvP.testAction()) {
               screen = "PvP";
               System.out.println("Gehe ins PvP");
@@ -198,7 +205,7 @@ public class Main extends AbstractGame {
 
           if(Coop.testAction()) {
               screen = "Coop";
-              System.out.println("Geh in den Coop! Nicht in Migros");
+              System.out.println("Geh in den Coop! Nicht in die Migros");
           }
 
           /*if (settings.testAction()) {
@@ -377,6 +384,9 @@ public class Main extends AbstractGame {
         Coop.show(r);
         //settings.show(r);
         Exit.show(r);
+
+        sound.show(r);
+        music.show(r);
     }
 
     //Draw Ships
