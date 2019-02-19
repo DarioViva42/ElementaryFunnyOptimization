@@ -3,7 +3,6 @@ package com.efo.game;
 import com.efo.engine.*;
 import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
-import com.efo.engine.gfx.ImageTile;
 
 import javax.sound.sampled.Line;
 import java.awt.event.KeyEvent;
@@ -12,14 +11,14 @@ import java.util.LinkedList;
 public class Main extends AbstractGame {
 
   private ImageTile image;
-  private Image background, soundIcon, musicIcon;
+  private Image background, victory, soundIcon, musicIcon;
   private Star[] starField = new Star[400];
   private Star s;
   private LinkedList<Boid> republic, empire;
   private LinkedList<Ship> players;
   private int enemyCount = 3;
   private LinkedList<HPBar> bars;
-  private boolean pvpSetupAllreadyExecuted = false, pveSetupAllreadyExecuted = false, victoryAllreadyExecuted = false;
+  private boolean setupAllreadyExecuted = false, victoryAllreadyExecuted = false;
 
   /*private LinkedList<Vector> deathPos;
   private LinkedList<Vector> deathVel;
@@ -27,8 +26,8 @@ public class Main extends AbstractGame {
 
   private String screen;
 
-  private Button PvE, PvP, Exit, Coop ,Victory;
   private Checkbox sound, music;
+  private Button PvE, PvP, Exit, Coop , toMainMenu;
   //private Button settings;
   private Vector[] inputPos;
   private boolean[] inputTest;
@@ -50,7 +49,6 @@ public class Main extends AbstractGame {
       Vehicle.sounds.get(5).setVolume(-20);
 
 
-    image = new ImageTile("/explosion.png", 16, 16);
 
     /*deathPos = new LinkedList<>();
     deathVel = new LinkedList<>();
@@ -69,6 +67,7 @@ public class Main extends AbstractGame {
 
 
     background = new Image("/mainMenuBackground.jpg");
+    victory = new Image("/victory.png");
 	  soundIcon = new Image("/soundIcon.png");
 	  musicIcon = new Image("/musicIcon.png");
 
@@ -90,6 +89,8 @@ public class Main extends AbstractGame {
     Coop = new Button(100, 200, " Coop");
     //settings = new Button(100, 200, "Settings");
     Exit = new Button(385,270," Exit", "/exitHover.png","/exitNoHover.png","/exitClicked.png");
+    toMainMenu = new Button(385,270," Menu", "/exitHover.png", "/exitNoHover.png", "/exitClicked.png");
+
 
 		sound = new Checkbox(300, 50, soundIcon);
 	  music = new Checkbox(430, 50, musicIcon);
@@ -116,8 +117,8 @@ public class Main extends AbstractGame {
       if(screen.equals("PvE")) {
           if(players.size() == 0) {
               System.out.println("You Lost!");
-          } else if(players.size() > 0) {
-
+          } else if(republic.size() == 0 && empire.size() == 0) {
+              screen = "victory";
           }
       }
 
@@ -183,6 +184,7 @@ public class Main extends AbstractGame {
       }
 
       if (screen.equals("mainMenu") && players.size() > 0) {
+          setupAllreadyExecuted = false;
 
           PvE.update(inputPos, inputTest);
           PvP.update(inputPos, inputTest);
@@ -208,7 +210,7 @@ public class Main extends AbstractGame {
               System.out.println("Geh in den Coop! Nicht in die Migros");
           }
 
-          /*if (settings.testAction()) {
+          /*if(settings.testAction()) {
               screen = "Settings";
               System.out.println("Gehe in  Settings");
           }*/
@@ -219,29 +221,45 @@ public class Main extends AbstractGame {
       }
 
       if(screen.equals("PvP")) {
-          if(!pvpSetupAllreadyExecuted) {
+          if(!setupAllreadyExecuted) {
 
               //Player 2 is being initiated
               players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
               bars.add(new HPBar(players.get(1)));
 
 
-            pvpSetupAllreadyExecuted = true;
+            setupAllreadyExecuted = true;
           }
       }
 
       if(screen.equals("PvE")) {
-          if(!pveSetupAllreadyExecuted) {
-              for (int j = 0; j < enemyCount; j++) {
-                  republic.add(new Boid("republic"));
+          if(!setupAllreadyExecuted) {
+              for(int j = 0; j < enemyCount; j++) {
+                  //republic.add(new Boid("republic"));
                   empire.add(new Boid("empire"));
               }
 
 
 
-              pveSetupAllreadyExecuted = true;
+              setupAllreadyExecuted = true;
           }
       }
+
+      if(screen.equals("Coop")) {
+          if(!setupAllreadyExecuted) {
+
+
+          }
+      }
+
+      if(screen.equals("victory")) {
+          toMainMenu.update(inputPos,inputTest);
+
+          if(toMainMenu.testAction()) {
+              screen = "mainMenu";
+          }
+      }
+
 
 	  // remove Projectiles that are out of bounds
       for (Projectile empire: Vehicle.empireLasers) {
@@ -399,6 +417,11 @@ public class Main extends AbstractGame {
         }
     }
 
+    if(screen.equals("victory")) {
+        r.drawImage(victory,240,160,0);
+        toMainMenu.show(r);
+    }
+
       //explosions.add(new ImageTile("/explosion.png",16,16));
 
 
@@ -420,9 +443,7 @@ public class Main extends AbstractGame {
       }
 
 
-      if(screen.equals("Victory")) {
-          Victory.show(r);
-      }
+
   }
 
   public static void main(String[] args) {
