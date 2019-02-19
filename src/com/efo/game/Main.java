@@ -18,8 +18,7 @@ public class Main extends AbstractGame {
   private LinkedList<Ship> players;
   private int enemyCount = 20;
   private LinkedList<HPBar> bars;
-  private boolean setupAllreadyExecuted = false, executed1 = false, executed = false, test = false
-          ;
+  private boolean setupAllreadyExecuted = false, executed1 = false, executed = false, test = false;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
 
   /*private LinkedList<Vector> deathPos;
@@ -212,7 +211,7 @@ public class Main extends AbstractGame {
           if(!executed1) {
               pveMusic.stop();
               pvpMusic.stop();
-              menuMusic.play();
+              if(music.testState()) menuMusic.play();
               executed1 = true;
           }
           if (music.testAction()){
@@ -270,7 +269,7 @@ public class Main extends AbstractGame {
             players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
             bars.add(new HPBar(players.get(1)));
 
-            pvpMusic.play();
+            if(music.testState()) pvpMusic.play();
 
             setupAllreadyExecuted = true;
           }
@@ -283,8 +282,7 @@ public class Main extends AbstractGame {
                   empire.add(new Boid("empire"));
               }
 
-              pveMusic.play();
-
+              if(music.testState()) pveMusic.play();
 
               setupAllreadyExecuted = true;
           }
@@ -301,7 +299,7 @@ public class Main extends AbstractGame {
               players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "rebel"));
               bars.add(new HPBar(players.get(1)));
 
-              pveMusic.play();
+              if(music.testState()) pveMusic.play();
 
 
               setupAllreadyExecuted = true;
