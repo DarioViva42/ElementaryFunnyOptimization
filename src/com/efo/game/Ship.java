@@ -51,8 +51,10 @@ public class Ship extends Vehicle{
         //drag
         double l = this.vel.getLength();
         double a = this.vel.getAngle();
+
         //Velocity Drag
         this.vel.setP(0.98 * l, a);
+
         //Turning Drag
         this.alphaVel *= 0.937;
 

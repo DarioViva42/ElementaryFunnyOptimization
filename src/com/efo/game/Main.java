@@ -200,6 +200,14 @@ public class Main extends AbstractGame {
           }
       }
 
+      if(screen.equals("Coop")) {
+          if(players.size() == 0) {
+              screen = "defeat";
+          } else if(empire.size() == 0) {
+              screen = "victory";
+          }
+      }
+
       if (screen.equals("mainMenu") && players.size() > 0) {
           if(!executed1) {
               pveMusic.stop();
@@ -276,8 +284,19 @@ public class Main extends AbstractGame {
 
       if(screen.equals("Coop")) {
           if(!setupAllreadyExecuted) {
+              for(int j = 0; j < enemyCount; j++) {
+                  //rebel.add(new Boid("rebel"));
+                  empire.add(new Boid("empire"));
+              }
+
+              //Player 2 is being initiated
+              players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "rebel"));
+              bars.add(new HPBar(players.get(1)));
+
+              pveMusic.play();
 
 
+              setupAllreadyExecuted = true;
           }
       }
 
@@ -499,13 +518,16 @@ public class Main extends AbstractGame {
 
     //Draw Ships
     if(screen.equals("PvE")) {
-        for (Boid xWing : rebel) {
-            xWing.show(r);
-        }
-        for (Boid tieFighter : empire) {
+        for(Boid tieFighter : empire) {
             tieFighter.show(r);
         }
     }
+
+      if(screen.equals("Coop")) {
+          for(Boid tieFighter : empire) {
+              tieFighter.show(r);
+          }
+      }
 
     if(screen.equals("defeat")) {
        r.drawImage(defeat,240,160,0);
@@ -530,6 +552,8 @@ public class Main extends AbstractGame {
         r.drawImage(empireV,240,160,0);
         toMainMenu.show(r);
     }
+
+
 
 
       for (Projectile projectile: Vehicle.empireLasers) {
