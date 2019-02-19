@@ -95,16 +95,16 @@ public class Button {
                 on.play();
             }
             state = "clicked";
-        } else if (Arrays.asList(states).contains("hover") || Arrays.asList(states).contains("movedIn")){
-            if (state.equals("clicked") && sound){
-                off.play();
-            }
-            state = "hover";
         } else if(Arrays.asList(states).contains("released")){
             if (state.equals("clicked") && sound){
                 off.play();
             }
             state = "released";
+        } else if (Arrays.asList(states).contains("hover") || Arrays.asList(states).contains("movedIn")){
+            if (state.equals("clicked") && sound){
+                off.play();
+            }
+            state = "hover";
         } else{
             if (state.equals("clicked") && sound){
                 off.play();
