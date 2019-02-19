@@ -54,7 +54,7 @@ public class Ship extends Vehicle{
         //Velocity Drag
         this.vel.setP(0.98 * l, a);
         //Turning Drag
-        this.alphaVel *= 0.92;
+        this.alphaVel *= 0.937;
 
         if(shotCap<=1) {
 	        shotCap += attackSpeed;
