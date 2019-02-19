@@ -18,7 +18,8 @@ public class Main extends AbstractGame {
   private LinkedList<Ship> players;
   private int enemyCount = 10;
   private LinkedList<HPBar> bars;
-  private boolean setupAllreadyExecuted = false, executed1 = false, executed = false;
+  private boolean setupAllreadyExecuted = false, executed1 = false, executed = false, test = false
+          ;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound, randSoundFull;
 
   /*private LinkedList<Vector> deathPos;
@@ -229,13 +230,13 @@ public class Main extends AbstractGame {
           if(PvE.testAction()) {
               screen = "PvE";
               System.out.println("Gehe ins PvE");
-                  menuMusic.stop();
+              menuMusic.stop();
           }
 
           if(Coop.testAction()) {
               screen = "Coop";
               System.out.println("Geh in den Coop! Nicht in Migros");
-                  menuMusic.stop();
+              menuMusic.stop();
           }
 
           /*if(settings.testAction()) {
@@ -286,6 +287,8 @@ public class Main extends AbstractGame {
 
           if(!executed) {
               players.clear();
+              rebel.clear();
+              empire.clear();
               bars.clear();
               players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
               bars.add(new HPBar(players.get(0)));
@@ -301,6 +304,9 @@ public class Main extends AbstractGame {
       }
 
       if(screen.equals("victory")) {
+
+          int rand = Vector.getRandomNumberInRange(0,1000);
+          int rand1 = Vector.getRandomNumberInRange(0,50);
 
           if(!executed) {
               players.clear();
