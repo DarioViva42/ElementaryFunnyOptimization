@@ -88,32 +88,39 @@ public class Ship extends Vehicle{
         this.acc.setP(boost, this.alpha);
     }
 
-    public void shoot() {
+    public void shoot(boolean sound) {
 
         if(this.faction.equals("rebel")) {
 	        if(shotCap >= 1) {
 		        Vehicle.rebelLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
 				        new Vector(this.shootForce, alpha, "p")));
-		        sounds.get(5).play();
+		        if(sound){
+			        sounds.get(5).play();
+		        }
+
 		        shotCap = 0.0;
 	        }
         } else {
 	        if(shotCap >= 1) {
 		        Vehicle.empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
 				        new Vector(this.shootForce, alpha, "p")));
-		        sounds.get(5).play();
+		        if(sound){
+			        sounds.get(5).play();
+		        }
 		        shotCap = 0.0;
 	        }
         }
     }
 
-    public boolean hit() {
+    public boolean hit(boolean sound) {
         if (faction.equals("rebel")) {
             for (int i = 0; i < empireLasers.size();i++) {
                 Double d = this.pos.distance(empireLasers.get(i).getPos());
                 if(d < size) {
                     HP--;
-                    sounds.get(0).play();
+                    if(sound){
+	                    sounds.get(0).play();
+                    }
                     exPos.add(new Vector(Math.random()*10,Math.random()*360,"p"));
                     explosions.add(new Explosion(11,5.0));
                     empireLasers.remove(i);
@@ -131,7 +138,9 @@ public class Ship extends Vehicle{
                 Double d = this.pos.distance(rebelLasers.get(i).getPos());
                 if(d < size) {
                     HP--;
-                    sounds.get(0).play();
+                    if(sound){
+	                    sounds.get(0).play();
+                    }
                     exPos.add(new Vector(Math.random()*13,Math.random()*360,"p"));
                     explosions.add(new Explosion(11,5.0));
                     rebelLasers.remove(i);

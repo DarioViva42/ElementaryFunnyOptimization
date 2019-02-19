@@ -1,5 +1,6 @@
 package com.efo.engine;
 
+import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 
 import java.util.Arrays;
@@ -9,6 +10,7 @@ public class Button {
     private Image noHover, hover, clicked;
     private int offX, offY, width, height;
     private String [] states;
+    private SoundClip on, off;
 
     public Button(int offX, int offY, String name) {
         state = "noHover";
@@ -22,6 +24,9 @@ public class Button {
         this.offY = offY;
         width = noHover.getW();
         height = noHover.getH();
+
+        on = new SoundClip("/audio/buttonOn.wav");
+        off = new SoundClip("/audio/buttonOff.wav");
     }
 
     public Button(int offX, int offY, String name, String hoverPath, String noHoverPath, String clickedPath) {
@@ -36,9 +41,12 @@ public class Button {
         this.offY = offY;
         width = noHover.getW();
         height = noHover.getH();
+
+        on = new SoundClip("/audio/buttonOn.wav");
+        off = new SoundClip("/audio/buttonOff.wav");
     }
 
-    public void update(Vector[] objects, boolean[] tests){
+    public void update(Vector[] objects, boolean[] tests, boolean sound){
         // Eingaben passen nicht
         if (objects.length != tests.length /*|| objects.length != 2*/){
             System.out.println("Da lief was falsch in Update Button");
@@ -83,23 +91,31 @@ public class Button {
             }
         }
         if (Arrays.asList(states).contains("clicked")){
+            if (!state.equals("clicked") && sound){
+                on.play();
+            }
             state = "clicked";
-        } else if (Arrays.asList(states).contains("released")){
-            state = "released";
-        } else if (Arrays.asList(states).contains("movedIn")){
-            state = "movedIn";
-        } else if (Arrays.asList(states).contains("hover")){
+        } else if (Arrays.asList(states).contains("hover") || Arrays.asList(states).contains("movedIn")){
+            if (state.equals("clicked") && sound){
+                off.play();
+            }
             state = "hover";
-        } else if (Arrays.asList(states).contains("draggedAway")){
-            state = "draggedAway";
+        } else if(Arrays.asList(states).contains("released")){
+            if (state.equals("clicked") && sound){
+                off.play();
+            }
+            state = "released";
         } else{
+            if (state.equals("clicked") && sound){
+                off.play();
+            }
             state = "noHover";
         }
     }
 
     public void show(Renderer r){
         switch (state){
-            case "hover": case "released": case "movedIn":
+            case "hover": case "released":
                 r.drawImage(hover, offX, offY, 0);
                 r.drawText(name, offX - width/2 + 20, offY - height/2 + 13, 0x8f858af2);
                 break;
@@ -107,7 +123,7 @@ public class Button {
                 r.drawImage(clicked, offX, offY + 1, 0);
                 r.drawText(name, offX - width/2 + 20, offY - height/2 + 14, 0x6F858af2);
                 break;
-            case "noHover": case "draggedAway":
+            case "noHover":
                 r.drawImage(noHover, offX, offY, 0);
                 r.drawText(name, offX - width/2 + 20, offY - height/2 + 13, 0xFF858af2);
                 break;
