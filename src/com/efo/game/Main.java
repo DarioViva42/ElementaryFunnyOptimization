@@ -20,6 +20,7 @@ public class Main extends AbstractGame {
   private LinkedList<HPBar> bars;
   private boolean setupAllreadyExecuted = false, executed1 = false, executed = false, test = false;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
+  private int rand1;
 
   /*private LinkedList<Vector> deathPos;
   private LinkedList<Vector> deathVel;
@@ -211,13 +212,13 @@ public class Main extends AbstractGame {
           if(!executed1) {
               pveMusic.stop();
               pvpMusic.stop();
-              if(music.testState()) menuMusic.play();
+              if(music.testState()) menuMusic.loop();
               executed1 = true;
           }
           if (music.testAction()){
             if(music.testState()){
               menuMusic.stop();
-              menuMusic.play();
+              menuMusic.loop();
             } else {
               menuMusic.stop();
             }
@@ -269,7 +270,7 @@ public class Main extends AbstractGame {
             players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
             bars.add(new HPBar(players.get(1)));
 
-            if(music.testState()) pvpMusic.play();
+            if(music.testState()) pvpMusic.loop();
 
             setupAllreadyExecuted = true;
           }
@@ -282,7 +283,7 @@ public class Main extends AbstractGame {
                   empire.add(new Boid("empire"));
               }
 
-              if(music.testState()) pveMusic.play();
+              if(music.testState()) pveMusic.loop();
 
               setupAllreadyExecuted = true;
           }
@@ -299,7 +300,7 @@ public class Main extends AbstractGame {
               players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "rebel"));
               bars.add(new HPBar(players.get(1)));
 
-              if(music.testState()) pveMusic.play();
+              if(music.testState()) pveMusic.loop();
 
 
               setupAllreadyExecuted = true;
@@ -328,11 +329,15 @@ public class Main extends AbstractGame {
 
       if(screen.equals("victory")) {
 
-          int rand1 = Vector.getRandomNumberInRange(0,50);
+
+          System.out.println(rand1);
+
+          if(rand1 == 42) {test = true; pveMusic.stop(); randSound.loop();}
 
           if(!executed) {
 
-              if(rand1 == 42) {test = true; pveMusic.stop(); randSound.loop();}
+              rand1 = Vector.getRandomNumberInRange(0,50);
+
 
               players.clear();
               bars.clear();
