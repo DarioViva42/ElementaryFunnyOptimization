@@ -30,34 +30,24 @@ public class HPBar {
 
         if(x == 1) {
             if(test) test = false; bar = new Image("/fullBar.png");
-            //full
         } else if(x == 2) {
             if(test) test = false; bar = new Image("/90Bar.png");
-            //90
         } else if(x == 3) {
             if(test) test = false; bar = new Image("/80Bar.png");
-            //80
         } else if(x == 4) {
             if(test) test = false; bar = new Image("/70Bar.png");
-            //70
         } else if(x == 5) {
             if(test) test = false; bar = new Image("/60Bar.png");
-            //60
         } else if(x == 6) {
             if(test) test = false; bar = new Image("/50Bar.png");
-            //50
         } else if(x == 7) {
             if(test) test = false; bar = new Image("/40Bar.png");
-            //40
         } else if(x == 8) {
             if(test) test = false; bar = new Image("/30Bar.png");
-            //30
         } else if(x == 9) {
             if(test) test = false; bar = new Image("/20Bar.png");
-            //20
         } else if(x == 10) {
             if(test) test = false; bar = new Image("/10Bar.png");
-            //10
         }
     }
 

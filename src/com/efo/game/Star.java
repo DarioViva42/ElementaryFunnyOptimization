@@ -39,7 +39,7 @@ public class Star {
         double sY = random(0,height);
         pos = new Vector(sX,sY,"c");
 
-        sVel = 0.1;
+        sVel = 0.01;
         this.vel = new Vector(sVel,sAngle,"p");
         //newSizeVel();
     }

@@ -19,6 +19,7 @@ public class Main extends AbstractGame {
   private LinkedList<Ship> players;
   private int enemyCount = 3;
   private LinkedList<HPBar> bars;
+  private boolean pvpSetupAllreadyExecuted = false, pveSetupAllreadyExecuted = false, victoryAllreadyExecuted = false;
 
   /*private LinkedList<Vector> deathPos;
   private LinkedList<Vector> deathVel;
@@ -26,7 +27,7 @@ public class Main extends AbstractGame {
 
   private String screen;
 
-  private Button PvE, PvP, Exit;
+  private Button PvE, PvP, Exit, Coop ,Victory;
   //private Button settings;
   private Vector[] inputPos;
   private boolean[] inputTest;
@@ -57,22 +58,22 @@ public class Main extends AbstractGame {
     republic = new LinkedList<>();
     empire = new LinkedList<>();
 
-      for (int j = 0; j < enemyCount; j++) {
-          republic.add(new Boid("republic"));
-          empire.add(new Boid("empire"));
-      }
-
     players = new LinkedList<>();
     bars = new LinkedList<>();
+
+    //Player 1 is being initiated
+    players.add(new Ship(new Vector(150, 150, "c"),270,"Player1", "republic"));
+    bars.add(new HPBar(players.get(0)));
+
+
 
     background = new Image("/mainMenuBackground.jpg");
 
     s = new Star();
 
-    players.add(new Ship(new Vector(150, 150, "c"),270,"Player1", "republic"));
-    bars.add(new HPBar(players.get(0)));
-    players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
-    bars.add(new HPBar(players.get(1)));
+
+
+
 
 
     for (int j = 0; j < starField.length; j++) {
@@ -83,23 +84,37 @@ public class Main extends AbstractGame {
 
     PvP = new Button(100, 100, " PvP");
     PvE = new Button(100, 150, " PvE");
+    Coop = new Button(100, 200, " Coop");
     //settings = new Button(100, 200, "Settings");
     Exit = new Button(385,270," Exit", "/exitHover.png","/exitNoHover.png","/exitClicked.png");
+
+
 
     inputPos = new Vector[2];
     inputTest = new boolean[2];
   }
 
+  // ------------------------------------UPDATE---------------------------------------------
+
   @Override
   public void update(Engine ge, float dt) {
 
-      //Win Situation
-      if(players.size() == 1 && players.get(0).getFaction().equals("republic") && empire.size() == 0) {
-          System.out.println("The Republic has Won!");
-          System.exit(0);
-      } else if(players.size() == 1 && players.get(0).getFaction().equals("empire") && republic.size() == 0) {
-          System.out.println("The Empire has Won!");
-          System.exit(0);
+      //Win Situations
+
+      if(screen.equals("PvP")) {
+          if(players.size() == 1 && players.get(0).getFaction().equals("republic") && empire.size() == 0) {
+              System.out.println("The Republic has Won!");
+          } else if (players.size() == 1 && players.get(0).getFaction().equals("empire") && republic.size() == 0) {
+              System.out.println("The Empire has Won!");
+          }
+      }
+
+      if(screen.equals("PvE")) {
+          if(players.size() == 0) {
+              System.out.println("You Lost!");
+          } else if(players.size() > 0) {
+
+          }
       }
 
 
@@ -163,26 +178,61 @@ public class Main extends AbstractGame {
           inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
       }
 
-      if (screen.equals("mainMenu")) {
+      if (screen.equals("mainMenu") && players.size() > 0) {
+
           PvE.update(inputPos, inputTest);
           PvP.update(inputPos, inputTest);
+          Coop.update(inputPos, inputTest);
           //settings.update(inputPos, inputTest);
           Exit.update(inputPos, inputTest);
 
-          if (PvP.testAction()) {
+          if(PvP.testAction()) {
               screen = "PvP";
               System.out.println("Gehe ins PvP");
           }
+
+          if(PvE.testAction()) {
+              screen = "PvE";
+              System.out.println("Gehe ins PvE");
+          }
+
+          if(Coop.testAction()) {
+              screen = "Coop";
+              System.out.println("Geh in den Coop! Nicht in Migros");
+          }
+
           /*if (settings.testAction()) {
               screen = "Settings";
               System.out.println("Gehe in  Settings");
           }*/
-          if (PvE.testAction()) {
-              screen = "PvE";
-              System.out.println("Gehe ins PvE");
-          }
-          if (Exit.testAction()) {
+
+          if(Exit.testAction()) {
               System.exit(0);
+          }
+      }
+
+      if(screen.equals("PvP")) {
+          if(!pvpSetupAllreadyExecuted) {
+
+              //Player 2 is being initiated
+              players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
+              bars.add(new HPBar(players.get(1)));
+
+
+            pvpSetupAllreadyExecuted = true;
+          }
+      }
+
+      if(screen.equals("PvE")) {
+          if(!pveSetupAllreadyExecuted) {
+              for (int j = 0; j < enemyCount; j++) {
+                  republic.add(new Boid("republic"));
+                  empire.add(new Boid("empire"));
+              }
+
+
+
+              pveSetupAllreadyExecuted = true;
           }
       }
 
@@ -324,17 +374,20 @@ public class Main extends AbstractGame {
     if (screen.equals("mainMenu")) {
         PvE.show(r);
         PvP.show(r);
+        Coop.show(r);
         //settings.show(r);
         Exit.show(r);
     }
 
     //Draw Ships
-      for (Boid xWing: republic) {
-          xWing.show(r);
+    if(screen.equals("PvE")) {
+        for (Boid xWing : republic) {
+            xWing.show(r);
+        }
+        for (Boid tieFighter : empire) {
+            tieFighter.show(r);
+        }
     }
-      for (Boid tieFighter: empire) {
-          tieFighter.show(r);
-      }
 
       //explosions.add(new ImageTile("/explosion.png",16,16));
 
@@ -346,12 +399,19 @@ public class Main extends AbstractGame {
       //for (ImageTile expl: explosions) {
 
       //}
+
+
       for (Ship player: players) {
           player.show(r);
       }
 
-      for (HPBar bar: bars) {
+      for (HPBar bar : bars) {
           bar.show(r);
+      }
+
+
+      if(screen.equals("Victory")) {
+          Victory.show(r);
       }
   }
 
