@@ -17,7 +17,7 @@ public class Ship extends Vehicle{
     private int HP = 100;
     boolean alive = true;
     LinkedList<Vector> exPos = new LinkedList<>();
-		Double shotCap = 0.0, attackSpeed = 1.0/10.0;
+		Double shotCap = 0.0, attackSpeed = 1.0/15.0;
     int size = 15;
 
 
@@ -54,7 +54,7 @@ public class Ship extends Vehicle{
         //Velocity Drag
         this.vel.setP(0.98 * l, a);
         //Turning Drag
-        this.alphaVel *= 0.96;
+        this.alphaVel *= 0.92;
 
         if(shotCap<=1) {
 	        shotCap += attackSpeed;

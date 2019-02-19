@@ -12,7 +12,7 @@ public class Boid extends Vehicle {
     //Attributes
     private Vector rad, desired, steer;
     private double maxSpeed, maxForce, radiusLength, futureLocationDistance = 80, radAngle = 180;
-    Double shotCap = 0.0, attackSpeed = 1.0/10.0;
+    Double shotCap = 0.0, attackSpeed = 1.0/20.0;
     boolean alive = true;
     Vector exPos;
     LinkedList<Vehicle> currentTargets;
