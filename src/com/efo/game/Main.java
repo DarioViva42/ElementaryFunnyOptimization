@@ -139,7 +139,7 @@ public class Main extends AbstractGame {
               } else {
                   player.turn(0);
               }
-              if (ge.getInput().isKeyDown(KeyEvent.VK_C)) {
+              if (ge.getInput().isKey(KeyEvent.VK_C)) {
                   player.shoot();
 
               }
@@ -165,7 +165,7 @@ public class Main extends AbstractGame {
               } else {
                   player.turn(0);
               }
-              if (ge.getInput().isKeyDown(KeyEvent.VK_B)) {
+              if (ge.getInput().isKey(KeyEvent.VK_B)) {
                   player.shoot();
               }
           }

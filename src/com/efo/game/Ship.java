@@ -17,6 +17,7 @@ public class Ship extends Vehicle{
     private int HP = 10;
     boolean alive = true;
     LinkedList<Vector> exPos = new LinkedList<>();
+		Double shotCap = 0.0, attackSpeed = 1.0/10.0;
     int size = 15;
 
 
@@ -55,6 +56,10 @@ public class Ship extends Vehicle{
         //Turning Drag
         this.alphaVel *= 0.96;
 
+        if(shotCap<=1) {
+	        shotCap += attackSpeed;
+        }
+
         for (Explosion ex: explosions) {
             ex.update();
         }
@@ -84,13 +89,19 @@ public class Ship extends Vehicle{
     public void shoot() {
 
         if(this.faction.equals("republic")) {
-            Vehicle.republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
-                    new Vector(this.shootForce, alpha, "p")));
-            sounds.get(5).play();
+	        if(shotCap >= 1) {
+		        Vehicle.republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
+				        new Vector(this.shootForce, alpha, "p")));
+		        sounds.get(5).play();
+		        shotCap = 0.0;
+	        }
         } else {
-            Vehicle.empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
-                    new Vector(this.shootForce, alpha, "p")));
-            sounds.get(5).play();
+	        if(shotCap >= 1) {
+		        Vehicle.empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
+				        new Vector(this.shootForce, alpha, "p")));
+		        sounds.get(5).play();
+		        shotCap = 0.0;
+	        }
         }
     }
 
