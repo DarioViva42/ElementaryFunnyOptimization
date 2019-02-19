@@ -4,7 +4,7 @@ import com.efo.engine.gfx.Image;
 
 public class Checkbox {
 	private Button unticked, ticked;
-	private int offX, offY, width, height;
+	private int offX, offY;
 	private boolean state;
 	private Image icon;
 

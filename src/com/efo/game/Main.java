@@ -84,6 +84,9 @@ public class Main extends AbstractGame {
     rebelV = new Image("/rebelWin.png");
     empireV = new Image("/empireWin.png");
 
+    soundIcon = new Image("/soundIcon.png");
+    musicIcon = new Image("/musicIcon.png");
+
     s = new Star();
 
 
@@ -101,8 +104,8 @@ public class Main extends AbstractGame {
     toMainMenu = new Button(385,270," Menu", "/exitHover.png", "/exitNoHover.png", "/exitClicked.png");
 
 
-		sound = new Checkbox(300, 50, soundIcon);
-	  music = new Checkbox(430, 50, musicIcon);
+    sound = new Checkbox(300, 50, soundIcon);
+    music = new Checkbox(430, 50, musicIcon);
 
     inputPos = new Vector[2];
     inputTest = new boolean[2];
