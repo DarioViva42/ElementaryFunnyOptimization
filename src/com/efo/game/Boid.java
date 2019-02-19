@@ -15,11 +15,14 @@ public class Boid extends Vehicle {
     Double shotCap = 0.0, attackSpeed = 1.0/10.0;
     boolean alive = true;
     Vector exPos;
+    LinkedList<Vehicle> currentTargets;
 
     int laserSound = Vector.getRandomNumberInRange(1,3);
 
     //Constructor
     public Boid(String Faction) {
+
+        currentTargets = new LinkedList<>();
 
         pos = new Vector((int)(Math.random() * 480), (int) (Math.random() * 320), "c");
         oldPos = new Vector(0,0,"p");
@@ -184,6 +187,7 @@ public class Boid extends Vehicle {
             boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 30;
             if ((diff.getLength() > 0) && (diff.getLength() < 200) && isTargetFront) {
                 //sum.add(other.vel);
+                currentTargets.add(other);
                 count++;
             }
         }
@@ -194,6 +198,7 @@ public class Boid extends Vehicle {
                 boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 30;
                 if ((diff.getLength() > 0) && (diff.getLength() < 200) && isTargetFront) {
                     //sum.add(other.vel);
+                    currentTargets.add(player);
                     count++;
                 }
             }
@@ -201,6 +206,11 @@ public class Boid extends Vehicle {
 
         if(count > 0) {
             shoot();
+            for (Vehicle ship: currentTargets) {
+                applyForce(seek(ship.getPos()));
+            }
+        } else if(count == 0) {
+            currentTargets.clear();
         }
     }
 
@@ -269,12 +279,12 @@ public class Boid extends Vehicle {
 
 
     Vector seek(Vector target) {
-        Vector desired = target.sub(pos, true);
+        Vector desired = pos.sub(target, true);
 
         desired.setLength(1);
         desired.mult(maxSpeed);
 
-        Vector steer = desired.sub(vel,true);
+        Vector steer = vel.sub(desired,true);
         steer.limit(maxForce);  // Limit to maximum steering force
         return steer;
     }

@@ -16,11 +16,11 @@ public class Main extends AbstractGame {
   private Star s;
   private LinkedList<Boid> rebel, empire;
   private LinkedList<Ship> players;
-  private int enemyCount = 10;
+  private int enemyCount = 20;
   private LinkedList<HPBar> bars;
   private boolean setupAllreadyExecuted = false, executed1 = false, executed = false, test = false
           ;
-  private SoundClip menuMusic, pveMusic, pvpMusic, randSound, randSoundFull;
+  private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
 
   /*private LinkedList<Vector> deathPos;
   private LinkedList<Vector> deathVel;
@@ -56,12 +56,10 @@ public class Main extends AbstractGame {
       pveMusic = new SoundClip("/audio/pveMusic.wav");
       pvpMusic= new SoundClip("/audio/pvpMusic.wav");
       randSound = new SoundClip("/audio/randSound.wav");
-      randSoundFull = new SoundClip("/audio/randSoundFull.wav");
 
       menuMusic.setVolume(-20);
       pveMusic.setVolume(-20);
       pvpMusic.setVolume(-20);
-      randSoundFull.setVolume(-20);
 
     /*deathPos = new LinkedList<>();
     deathVel = new LinkedList<>();
@@ -305,10 +303,12 @@ public class Main extends AbstractGame {
 
       if(screen.equals("victory")) {
 
-          int rand = Vector.getRandomNumberInRange(0,1000);
           int rand1 = Vector.getRandomNumberInRange(0,50);
 
           if(!executed) {
+
+              if(rand1 == 42) {test = true; pveMusic.stop(); randSound.loop();}
+
               players.clear();
               bars.clear();
               players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
@@ -513,7 +513,11 @@ public class Main extends AbstractGame {
     }
 
     if(screen.equals("victory")) {
-        r.drawImage(victory,240,160,0);
+        if(!test) {
+            r.drawImage(victory, 240, 160, 0);
+        } else {
+            r.drawImage(royal,240,160,0);
+        }
         toMainMenu.show(r);
     }
 
