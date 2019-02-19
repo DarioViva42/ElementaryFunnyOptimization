@@ -27,7 +27,7 @@ public abstract class Vehicle {
     protected final double shootForce = 10.0;
 
     public static LinkedList<Projectile> empireLasers = new LinkedList<>();
-    public static LinkedList<Projectile> republicLasers = new LinkedList<>();
+    public static LinkedList<Projectile> rebelLasers = new LinkedList<>();
 
     protected LinkedList<Explosion> explosions = new LinkedList<>();
 

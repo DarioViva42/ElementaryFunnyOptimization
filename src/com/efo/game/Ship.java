@@ -88,9 +88,9 @@ public class Ship extends Vehicle{
 
     public void shoot() {
 
-        if(this.faction.equals("republic")) {
+        if(this.faction.equals("rebel")) {
 	        if(shotCap >= 1) {
-		        Vehicle.republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
+		        Vehicle.rebelLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
 				        new Vector(this.shootForce, alpha, "p")));
 		        sounds.get(5).play();
 		        shotCap = 0.0;
@@ -106,7 +106,7 @@ public class Ship extends Vehicle{
     }
 
     public boolean hit() {
-        if (faction.equals("republic")) {
+        if (faction.equals("rebel")) {
             for (int i = 0; i < empireLasers.size();i++) {
                 Double d = this.pos.distance(empireLasers.get(i).getPos());
                 if(d < size) {
@@ -125,14 +125,14 @@ public class Ship extends Vehicle{
             }
 
         } else if (faction.equals("empire")) {
-            for (int i = 0; i < republicLasers.size();i++) {
-                Double d = this.pos.distance(republicLasers.get(i).getPos());
+            for (int i = 0; i < rebelLasers.size();i++) {
+                Double d = this.pos.distance(rebelLasers.get(i).getPos());
                 if(d < size) {
                     HP--;
                     sounds.get(0).play();
                     exPos.add(new Vector(Math.random()*13,Math.random()*360,"p"));
                     explosions.add(new Explosion(11,5.0));
-                    republicLasers.remove(i);
+                    rebelLasers.remove(i);
                 }
             }
 

@@ -33,9 +33,9 @@ public class Boid extends Vehicle {
         maxForce = 0.5;
         radiusLength = 20;
 
-        if(Faction == "republic" || Faction == "Republic" || Faction == "republik" || Faction == "Republik") {
+        if(Faction == "rebel" || Faction == "rebel" || Faction == "republik" || Faction == "Republik") {
             model = new Image("/xWing.png");
-            faction = "republic";
+            faction = "rebel";
         } else if(Faction == "empire" || Faction == "Empire" || Faction == "imperium" || Faction == "Imperium"){
             model = new Image("/tieFighter.png");
             faction = "empire";
@@ -206,7 +206,7 @@ public class Boid extends Vehicle {
 
     public boolean dead() {
         int count = 0;
-        if (faction.equals("republic")) {
+        if (faction.equals("rebel")) {
             for (Projectile enemyLaser: Vehicle.empireLasers) {
                 Double d = this.pos.distance(enemyLaser.getPos());
                 if(d < 20) {
@@ -222,7 +222,7 @@ public class Boid extends Vehicle {
             }
 
         } else if (faction.equals("empire")) {
-            for (Projectile enemyLaser: Vehicle.republicLasers) {
+            for (Projectile enemyLaser: Vehicle.rebelLasers) {
                 Double d = this.pos.distance(enemyLaser.getPos());
                 if(d < 20) {
                     count++;
@@ -296,9 +296,9 @@ public class Boid extends Vehicle {
     }
 
     public void shoot() {
-        if(faction.equals("republic")) {
+        if(faction.equals("rebel")) {
             if(shotCap >= 1) {
-                republicLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
+                rebelLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
                         new Vector(this.shootForce, vel.getAngle(), "p")));
                 sounds.get(laserSound).play();
                 shotCap = 0.0;
