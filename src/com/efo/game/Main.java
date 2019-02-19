@@ -203,6 +203,8 @@ public class Main extends AbstractGame {
 
       if (screen.equals("mainMenu") && players.size() > 0) {
           if(!executed1) {
+              pveMusic.stop();
+              pvpMusic.stop();
               menuMusic.play();
               executed1 = true;
           }
@@ -249,10 +251,11 @@ public class Main extends AbstractGame {
       if(screen.equals("PvP")) {
           if(!setupAllreadyExecuted) {
 
-              //Player 2 is being initiated
-              players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
-              bars.add(new HPBar(players.get(1)));
+            //Player 2 is being initiated
+            players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
+            bars.add(new HPBar(players.get(1)));
 
+            pvpMusic.play();
 
             setupAllreadyExecuted = true;
           }
@@ -265,6 +268,7 @@ public class Main extends AbstractGame {
                   empire.add(new Boid("empire"));
               }
 
+              pveMusic.play();
 
 
               setupAllreadyExecuted = true;
@@ -281,8 +285,8 @@ public class Main extends AbstractGame {
       if(screen.equals("defeat")) {
 
           if(!executed) {
-              empire.clear();
-              rebel.clear();
+              players.clear();
+              bars.clear();
               players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
               bars.add(new HPBar(players.get(0)));
               executed = true;
@@ -299,8 +303,8 @@ public class Main extends AbstractGame {
       if(screen.equals("victory")) {
 
           if(!executed) {
-              empire.clear();
-              rebel.clear();
+              players.clear();
+              bars.clear();
               players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
               bars.add(new HPBar(players.get(0)));
               executed = true;
