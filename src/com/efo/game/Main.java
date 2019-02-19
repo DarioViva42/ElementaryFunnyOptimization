@@ -16,10 +16,11 @@ public class Main extends AbstractGame {
   private Star s;
   private LinkedList<Boid> rebel, empire;
   private LinkedList<Ship> players;
-  private int enemyCount = 10;
+  private int enemyCount = 20;
   private LinkedList<HPBar> bars;
-  private boolean setupAllreadyExecuted = false, executed1 = false, executed = false;
-  private SoundClip menuMusic, pveMusic, pvpMusic, randSound, randSoundFull;
+  private boolean setupAllreadyExecuted = false, executed1 = false, executed = false, test = false
+          ;
+  private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
 
   /*private LinkedList<Vector> deathPos;
   private LinkedList<Vector> deathVel;
@@ -55,12 +56,10 @@ public class Main extends AbstractGame {
       pveMusic = new SoundClip("/audio/pveMusic.wav");
       pvpMusic= new SoundClip("/audio/pvpMusic.wav");
       randSound = new SoundClip("/audio/randSound.wav");
-      randSoundFull = new SoundClip("/audio/randSoundFull.wav");
 
       menuMusic.setVolume(-20);
       pveMusic.setVolume(-20);
       pvpMusic.setVolume(-20);
-      randSoundFull.setVolume(-20);
 
     /*deathPos = new LinkedList<>();
     deathVel = new LinkedList<>();
@@ -203,6 +202,8 @@ public class Main extends AbstractGame {
 
       if (screen.equals("mainMenu") && players.size() > 0) {
           if(!executed1) {
+              pveMusic.stop();
+              pvpMusic.stop();
               menuMusic.play();
               executed1 = true;
           }
@@ -235,13 +236,13 @@ public class Main extends AbstractGame {
           if(PvE.testAction()) {
               screen = "PvE";
               System.out.println("Gehe ins PvE");
-                  menuMusic.stop();
+              menuMusic.stop();
           }
 
           if(Coop.testAction()) {
               screen = "Coop";
               System.out.println("Geh in den Coop! Nicht in Migros");
-                  menuMusic.stop();
+              menuMusic.stop();
           }
 
           /*if(settings.testAction()) {
@@ -257,10 +258,11 @@ public class Main extends AbstractGame {
       if(screen.equals("PvP")) {
           if(!setupAllreadyExecuted) {
 
-              //Player 2 is being initiated
-              players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
-              bars.add(new HPBar(players.get(1)));
+            //Player 2 is being initiated
+            players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
+            bars.add(new HPBar(players.get(1)));
 
+            pvpMusic.play();
 
             setupAllreadyExecuted = true;
           }
@@ -273,6 +275,7 @@ public class Main extends AbstractGame {
                   empire.add(new Boid("empire"));
               }
 
+              pveMusic.play();
 
 
               setupAllreadyExecuted = true;
@@ -289,8 +292,10 @@ public class Main extends AbstractGame {
       if(screen.equals("defeat")) {
 
           if(!executed) {
-              empire.clear();
+              players.clear();
               rebel.clear();
+              empire.clear();
+              bars.clear();
               players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
               bars.add(new HPBar(players.get(0)));
               executed = true;
@@ -306,9 +311,14 @@ public class Main extends AbstractGame {
 
       if(screen.equals("victory")) {
 
+          int rand1 = Vector.getRandomNumberInRange(0,50);
+
           if(!executed) {
-              empire.clear();
-              rebel.clear();
+
+              if(rand1 == 42) {test = true; pveMusic.stop(); randSound.loop();}
+
+              players.clear();
+              bars.clear();
               players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
               bars.add(new HPBar(players.get(0)));
               executed = true;
@@ -511,7 +521,11 @@ public class Main extends AbstractGame {
     }
 
     if(screen.equals("victory")) {
-        r.drawImage(victory,240,160,0);
+        if(!test) {
+            r.drawImage(victory, 240, 160, 0);
+        } else {
+            r.drawImage(royal,240,160,0);
+        }
         toMainMenu.show(r);
     }
 
