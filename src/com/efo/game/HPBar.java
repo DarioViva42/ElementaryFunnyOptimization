@@ -8,7 +8,7 @@ public class HPBar {
 
     Vector pos;
     boolean test = false;
-    int maxHP, x, length = 25, angle = 90;
+    int maxHP, x, length = 18, angle = 90;
     Double tenPercentHP;
     String status = "";
     Image bar = new Image("/fullBar.png");

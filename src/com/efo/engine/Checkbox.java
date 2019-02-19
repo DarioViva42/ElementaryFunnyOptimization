@@ -5,7 +5,7 @@ import com.efo.engine.gfx.Image;
 public class Checkbox {
 	private Button unticked, ticked;
 	private int offX, offY;
-	private boolean state;
+	private boolean state, action;
 	private Image icon;
 
 	public Checkbox(int offX, int offY, Image icon) {
@@ -17,15 +17,18 @@ public class Checkbox {
 		this.ticked = new Button(offX,offY,"", "/CB_ticked-hover.png","/CB_ticked-noHover.png","/CB_ticked-clicked.png");
 	}
 
-	public void update(Vector[] objects, boolean[] tests) {
-		unticked.update(objects, tests);
-		ticked.update(objects, tests);
+	public void update(Vector[] objects, boolean[] tests, boolean sound) {
+		unticked.update(objects, tests, sound);
+		ticked.update(objects, tests, false);
 		if (unticked.testAction()) {
+			action = true;
 			if(state){
 				state = false;
 			} else {
 				state = true;
 			}
+		} else {
+			action = false;
 		}
 	}
 
@@ -40,6 +43,9 @@ public class Checkbox {
 
 	public boolean testState(){
 		return state;
+	}
+	public boolean testAction(){
+		return action;
 	}
 
 }

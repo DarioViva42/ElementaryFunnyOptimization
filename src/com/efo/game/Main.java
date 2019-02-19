@@ -141,7 +141,7 @@ public class Main extends AbstractGame {
                   player.turn(0);
               }
               if (ge.getInput().isKey(KeyEvent.VK_C)) {
-                  player.shoot();
+                  player.shoot(sound.testState());
 
               }
           }
@@ -167,7 +167,7 @@ public class Main extends AbstractGame {
                   player.turn(0);
               }
               if (ge.getInput().isKey(KeyEvent.VK_B)) {
-                  player.shoot();
+                  player.shoot(sound.testState());
               }
           }
       }
@@ -206,17 +206,25 @@ public class Main extends AbstractGame {
               menuMusic.play();
               executed1 = true;
           }
+          if (music.testAction()){
+            if(music.testState()){
+              menuMusic.stop();
+              menuMusic.play();
+            } else {
+              menuMusic.stop();
+            }
+          }
           setupAllreadyExecuted = false;
           executed = false;
 
-          PvE.update(inputPos, inputTest);
-          PvP.update(inputPos, inputTest);
-          Coop.update(inputPos, inputTest);
+          PvE.update(inputPos, inputTest, sound.testState());
+          PvP.update(inputPos, inputTest, sound.testState());
+          Coop.update(inputPos, inputTest, sound.testState());
           //settings.update(inputPos, inputTest);
-          Exit.update(inputPos, inputTest);
+          Exit.update(inputPos, inputTest, sound.testState());
 
-          sound.update(inputPos, inputTest);
-          music.update(inputPos, inputTest);
+          sound.update(inputPos, inputTest, sound.testState());
+          music.update(inputPos, inputTest, sound.testState());
 
           if(PvP.testAction()) {
               screen = "PvP";
@@ -288,7 +296,7 @@ public class Main extends AbstractGame {
               executed = true;
           }
 
-          toMainMenu.update(inputPos,inputTest);
+          toMainMenu.update(inputPos,inputTest, sound.testState());
 
           if(toMainMenu.testAction()) {
               screen = "mainMenu";
@@ -306,7 +314,7 @@ public class Main extends AbstractGame {
               executed = true;
           }
 
-          toMainMenu.update(inputPos,inputTest);
+          toMainMenu.update(inputPos,inputTest, sound.testState());
 
           if(toMainMenu.testAction()) {
               screen = "mainMenu";
@@ -324,7 +332,7 @@ public class Main extends AbstractGame {
               executed = true;
           }
 
-          toMainMenu.update(inputPos,inputTest);
+          toMainMenu.update(inputPos,inputTest, sound.testState());
 
           if(toMainMenu.testAction()) {
 
@@ -343,7 +351,7 @@ public class Main extends AbstractGame {
               executed = true;
           }
 
-          toMainMenu.update(inputPos,inputTest);
+          toMainMenu.update(inputPos,inputTest, sound.testState());
 
           if(toMainMenu.testAction()) {
               screen = "mainMenu";
@@ -409,7 +417,7 @@ public class Main extends AbstractGame {
       for (Ship player: players) {
           player.update();
           player.border();
-          if(player.hit()) {
+          if(player.hit(sound.testState())) {
               player.alive = false;
           }
       }
