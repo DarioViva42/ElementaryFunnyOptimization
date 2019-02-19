@@ -10,7 +10,6 @@ import java.util.LinkedList;
 
 public class Main extends AbstractGame {
 
-  private ImageTile image;
   private Image background, victory, soundIcon, musicIcon;
   private Star[] starField = new Star[400];
   private Star s;
