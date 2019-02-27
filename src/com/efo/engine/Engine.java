@@ -8,6 +8,8 @@ public class Engine implements Runnable {
 
 
   private Thread thread;
+
+
   private Window window;
   private Renderer renderer;
   private Input input;
@@ -22,14 +24,22 @@ public class Engine implements Runnable {
   }
 
   public void start() {
-    //ge bedeutet Game Engine
+    //ge == Game Engine
     window = new Window(this);
     renderer = new Renderer(this);
     input = new Input(this);
     mouse = new Image("/Mouse.png");
     antiAliasing = false;
+
+
     thread = new Thread(this);
-    thread.run(); //Makes this main thread
+    thread.run(); //Makes this the main thread
+
+
+  }
+
+  public void stop() {
+
   }
 
   public void run() {
@@ -47,7 +57,7 @@ public class Engine implements Runnable {
     final double UPDATE_CAP = 1.0/60.0;
 
 
-    while(running) {
+    while (running) {
 
       render = false;
       firstTime = System.nanoTime() / 1000000000.0;
@@ -55,7 +65,7 @@ public class Engine implements Runnable {
       lastTime = firstTime;
 
       unprocessedTime += passedTime;
-      frameTime+= passedTime;
+      frameTime += passedTime;
 
       while (unprocessedTime >= UPDATE_CAP) {
         unprocessedTime -= UPDATE_CAP; //Makes sure missed updates are caught
@@ -132,7 +142,7 @@ public class Engine implements Runnable {
     return "Star Wars Engine";
   }
 
-  Window getWindow() {
+  public Window getWindow() {
     return window;
   }
 
