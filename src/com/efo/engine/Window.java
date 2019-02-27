@@ -1,7 +1,5 @@
 package com.efo.engine;
 
-import com.efo.engine.Engine;
-
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -9,13 +7,15 @@ import javax.swing.JFrame;
 
 public class Window {
 
-  private JFrame frame;
+
   private BufferedImage image; //Stores Pixel data
   private Canvas canvas;
   private BufferStrategy bs;
   private Graphics g;
 
-  public Window(Engine ge){
+  Window(Engine ge){
+
+    JFrame frame;
     image = new BufferedImage(ge.getWidth(), ge.getHeight(), BufferedImage.TYPE_INT_ARGB); // Buffered means stored in RAM
     canvas = new Canvas();
     Dimension s = new Dimension((int)(ge.getWidth()*ge.getScale()),(int)(ge.getHeight()*ge.getScale()));
@@ -60,11 +60,7 @@ public class Window {
     return image;
   }
 
-  public Canvas getCanvas() {
+  Canvas getCanvas() {
     return canvas;
-  }
-
-  public JFrame getFrame() {
-    return frame;
   }
 }

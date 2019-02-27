@@ -13,7 +13,7 @@ public class Ship extends Vehicle {
     protected double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
-    public String playerName;
+    String playerName;
     private int HP = 10;
     boolean alive = true;
     LinkedList<Vector> exPos = new LinkedList<>();
