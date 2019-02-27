@@ -15,8 +15,10 @@ public class Boid extends Vehicle {
     private Double shotCap = 0.0, attackSpeed = 1.0/20.0;
     boolean alive = true;
     Vector exPos;
+    Vector flee;
     private LinkedList<Vehicle> currentTargets;
-    private int HP = 2;
+    private int HP = 1;
+    boolean test = true;
 
     private int laserSound = Vector.getRandomNumberInRange(1,3);
 
@@ -157,26 +159,53 @@ public class Boid extends Vehicle {
         }
     }
 
-    void avoidGettingShot(LinkedList<Boid> boids) {
+    void avoidGettingShot(LinkedList<Boid> boids, LinkedList<Ship> players) {
         //Vector sum = new Vector(0,0,"p");
         double count = 0.0;
 
         for (Boid other: boids) {
             Vector diff = other.pos.sub(this.pos, true);
             boolean isTargetBack = (Math.abs(diff.getAngle() - (this.vel.getAngle() + 180)) + 360) % 360 < 30;
-            if ((diff.getLength() > 0) && (diff.getLength() < 80) && isTargetBack) {
+            if ((diff.getLength() > 0) && (diff.getLength() < 120) && isTargetBack) {
                 //sum.add(other.vel);
                 currentTargets.add(other);
                 count++;
             }
         }
 
-        if(count > 0) {
-            for (Vehicle boid: currentTargets) {
-                applyForce(flee(boid.getPos()));
+        for (Ship player: players) {
+            if(!player.getFaction().equals(this.faction)) {
+                Vector diff = player.pos.sub(this.pos, true);
+                boolean isTargetBack = (Math.abs(diff.getAngle() - (this.vel.getAngle() + 180)) + 360) % 360 < 30;
+                if ((diff.getLength() > 0) && (diff.getLength() < 140) && isTargetBack) {
+                    //sum.add(other.vel);
+                    currentTargets.add(player);
+                    count++;
+                }
             }
+        }
+
+        if(count > 0) {
+
+                if(test) {
+                    int random = (int) (Math.random() * 2);
+                    if (random == 0) {
+                        flee = new Vector(vel.getAngle() + 90, 1, "p");
+                    } else {
+                        flee = new Vector(vel.getAngle() - 90, 1, "p");
+                    }
+                    test = false;
+
+                    flee.mult(2.0);
+                    flee.setLength(1);
+                    flee.mult(maxSpeed);
+                    steer = flee.sub(vel, true);
+                    steer.limit(maxForce);
+                }
+                applyForce(steer);
+
         } else if(count == 0) {
-            currentTargets.clear();
+            test = true;
         }
     }
 
@@ -191,10 +220,10 @@ public class Boid extends Vehicle {
                     if(sound){
                         sounds.get(0).play();
                     }
-                    exPos.add(new Vector(Math.random()*10,Math.random()*360,"p"));
-                    explosions.add(new Explosion(11,5.0));
+                    //exPos.add(new Vector(Math.random()*10,Math.random()*360,"p"));
+                    //explosions.add(new Explosion(11,5.0));
                     // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
-                    empireLasers.remove(i);
+                    //empireLasers.remove(i);
                 }
             }
 
@@ -208,10 +237,10 @@ public class Boid extends Vehicle {
                     if(sound){
                         sounds.get(0).play();
                     }
-                    exPos.add(new Vector(Math.random()*13,Math.random()*360,"p"));
-                    explosions.add(new Explosion(11,5.0));
+                    //exPos.add(new Vector(Math.random()*13,Math.random()*360,"p"));
+                    //explosions.add(new Explosion(11,5.0));
                     // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
-                    rebelLasers.remove(i);
+                    //rebelLasers.remove(i);
                 }
             }
 
@@ -279,24 +308,13 @@ public class Boid extends Vehicle {
         Vector desired = pos.sub(target, true);
 
         desired.setLength(1);
-        desired.mult(2 * maxSpeed);
+        desired.mult(10 * maxSpeed);
 
         Vector steer = vel.sub(desired,true);
         steer.limit(maxForce);  // Limit to maximum steering force
         return steer;
     }
 
-    public Vector flee(Vector target) {
-        Vector desired;
-        desired = (pos).sub(new Vector(target.getX(), target.getY(), "c"), true);
-
-        desired.mult(5.0);
-        desired.setLength(1);
-        desired.mult(maxSpeed);
-        steer = desired.sub(vel, true);
-        steer.limit(maxForce);
-        return steer;
-    }
 
     private void shoot(boolean sound) {
         if(faction.equals("rebel")) {

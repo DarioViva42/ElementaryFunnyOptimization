@@ -13,7 +13,6 @@ public class Main extends AbstractGame {
   private Star[] starField = new Star[400];
   private LinkedList<Boid> rebel, empire;
   private LinkedList<Ship> players;
-  private int enemyCount = 30;
   private LinkedList<HPBar> bars;
   private boolean setupAllreadyExecuted = false, executed = false, executed1 = false, executed2 = false, test = false;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
@@ -177,7 +176,7 @@ public class Main extends AbstractGame {
       if(screen.equals("PvE")) {
           if(players.size() == 0) {
               screen = "defeat";
-          } else if(rebel.size() == 0 && empire.size() == 0) {
+          } else if(empire.size() == 0) {
               screen = "victory";
           }
       }
@@ -261,10 +260,13 @@ public class Main extends AbstractGame {
 
       if(screen.equals("PvE")) {
           if(!setupAllreadyExecuted) {
-              for(int j = 0; j < enemyCount; j++) {
-                  //rebel.add(new Boid("rebel"));
+              for(int j = 0; j < 20; j++) {
+                  rebel.add(new Boid("rebel"));
+              }
+              for(int j = 0; j < 20; j++) {
                   empire.add(new Boid("empire"));
               }
+
 
               if(music.testState()) pveMusic.loop();
 
@@ -274,7 +276,7 @@ public class Main extends AbstractGame {
 
       if(screen.equals("Coop")) {
           if(!setupAllreadyExecuted) {
-              for(int j = 0; j < enemyCount; j++) {
+              for(int j = 0; j < 20; j++) {
                   //rebel.add(new Boid("rebel"));
                   empire.add(new Boid("empire"));
               }
@@ -388,12 +390,14 @@ public class Main extends AbstractGame {
           rebel.update();
       }
 
-      for (Boid xWing: empire) {
-          xWing.peripheralVision(rebel,players, sound.testState());
+      for (Boid xWing: rebel) {
+          xWing.peripheralVision(empire,players, sound.testState());
+          xWing.avoidGettingShot(empire, players);
       }
 
       for (Boid tieFighter: empire) {
-          tieFighter.peripheralVision(empire,players, sound.testState());
+          tieFighter.peripheralVision(rebel,players, sound.testState());
+          tieFighter.avoidGettingShot(rebel,players);
       }
 
       for (int j = 0; j < Vehicle.rebelLasers.size(); j++) {
