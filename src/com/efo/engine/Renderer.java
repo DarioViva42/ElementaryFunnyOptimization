@@ -8,10 +8,10 @@ import java.awt.image.DataBufferInt;
 import java.util.Arrays;
 
 public class Renderer {
-  private int pW, pH; //pixel width and height
-  private int[] p;
-  private final int[][] kern = {{1,4,1},{4,32,4},{1,4,1}};
-  private int kSum = 0;
+	public int pW, pH; //pixel width and height
+	public  int[] p;
+	public final int[][] kern = {{1,4,1},{4,32,4},{1,4,1}};
+	public int kSum = 0;
 
   private Font font = Font.STANDARD;
 
@@ -28,7 +28,7 @@ public class Renderer {
     }
   }
 
-  void clear() {
+	public void clear() {
     for(int i = 0; i < p.length; i++) {
       p[i] = 0xff000000;
     }
@@ -50,7 +50,7 @@ public class Renderer {
 
   }
 
-  void drawText(String text, int offX, int offY, int color){
+	public void drawText(String text, int offX, int offY, int color){
 
     // Da folgende Zeichen nicht in unserem Zeichensatz enthalten sind ersetzen wir sie.
     text = text.replaceAll("ä", "ae");
@@ -173,7 +173,7 @@ public class Renderer {
 
 
     //Self made
-  void antiAliasing() {
+    public void antiAliasing() {
                 //a r g b
     int[] argb = {0,0,0,0};
 
@@ -236,7 +236,7 @@ public class Renderer {
   }
 
 // Aus einem Forum
-  private int blend (int a, int b, float ratio) {
+public int blend (int a, int b, float ratio) {
     if (ratio > 1f) {
       ratio = 1f;
     } else if (ratio < 0f) {

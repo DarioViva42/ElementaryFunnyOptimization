@@ -3,7 +3,6 @@ package com.efo.game;
 import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
 import com.efo.engine.gfx.Image;
-import org.jetbrains.annotations.NotNull;
 
 public class HPBar {
 
@@ -11,10 +10,10 @@ public class HPBar {
     private boolean test = false;
     private int maxHP, x, length = 18, angle = 90;
     private Double tenPercentHP;
-    // String status = "";
+    //String status = "";
     private Image bar = new Image("/fullBar.png");
 
-    HPBar(@NotNull Ship ship) {
+    HPBar(Ship ship) {
         x = 1;
         tenPercentHP = ship.getHP()/10.0;
         maxHP = ship.getHP();
@@ -25,6 +24,7 @@ public class HPBar {
         this.pos = ship.pos.add(new Vector(length,angle,"p"),true);
 
         if(ship.getHP() <= (maxHP - (x * tenPercentHP))) {
+            System.out.println("Das hier passiert selten");
             test = true;
             x++;
         }

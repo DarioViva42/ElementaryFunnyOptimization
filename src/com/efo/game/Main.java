@@ -4,7 +4,6 @@ import com.efo.engine.*;
 import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
 
-import javax.sound.sampled.Line;
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
@@ -76,6 +75,7 @@ public class Main extends AbstractGame {
     bars.add(new HPBar(players.get(0)));
 
 
+
     background = new Image("/mainMenuBackground.jpg");
     victory = new Image("/victory.png");
     royal = new Image("/royal.png");
@@ -114,7 +114,6 @@ public class Main extends AbstractGame {
 
   @Override
   public void update(Engine ge, float dt) {
-
 
 
 
@@ -501,7 +500,6 @@ public class Main extends AbstractGame {
 
     r.drawImage(background, 240, 159, 0);
 
-
     for (Star star:starField) {
       star.show(r, ge.getWidth(), ge.getHeight());
       star.update();
@@ -583,7 +581,6 @@ public class Main extends AbstractGame {
 
       //}
 
-
       for (HPBar bar : bars) {
           bar.show(r);
       }
@@ -591,7 +588,6 @@ public class Main extends AbstractGame {
       for (Ship player: players) {
           player.show(r);
       }
-
   }
 
   public static void main(String[] args) {

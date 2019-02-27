@@ -8,19 +8,12 @@ public class Engine implements Runnable {
 
 
   private Thread thread;
-
-
   private Window window;
   private Renderer renderer;
   private Input input;
   private AbstractGame game;
 
-  private boolean running = false;
   private boolean antiAliasing;
-  private final double UPDATE_CAP = 1.0/60.0;
-  private int width = 480, height = 320;
-  private float scale = 2f;
-  private String title = "Star Wars Engine";
   private Image mouse;
 
     // Constructor -------------------------
@@ -29,36 +22,29 @@ public class Engine implements Runnable {
   }
 
   public void start() {
-    //ge == Game Engine
+    //ge bedeutet Game Engine
     window = new Window(this);
     renderer = new Renderer(this);
     input = new Input(this);
     mouse = new Image("/Mouse.png");
     antiAliasing = false;
-
-
     thread = new Thread(this);
-    thread.run(); //Makes this the main thread
-
-
-  }
-
-  public void stop() {
-
+    thread.run(); //Makes this main thread
   }
 
   public void run() {
-    running = true;
+    boolean running = true;
 
-    boolean render = false;
-    double firstTime = 0;
+    boolean render;
+    double firstTime;
     double lastTime = System.nanoTime()/1000000000.0; //makes this miliseconds
-    double passedTime = 0;
+    double passedTime;
     double unprocessedTime = 0;
 
     double frameTime = 0;
     int frames = 0;
     int fps = 0;
+    final double UPDATE_CAP = 1.0/60.0;
 
 
     while(running) {
@@ -78,11 +64,8 @@ public class Engine implements Runnable {
         game.update(this,(float)UPDATE_CAP);
 
         // Schalte zwischen Aliasing und anti-Aliasing
-        if(input.isKeyDown(KeyEvent.VK_P) && antiAliasing){
-            antiAliasing = false;
-          } else {
-            antiAliasing = true;
-          }
+        if (input.isKeyDown(KeyEvent.VK_P)){
+          antiAliasing = !antiAliasing;
         }
 
         input.update();
@@ -125,7 +108,7 @@ public class Engine implements Runnable {
           e.printStackTrace();
         }
       }
-
+    }
     dispose();
   }
 
@@ -134,35 +117,19 @@ public class Engine implements Runnable {
   }
 
   public int getWidth() {
-    return width;
-  }
-
-  public void setWidth(int width) {
-    this.width = width;
+    return 480;
   }
 
   public int getHeight() {
-    return height;
-  }
-
-  public void setHeight(int height) {
-    this.height = height;
+    return 320;
   }
 
   float getScale() {
-    return scale;
-  }
-
-  public void setScale(float scale) {
-    this.scale = scale;
+    return 2f;
   }
 
   String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
+    return "Star Wars Engine";
   }
 
   Window getWindow() {
