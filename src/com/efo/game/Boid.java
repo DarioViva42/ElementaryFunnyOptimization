@@ -178,7 +178,7 @@ public class Boid extends Vehicle {
         }
     }
 
-    void peripheralVision(LinkedList<Boid> boids, LinkedList<Ship> players) {
+    void peripheralVision(LinkedList<Boid> boids, LinkedList<Ship> players, boolean sound) {
         //Vector sum = new Vector(0,0,"p");
         double count = 0.0;
 
@@ -205,7 +205,7 @@ public class Boid extends Vehicle {
         }
 
         if(count > 0) {
-            shoot();
+            shoot(sound);
             for (Vehicle ship: currentTargets) {
                 applyForce(seek(ship.getPos()));
             }
@@ -295,12 +295,13 @@ public class Boid extends Vehicle {
         }
     }
 
-    private void shoot() {
+    private void shoot(boolean sound) {
         if(faction.equals("rebel")) {
             if(shotCap >= 1) {
                 rebelLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
                         new Vector(this.shootForce, vel.getAngle(), "p")));
-                sounds.get(laserSound).play();
+                if(sound)
+                    sounds.get(laserSound).play();
                 shotCap = 0.0;
             } else {
                 shotCap += attackSpeed;
@@ -311,7 +312,8 @@ public class Boid extends Vehicle {
             if(shotCap >= 1) {
                 empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
                         new Vector(this.shootForce, vel.getAngle(), "p")));
-                sounds.get(laserSound).play();
+                if(sound)
+                    sounds.get(laserSound).play();
                 shotCap = 0.0;
             } else {
                 shotCap += attackSpeed;
