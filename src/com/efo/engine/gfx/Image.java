@@ -2,7 +2,6 @@ package com.efo.engine.gfx;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.lang.management.BufferPoolMXBean;
 import javax.imageio.ImageIO;
 
 public class Image {
@@ -18,7 +17,7 @@ public class Image {
       e.printStackTrace();
     }
 
-
+    assert image != null;
     w = image.getWidth();
     h = image.getHeight();
     p = image.getRGB(0,0,w,h,null,0,w);
@@ -30,16 +29,8 @@ public class Image {
     return w;
   }
 
-  public void setW(int w) {
-    this.w = w;
-  }
-
   public int getH() {
     return h;
-  }
-
-  public void setH(int h) {
-    this.h = h;
   }
 
   public int[] getP() {

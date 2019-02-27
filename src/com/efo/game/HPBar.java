@@ -3,17 +3,18 @@ package com.efo.game;
 import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
 import com.efo.engine.gfx.Image;
+import org.jetbrains.annotations.NotNull;
 
 public class HPBar {
 
-    Vector pos;
-    boolean test = false;
-    int maxHP, x, length = 18, angle = 90;
-    Double tenPercentHP;
-    String status = "";
-    Image bar = new Image("/fullBar.png");
+    private Vector pos;
+    private boolean test = false;
+    private int maxHP, x, length = 18, angle = 90;
+    private Double tenPercentHP;
+    // String status = "";
+    private Image bar = new Image("/fullBar.png");
 
-    public HPBar(Ship ship) {
+    HPBar(@NotNull Ship ship) {
         x = 1;
         tenPercentHP = ship.getHP()/10.0;
         maxHP = ship.getHP();

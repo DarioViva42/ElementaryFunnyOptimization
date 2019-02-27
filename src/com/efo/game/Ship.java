@@ -10,15 +10,14 @@ import java.util.LinkedList;
 //Selfmade
 public class Ship extends Vehicle{
 
-    protected double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
-    protected double alphaAcc;  // Die Winkelbeschleunigung
-    protected double alpha;     // Der Winkel
-    public String playerName;
+    private double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
+    private double alphaAcc;  // Die Winkelbeschleunigung
+    private double alpha;     // Der Winkel
+    String playerName;
     private int HP = 100;
     boolean alive = true;
-    LinkedList<Vector> exPos = new LinkedList<>();
-		Double shotCap = 0.0, attackSpeed = 1.0/15.0;
-    int size = 15;
+    private LinkedList<Vector> exPos = new LinkedList<>();
+		private double shotCap = 0.0;
 
 
     // Constructors --------------------------------
@@ -32,7 +31,7 @@ public class Ship extends Vehicle{
         oldPos = new Vector(getX(),getY(),"c");
         alphaVel = 0;
         alphaAcc = 0;
-        alpha = alpha % 360;
+        this.alpha = alpha % 360;
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
         model = new Image("/falcon.png");
@@ -40,6 +39,8 @@ public class Ship extends Vehicle{
     }
 
     public void update(){
+        double attackSpeed = 1.0/15.0;
+
         //System.out.println(this.HP);
 
         vel.add(acc);
@@ -68,12 +69,13 @@ public class Ship extends Vehicle{
 
         for (int i = 0; i < explosions.size(); i++) {
             if(explosions.get(i).isFinished()) {
+                // Wenn die Funktion fertig ist, soll Sie gelöscht werden.
                 explosions.remove(i);
             }
         }
     }
 
-    public void turn(double turn) {
+    void turn(double turn) {
         this.alphaAcc = turn;
     }
 
@@ -84,11 +86,11 @@ public class Ship extends Vehicle{
         }
     }
 
-    public void setBoost(double boost) {
+    void setBoost(double boost) {
         this.acc.setP(boost, this.alpha);
     }
 
-    public void shoot(boolean sound) {
+    void shoot(boolean sound) {
 
         if(this.faction.equals("rebel")) {
 	        if(shotCap >= 1) {
@@ -112,10 +114,12 @@ public class Ship extends Vehicle{
         }
     }
 
-    public boolean hit(boolean sound) {
+    boolean hit(boolean sound) {
+        int size = 15;
+
         if (faction.equals("rebel")) {
             for (int i = 0; i < empireLasers.size();i++) {
-                Double d = this.pos.distance(empireLasers.get(i).getPos());
+                double d = this.pos.distance(empireLasers.get(i).getPos());
                 if(d < size) {
                     HP--;
                     if(sound){
@@ -123,19 +127,16 @@ public class Ship extends Vehicle{
                     }
                     exPos.add(new Vector(Math.random()*10,Math.random()*360,"p"));
                     explosions.add(new Explosion(11,5.0));
+                    // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
                     empireLasers.remove(i);
                 }
             }
 
-            if(HP <= 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return (HP <= 0);
 
         } else if (faction.equals("empire")) {
             for (int i = 0; i < rebelLasers.size();i++) {
-                Double d = this.pos.distance(rebelLasers.get(i).getPos());
+                double d = this.pos.distance(rebelLasers.get(i).getPos());
                 if(d < size) {
                     HP--;
                     if(sound){
@@ -143,21 +144,18 @@ public class Ship extends Vehicle{
                     }
                     exPos.add(new Vector(Math.random()*13,Math.random()*360,"p"));
                     explosions.add(new Explosion(11,5.0));
+                    // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
                     rebelLasers.remove(i);
                 }
             }
 
-            if(HP <= 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return (HP <= 0);
         } else {
             return false;
         }
     }
 
-    public int getHP() {
+    int getHP() {
         return HP;
     }
 }

@@ -129,15 +129,11 @@ public class Button {
                 break;
             default:
                 System.out.println("In Button lief was falsch");
-                return;
+                break;
         }
     }
 
     public boolean testAction(){
-        if (state.equals("released")){
-            return true;
-        } else{
-            return false;
-        }
+        return (state.equals("released"));
     }
 }

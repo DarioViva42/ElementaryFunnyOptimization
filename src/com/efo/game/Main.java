@@ -121,12 +121,6 @@ public class Main extends AbstractGame {
       for(Ship player: players) {
           //Player 1 Input
           if(player.playerName.equals("Player1")) {
-              if (ge.getInput().isKeyDown(KeyEvent.VK_S)) {
-                  System.out.println("S was Pressed");
-              }
-              if (ge.getInput().isKeyUp(KeyEvent.VK_S)) {
-                  System.out.println("S was Released");
-              }
               if (ge.getInput().isKey(KeyEvent.VK_W)) {
                   player.setBoost(.2);
               } else {
@@ -134,7 +128,7 @@ public class Main extends AbstractGame {
               }
               if (ge.getInput().isKey(KeyEvent.VK_A) && !ge.getInput().isKey(KeyEvent.VK_D)) {
                   player.turn(-.42);
-              } else if (ge.getInput().isKey(KeyEvent.VK_D)) {
+              } else if (ge.getInput().isKey(KeyEvent.VK_D) && !ge.getInput().isKey(KeyEvent.VK_A)) {
                   player.turn(0.42);
               } else {
                   player.turn(0);
@@ -146,21 +140,14 @@ public class Main extends AbstractGame {
           }
 
           if(player.playerName.equals("Player2")) {
-              //Player 2 Input
-              if (ge.getInput().isKeyDown(KeyEvent.VK_J)) {
-                  System.out.println("S was Pressed");
-              }
-              if (ge.getInput().isKeyUp(KeyEvent.VK_J)) {
-                  System.out.println("S was Released");
-              }
               if (ge.getInput().isKey(KeyEvent.VK_U)) {
                   player.setBoost(.2);
               } else {
                   player.setBoost(0);
               }
-              if (ge.getInput().isKey(KeyEvent.VK_H) && !ge.getInput().isKey(KeyEvent.VK_RIGHT)) {
+              if (ge.getInput().isKey(KeyEvent.VK_H) && !ge.getInput().isKey(KeyEvent.VK_K)) {
                   player.turn(-.42);
-              } else if (ge.getInput().isKey(KeyEvent.VK_K)) {
+              } else if (ge.getInput().isKey(KeyEvent.VK_K) && !ge.getInput().isKey(KeyEvent.VK_H)) {
                   player.turn(0.42);
               } else {
                   player.turn(0);
