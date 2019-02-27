@@ -52,7 +52,7 @@ public class Engine implements Runnable {
 
     boolean render = false;
     double firstTime = 0;
-    double lastTime = System.nanoTime()/1000000000.0; //makes this miliseconds
+    double lastTime = System.nanoTime() / 1000000000.0; //makes this miliseconds
     double passedTime = 0;
     double unprocessedTime = 0;
 
@@ -61,7 +61,7 @@ public class Engine implements Runnable {
     int fps = 0;
 
 
-    while(running) {
+    while (running) {
 
       render = false;
       firstTime = System.nanoTime() / 1000000000.0;
@@ -69,20 +69,17 @@ public class Engine implements Runnable {
       lastTime = firstTime;
 
       unprocessedTime += passedTime;
-      frameTime+= passedTime;
+      frameTime += passedTime;
 
       while (unprocessedTime >= UPDATE_CAP) {
         unprocessedTime -= UPDATE_CAP; //Makes sure missed updates are caught
         render = true;
 
-        game.update(this,(float)UPDATE_CAP);
+        game.update(this, (float) UPDATE_CAP);
 
         // Schalte zwischen Aliasing und anti-Aliasing
-        if(input.isKeyDown(KeyEvent.VK_P) && antiAliasing){
-            antiAliasing = false;
-          } else {
-            antiAliasing = true;
-          }
+        if (input.isKeyDown(KeyEvent.VK_P)) {
+          antiAliasing = !antiAliasing;
         }
 
         input.update();
@@ -90,7 +87,7 @@ public class Engine implements Runnable {
 
         input.update();
 
-        if(frameTime >= 1.0){
+        if (frameTime >= 1.0) {
           frameTime = 0;
           fps = frames;
           frames = 0;
@@ -103,15 +100,15 @@ public class Engine implements Runnable {
 
         renderer.clear();
 
-        game.render(this,renderer);
+        game.render(this, renderer);
 
-        if (getInput().isKey(KeyEvent.VK_DELETE)){
+        if (getInput().isKey(KeyEvent.VK_DELETE)) {
           renderer.drawText("FPS: " + fps, 0, 0, 0xffffffff);
         }
 
         renderer.drawImage(mouse, getInput().getMouseX(), getInput().getMouseY(), 0);
 
-        if(antiAliasing) {
+        if (antiAliasing) {
           renderer.antiAliasing();
         }
 
@@ -126,7 +123,8 @@ public class Engine implements Runnable {
         }
       }
 
-    dispose();
+      dispose();
+    }
   }
 
   private void dispose() {
@@ -165,7 +163,7 @@ public class Engine implements Runnable {
     this.title = title;
   }
 
-  Window getWindow() {
+  public Window getWindow() {
     return window;
   }
 
