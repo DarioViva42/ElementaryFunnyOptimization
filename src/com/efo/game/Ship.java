@@ -8,13 +8,13 @@ import com.efo.engine.gfx.Image;
 import java.util.LinkedList;
 
 //Selfmade
-public class Ship extends Vehicle{
+public class Ship extends Vehicle {
 
     protected double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
     protected double alphaAcc;  // Die Winkelbeschleunigung
     protected double alpha;     // Der Winkel
     public String playerName;
-    private int HP = 100;
+    private int HP = 10;
     boolean alive = true;
     LinkedList<Vector> exPos = new LinkedList<>();
 		Double shotCap = 0.0, attackSpeed = 1.0/15.0;

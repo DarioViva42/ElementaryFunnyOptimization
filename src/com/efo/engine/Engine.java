@@ -8,6 +8,8 @@ public class Engine implements Runnable {
 
 
   private Thread thread;
+
+
   private Window window;
   private Renderer renderer;
   private Input input;
@@ -27,14 +29,18 @@ public class Engine implements Runnable {
   }
 
   public void start() {
-    //ge bedeutet Game Engine
+    //ge == Game Engine
     window = new Window(this);
     renderer = new Renderer(this);
     input = new Input(this);
     mouse = new Image("/Mouse.png");
     antiAliasing = false;
+
+
     thread = new Thread(this);
-    thread.run(); //Makes this main thread
+    thread.run(); //Makes this the main thread
+
+
   }
 
   public void stop() {

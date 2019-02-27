@@ -11,15 +11,15 @@ public abstract class Vehicle {
 
     // Attributes ----------------------------------
     protected Vector pos;
-    protected Vector oldPos;
+    Vector oldPos;
     protected Vector gunPos;// Position der Waffe (Vorne)
     protected Vector vel;
-    protected Vector acc;
-    protected Image model;
-    protected String faction = "";
+    Vector acc;
+    Image model;
+    String faction = "";
 
     // explosion 0, laser 1-5
-    protected static LinkedList<SoundClip> sounds = new LinkedList<>();
+    static LinkedList<SoundClip> sounds = new LinkedList<>();
 
 
 
