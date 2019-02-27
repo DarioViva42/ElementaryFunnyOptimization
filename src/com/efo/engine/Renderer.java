@@ -4,18 +4,14 @@ import com.efo.engine.gfx.Font;
 import com.efo.engine.gfx.Image;
 import com.efo.engine.gfx.ImageTile;
 
-import java.awt.Color;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class Renderer {
   private int pW, pH; //pixel width and height
-  int[] p;
+  private int[] p;
   private final int[][] kern = {{1,4,1},{4,32,4},{1,4,1}};
   private int kSum = 0;
-  //Dimensionality
-  private final int d = 1;
 
   private Font font = Font.STANDARD;
 
@@ -32,7 +28,7 @@ public class Renderer {
     }
   }
 
-  public void clear() {
+  void clear() {
     for(int i = 0; i < p.length; i++) {
       p[i] = 0xff000000;
     }
@@ -54,7 +50,7 @@ public class Renderer {
 
   }
 
-  public void drawText(String text, int offX, int offY, int color){
+  void drawText(String text, int offX, int offY, int color){
 
     // Da folgende Zeichen nicht in unserem Zeichensatz enthalten sind ersetzen wir sie.
     text = text.replaceAll("ä", "ae");
@@ -173,62 +169,11 @@ public class Renderer {
     }
   }
 
-  public void rectangle(int offX, int offY, int width, int height, int color) {
-
-    for (int y = 0; y <= height; y++) {
-      setPixel(offX, offY + y, color);
-      setPixel(offX + width, offY + y, color);
-    }
-
-    for (int x = 0; x <= width; x++) {
-      setPixel(offX + x, offY, color);
-      setPixel(offX + x, offY + height, color);
-    }
-
-  }
-
-  public void filledRectangle(int offX, int offY, int width, int height, int color) {
-
-    //Dont Render
-    if(offX < -width) return;
-    if(offY < -height) return;
-    if(offX >= pW) return;
-    if(offY >= pW) return;
-
-    int newX = 0;
-    int newY = 0;
-    int newWidth = width;
-    int newHeight = height;
-
-    //Clipping
-    if(offX < 0) {newX -= offX;}
-    if(offY < 0) {newY -= offY;}
-    if(newWidth + offX >= pW) {newWidth -= (newWidth + offX - pW);}
-    if(newHeight + offY >= pH) {newHeight -= (newHeight + offY - pH);}
-
-    for (int y = 0; y <= newHeight; y++) {
-      for (int x = 0; x <= newWidth; x++) {
-        setPixel(offX + x, offY + y, color);
-      }
-    }
-  }
 
 
-  public void circle(int offX, int offY, int r, int color) {
 
-    double i, angle, x1, y1, pi;
-    pi = Math.PI;
-
-    for (i = 0; i <= 360; i += 0.1) {
-      angle = i;
-      x1 = r * Math.cos(angle * pi / 180);
-      y1 = r * Math.sin(angle * pi / 180);
-      setPixel((int) (offX + x1), (int) (offY + y1), color);
-    }
-  }
-
-    //Selfmade
-  public void antiAliasing() {
+    //Self made
+  void antiAliasing() {
                 //a r g b
     int[] argb = {0,0,0,0};
 
@@ -255,14 +200,14 @@ public class Renderer {
 
               //if(i == 0 && j == 0 && red > 5 && green > 5 && blue > 5) {
 
-                argb[0] += kern[i + d][j + d] * alpha;
-                argb[1] += kern[i + d][j + d] * red;
-                argb[2] += kern[i + d][j + d] * green;
-                argb[3] += kern[i + d][j + d] * blue;
+                argb[0] += kern[i + 1][j + 1] * alpha;
+                argb[1] += kern[i + 1][j + 1] * red;
+                argb[2] += kern[i + 1][j + 1] * green;
+                argb[3] += kern[i + 1][j + 1] * blue;
               //}
 
             } catch (IndexOutOfBoundsException e) {
-
+              //Do Nothing
             }
           }
         }
@@ -271,7 +216,7 @@ public class Renderer {
           argb[i] = argb[i] / kSum;
         }
 
-        int color = argb[0] * 0x01000000 + argb[1] * 0x00010000 + argb[2] * 0x00000100 + argb[3] * 0x00000001;
+        int color = argb[0] * 0x01000000 + argb[1] * 0x00010000 + argb[2] * 0x00000100 + argb[3];
 
         pCopy[x+y*pW] = color;
 
@@ -291,7 +236,7 @@ public class Renderer {
   }
 
 // Aus einem Forum
-  int blend (int a, int b, float ratio) {
+  private int blend (int a, int b, float ratio) {
     if (ratio > 1f) {
       ratio = 1f;
     } else if (ratio < 0f) {
@@ -299,12 +244,12 @@ public class Renderer {
     }
     float iRatio = 1.0f - ratio;
 
-    int aA = (a >> 24 & 0xff);
+    //int aA = (a >> 24 & 0xff);
     int aR = ((a & 0xff0000) >> 16);
     int aG = ((a & 0xff00) >> 8);
     int aB = (a & 0xff);
 
-    int bA = (b >> 24 & 0xff);
+    //int bA = (b >> 24 & 0xff);
     int bR = ((b & 0xff0000) >> 16);
     int bG = ((b & 0xff00) >> 8);
     int bB = (b & 0xff);
@@ -315,60 +260,6 @@ public class Renderer {
     int bM = (int)((aB * iRatio) + (bB * ratio));
 
     return aM << 24 | rM << 16 | gM << 8 | bM;
-  }
-
-
-
-  public void antiAliasing2() {
-    int pixel, pixelP, upper, upperP, lower, lowerP, left, leftP, right, rightP;
-
-    for (int x = 0; x < pW; x++) {
-      for (int y = 0; y < pH; y++) {
-
-        pixelP = x + y * pW;
-        upperP = x + (y - 1) * pW;
-        lowerP = x + (y + 1) * pW;
-        rightP = (x + 1) + y * pW;
-        leftP = (x - 1) + y * pW;
-
-
-        pixel = p[pixelP];
-
-        if(pixel != 0xff000000) {
-          if (upperP >= 0) {
-            upper = p[upperP];
-            upper = upper - 12 * (0x01000000);
-
-            setPixel(x, y, upper);
-          }
-
-          if (lowerP < pH * pW) {
-            lower = p[lowerP];
-
-            lower = lower - 12 * (0x02000000);
-            setPixel(x, y, lower);
-          }
-
-          if (!(rightP % pW == 0)) {
-            right = p[rightP];
-            right = right - 12 * (0x02000000);
-            setPixel(x, y + 1, right);
-          }
-
-          if (leftP % pW == (pW)) {
-            left = p[leftP];
-            left = left - 12 * (0x01000000);
-            setPixel(x, y, left);
-          }
-
-        }
-
-      }
-    }
-
-    //p[x + y *pW] = value;
-
-
   }
 
 }

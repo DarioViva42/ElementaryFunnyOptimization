@@ -16,9 +16,9 @@ public class Main extends AbstractGame {
   private Star s;
   private LinkedList<Boid> rebel, empire;
   private LinkedList<Ship> players;
-  private int enemyCount = 20;
+  private int enemyCount = 10;
   private LinkedList<HPBar> bars;
-  private boolean setupAllreadyExecuted = false, executed1 = false, executed = false, test = false;
+  private boolean setupAllreadyExecuted = false, executed = false, executed1 = false, executed2 = false, test = false;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
   private int rand1;
 
@@ -212,6 +212,7 @@ public class Main extends AbstractGame {
           }
           setupAllreadyExecuted = false;
           executed = false;
+          executed2 = false;
 
           PvE.update(inputPos, inputTest, sound.testState());
           PvP.update(inputPos, inputTest, sound.testState());
@@ -266,7 +267,7 @@ public class Main extends AbstractGame {
       if(screen.equals("PvE")) {
           if(!setupAllreadyExecuted) {
               for(int j = 0; j < enemyCount; j++) {
-                  //rebel.add(new Boid("rebel"));
+                  rebel.add(new Boid("rebel"));
                   empire.add(new Boid("empire"));
               }
 
@@ -317,20 +318,25 @@ public class Main extends AbstractGame {
       if(screen.equals("victory")) {
 
 
-          System.out.println(rand1);
-
-          if(rand1 == 42) {test = true; pveMusic.stop(); randSound.loop();}
 
           if(!executed) {
 
               rand1 = Vector.getRandomNumberInRange(0,50);
-
 
               players.clear();
               bars.clear();
               players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
               bars.add(new HPBar(players.get(0)));
               executed = true;
+
+          }
+
+          if(rand1 == 42 && !executed2) {
+              test = true;
+              pveMusic.stop();
+              randSound.play();
+              System.out.println("hi");
+              executed2 = true;
           }
 
           toMainMenu.update(inputPos,inputTest, sound.testState());
@@ -387,12 +393,12 @@ public class Main extends AbstractGame {
           rebel.update();
       }
 
-      for (int i = 0; i < rebel.size(); i++) {
-          rebel.get(i).peripheralVision(empire,players);
+      for (Boid xWing: empire) {
+          xWing.peripheralVision(empire,players);
       }
 
-      for (int i = 0; i < empire.size(); i++) {
-          empire.get(i).peripheralVision(rebel,players);
+      for (Boid tieFighter: empire) {
+          tieFighter.peripheralVision(rebel,players);
       }
 
       for (int j = 0; j < Vehicle.rebelLasers.size(); j++) {
@@ -516,8 +522,12 @@ public class Main extends AbstractGame {
 
     //Draw Ships
     if(screen.equals("PvE")) {
+        for (Boid xWing: rebel) {
+            xWing.show(r);
+        }
         for(Boid tieFighter : empire) {
             tieFighter.show(r);
+
         }
     }
 

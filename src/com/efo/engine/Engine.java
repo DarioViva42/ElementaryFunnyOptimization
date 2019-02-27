@@ -8,6 +8,8 @@ public class Engine implements Runnable {
 
 
   private Thread thread;
+
+
   private Window window;
   private Renderer renderer;
   private Input input;
@@ -27,14 +29,18 @@ public class Engine implements Runnable {
   }
 
   public void start() {
-    //ge bedeutet Game Engine
+    //ge == Game Engine
     window = new Window(this);
     renderer = new Renderer(this);
     input = new Input(this);
     mouse = new Image("/Mouse.png");
     antiAliasing = false;
+
+
     thread = new Thread(this);
-    thread.run(); //Makes this main thread
+    thread.run(); //Makes this the main thread
+
+
   }
 
   public void stop() {
@@ -72,10 +78,9 @@ public class Engine implements Runnable {
         game.update(this,(float)UPDATE_CAP);
 
         // Schalte zwischen Aliasing und anti-Aliasing
-        if (input.isKeyDown(KeyEvent.VK_P)){
-          if(antiAliasing){
+        if(input.isKeyDown(KeyEvent.VK_P) && antiAliasing){
             antiAliasing = false;
-          } else{
+          } else {
             antiAliasing = true;
           }
         }
@@ -120,7 +125,7 @@ public class Engine implements Runnable {
           e.printStackTrace();
         }
       }
-    }
+
     dispose();
   }
 
@@ -144,7 +149,7 @@ public class Engine implements Runnable {
     this.height = height;
   }
 
-  public float getScale() {
+  float getScale() {
     return scale;
   }
 
@@ -152,7 +157,7 @@ public class Engine implements Runnable {
     this.scale = scale;
   }
 
-  public String getTitle() {
+  String getTitle() {
     return title;
   }
 
@@ -160,7 +165,7 @@ public class Engine implements Runnable {
     this.title = title;
   }
 
-  public Window getWindow() {
+  Window getWindow() {
     return window;
   }
 

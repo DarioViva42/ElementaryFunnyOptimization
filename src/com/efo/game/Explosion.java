@@ -8,9 +8,9 @@ public class Explosion {
 
     private final ImageTile explosion;
     private int frameCount, frame;
-    boolean finished = false;
-    Double spriteDuration;
-    float tempX, tempY;
+    private boolean finished = false;
+    private Double spriteDuration;
+    private float tempX, tempY;
 
 
     Explosion(int spriteCount, Double spriteDuration) {
@@ -46,11 +46,7 @@ public class Explosion {
         }
     }
 
-    public int getFrame() {
-        return frame;
-    }
-
-    public boolean isFinished() {
+    boolean isFinished() {
         return finished;
     }
 }
