@@ -77,9 +77,10 @@ public class Renderer {
   }
 
   public void drawImage(Image image, int offX, int offY, double angle) {
-    int rX, rY, color;
     int w = image.getW();
     int h = image.getH();
+
+	  int numOfThreads = 4;
 
 	  if (angle != 0) {
 
@@ -103,16 +104,22 @@ public class Renderer {
 		  if(newWidth + offX >= pW) {newWidth -= (newWidth + offX - pW);}
 		  if(newHeight + offY >= pH) {newHeight -= (newHeight + offY - pH);}
 
-		  for (int y = newY; y < newHeight; y++) {
-			  for (int x = newX; x < newWidth; x++) {
+		  ImageRotThread[] threads = new ImageRotThread[numOfThreads];
 
-				  rX = (int) (x * Math.cos(angle) + y * Math.sin(angle) + w/2.0);
-				  rY = (int) (-x * Math.sin(angle) + y * Math.cos(angle) + h/2.0);
+		  int stripeY = (newHeight-newY) / 4;
+		  for (int i = 0; i < numOfThreads; i++) {
+			  threads[i] = new ImageRotThread(newY + i * stripeY, stripeY, newX, newWidth,angle, image, w, h, offX, offY, this);
+		  }
 
-				  if (rX < w && rX >= 0 && rY < h && rY >= 0) {
-					  color = image.getP()[rX + rY * image.getW()];
-					  setPixel(x + offX, y + offY, color);
-				  }
+		  for (int i = 0; i < numOfThreads; i++) {
+			  threads[i].start();
+		  }
+
+		  for (int i = 0; i < numOfThreads; i++) {
+			  try {
+				  threads[i].join();
+			  } catch (InterruptedException e) {
+				  e.printStackTrace();
 			  }
 		  }
 	  } else{
@@ -134,10 +141,22 @@ public class Renderer {
 		  if(newWidth + offX - w/2 >= pW) {newWidth -= (newWidth + offX - pW - w/2);}
 		  if(newHeight + offY - h/2>= pH) {newHeight -= (newHeight + offY - pH - h/2);}
 
-		  for (int y = newY; y < newHeight; y++) {
-			  for (int x = newX; x < newWidth; x++) {
-		      color = image.getP()[x + y * image.getW()];
-		      setPixel(x -w/2 + offX, y - h/2 + offY, color);
+		  ImageThread[] threads = new ImageThread[numOfThreads];
+
+		  int stripeY = (newHeight-newY) / 4;
+		  for (int i = 0; i < numOfThreads; i++) {
+			  threads[i] = new ImageThread(newY + i * stripeY, stripeY, newX, newWidth, image, w, h, offX, offY, this);
+		  }
+
+		  for (int i = 0; i < numOfThreads; i++) {
+			  threads[i].start();
+		  }
+
+		  for (int i = 0; i < numOfThreads; i++) {
+			  try {
+				  threads[i].join();
+			  } catch (InterruptedException e) {
+				  e.printStackTrace();
 			  }
 		  }
 	  }
