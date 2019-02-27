@@ -9,7 +9,6 @@ public class Image {
   private int[] p;
 
   public Image(String path) {
-    System.out.println("hierher komme ich." + path);
     BufferedImage image = null;
 
     try {

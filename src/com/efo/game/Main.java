@@ -10,9 +10,7 @@ import java.util.LinkedList;
 public class Main extends AbstractGame {
 
   private Image background, victory, defeat, royal, rebelV, empireV;
-  private Image soundIcon, musicIcon;
   private Star[] starField = new Star[400];
-  private Star s;
   private LinkedList<Boid> rebel, empire;
   private LinkedList<Ship> players;
   private int enemyCount = 10;
@@ -76,17 +74,15 @@ public class Main extends AbstractGame {
 
 
 
-    background = new Image("/mainMenuBackground.jpg");
-    victory = new Image("/victory.png");
-    royal = new Image("/royal.png");
-    defeat = new Image("/defeat.png");
-    rebelV = new Image("/rebelWin.png");
-    empireV = new Image("/empireWin.png");
+    background = new Image("/screens/mainMenuBackground.jpg");
+    victory = new Image("/screens/victory.png");
+    royal = new Image("/screens/royal.png");
+    defeat = new Image("/screens/defeat.png");
+    rebelV = new Image("/screens/rebelWin.png");
+    empireV = new Image("/screens/empireWin.png");
 
-    soundIcon = new Image("/soundIcon.png");
-    musicIcon = new Image("/musicIcon.png");
-
-    s = new Star();
+    Image soundIcon = new Image("/etc/soundIcon.png");
+    Image musicIcon = new Image("/etc/musicIcon.png");
 
 
     for (int j = 0; j < starField.length; j++) {
@@ -99,8 +95,8 @@ public class Main extends AbstractGame {
     PvE = new Button(100, 150, " PvE");
     Coop = new Button(100, 200, " Coop");
     //settings = new Button(100, 250, "Settings");
-    Exit = new Button(385,270," Exit", "/exitHover.png","/exitNoHover.png","/exitClicked.png");
-    toMainMenu = new Button(385,270," Menu", "/exitHover.png", "/exitNoHover.png", "/exitClicked.png");
+    Exit = new Button(385,270," Exit", "/button/exitHover.png","/button/exitNoHover.png","/button/exitClicked.png");
+    toMainMenu = new Button(385,270," Menu", "/button/exitHover.png", "/button/exitNoHover.png", "/button/exitClicked.png");
 
 
     sound = new Checkbox(300, 50, soundIcon);
@@ -405,6 +401,7 @@ public class Main extends AbstractGame {
                   Vehicle.rebelLasers.get(j).getPos().getX() > 484 ||
                   Vehicle.rebelLasers.get(j).getPos().getY() < -4 ||
                   Vehicle.rebelLasers.get(j).getPos().getY() > 324) {
+            //Wenn ein Laser den Bildschirm verlässt wird er gelöscht.
               Vehicle.rebelLasers.remove(j);
           }
       }
@@ -414,6 +411,7 @@ public class Main extends AbstractGame {
                   Vehicle.empireLasers.get(i).getPos().getX() > 484 ||
                   Vehicle.empireLasers.get(i).getPos().getY() < -4 ||
                   Vehicle.empireLasers.get(i).getPos().getY() > 324) {
+            //Wenn ein Laser den Bildschirm verlässt wird er gelöscht.
               Vehicle.empireLasers.remove(i);
           }
       }
@@ -449,6 +447,7 @@ public class Main extends AbstractGame {
       for (int i = 0; i < bars.size(); i++) {
           bars.get(i).update(players.get(i));
           if(!players.get(i).alive) {
+            //Wenn ein Spieler tot ist wird seine HB entfernt.
               bars.remove(i);
           }
       }
@@ -464,6 +463,7 @@ public class Main extends AbstractGame {
               /*deathExplosions.add(new Explosion(11,5.0));
               deathPos.add(rebel.get(f).pos);
               deathVel.add(rebel.get(f).vel);*/
+            //Wenn ein Rebell tot ist wird er gelöscht.
               rebel.remove(f);
           }
       }
@@ -473,6 +473,7 @@ public class Main extends AbstractGame {
               /*deathExplosions.add(new Explosion(11,5.0));
               deathPos.add(empire.get(f).pos);
               deathVel.add(empire.get(f).vel);*/
+            //Wenn ein Empiriant tot ist wird er gelöscht.
               empire.remove(f);
           }
       }
@@ -482,6 +483,7 @@ public class Main extends AbstractGame {
               /*deathExplosions.add(new Explosion(11,5.0));
               deathPos.add(players.get(f).pos);
               deathVel.add(players.get(f).vel);*/
+            //Wenn ein Empiriant tot ist wird er gelöscht.
               players.remove(f);
           }
       }

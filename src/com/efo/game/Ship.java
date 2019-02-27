@@ -34,7 +34,7 @@ public class Ship extends Vehicle{
         this.alpha = alpha % 360;
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
-        model = new Image("/falcon.png");
+        model = new Image("/ships/falcon.png");
 
     }
 

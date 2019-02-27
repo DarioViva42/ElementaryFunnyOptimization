@@ -13,8 +13,8 @@ public class Checkbox {
 		this.offY = offY;
 		this.icon = icon;
 		state = true;
-		this.unTicked = new Button(offX,offY,"", "/CB_unticked-hover.png","/CB_unticked-noHover.png","/CB_unticked-clicked.png");
-		this.ticked = new Button(offX,offY,"", "/CB_ticked-hover.png","/CB_ticked-noHover.png","/CB_ticked-clicked.png");
+		this.unTicked = new Button(offX,offY,"", "/checkbox/untickedHover.png","/checkbox/untickedNoHover.png","/checkbox/untickedClicked.png");
+		this.ticked = new Button(offX,offY,"", "/checkbox/tickedHover.png","/checkbox/tickedNoHover.png","/checkbox/tickedClicked.png");
 	}
 
 	public void update(Vector[] objects, boolean[] tests, boolean sound) {

@@ -11,7 +11,7 @@ public class HPBar {
     private int maxHP, x, length = 18, angle = 90;
     private Double tenPercentHP;
     // String status = "";
-    private Image bar = new Image("/fullBar.png");
+    private Image bar = new Image("/healthbar/fullBar.png");
 
     HPBar(Ship ship) {
         test = false;
@@ -30,25 +30,25 @@ public class HPBar {
         }
 
         if(x == 1) {
-            if(test) {test = false; bar = new Image("/fullBar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/fullBar.png");}
         } else if(x == 2) {
-            if(test) {test = false; bar = new Image("/90Bar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/90Bar.png");}
         } else if(x == 3) {
-            if(test) {test = false; bar = new Image("/80Bar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/80Bar.png");}
         } else if(x == 4) {
-            if(test) {test = false; bar = new Image("/70Bar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/70Bar.png");}
         } else if(x == 5) {
-            if(test) {test = false; bar = new Image("/60Bar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/60Bar.png");}
         } else if(x == 6) {
-            if(test) {test = false; bar = new Image("/50Bar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/50Bar.png");}
         } else if(x == 7) {
-            if(test) {test = false; bar = new Image("/40Bar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/40Bar.png");}
         } else if(x == 8) {
-            if(test) {test = false; bar = new Image("/30Bar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/30Bar.png");}
         } else if(x == 9) {
-            if(test) {test = false; bar = new Image("/20Bar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/20Bar.png");}
         } else if(x == 10) {
-            if(test) {test = false; bar = new Image("/10Bar.png");}
+            if(test) {test = false; bar = new Image("/healthbar/10Bar.png");}
         }
     }
 

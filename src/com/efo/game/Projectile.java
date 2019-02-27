@@ -12,7 +12,7 @@ public class Projectile {
 	public Projectile(Vector pos, Vector vel) {
 		this.pos = pos;
 		this.vel = vel;
-		this.laser = new Image("/Munition.png");
+		this.laser = new Image("/etc/ammunitionRed.png");
 	}
 
 	public void show(Renderer r){
