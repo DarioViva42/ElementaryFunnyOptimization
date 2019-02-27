@@ -49,7 +49,7 @@ public class Vector {
     } else {
       System.out.println("Da lief etwas sehr falsch in calcPol.");
     }
-    vLength = (double)Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+    vLength = Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
   }
 
   private void calcCoord(double l, double a){
@@ -77,13 +77,17 @@ public class Vector {
 
   public void div(Double Nenner) {
     if(Nenner != 0) {
-      Double f = this.x / Nenner;
-      Double g = this.y / Nenner;
+      double f = this.x / Nenner;
+      double g = this.y / Nenner;
       calcPol(f, g);
     }
   }
 
   public Vector add(Vector other, boolean test) {
+    if(test){
+      //there is a reason behind everything here
+      //nice
+    }
     Vector giveVec;
     double x = this.getX() + other.getX();
     double y = this.getY() + other.getY();
@@ -92,6 +96,10 @@ public class Vector {
   }
 
   public Vector sub(Vector other, boolean test) {
+    if(test){
+      //nothing to see here!
+      //nice
+    }
     Vector giveVec;
     double x = this.getX() - other.getX();
     double y = this.getY() - other.getY();
@@ -145,13 +153,11 @@ public class Vector {
     double x = Math.abs((vb - wb) / (vm - wm));
     double y = vm * x + vb;
 
-    Vector intersection = new Vector(x, y, "c");
-    return intersection;
+    return new Vector(x, y, "c");
   }
 
   public double distance(Vector b) {
-    double distance = Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2));
-    return distance;
+    return Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2));
   }
 
   public double getLength() {
@@ -162,12 +168,10 @@ public class Vector {
 
   }
   public double getX() {
-    double giveX = this.x;
-    return giveX;
+    return this.x;
   }
   public double getY() {
-      double giveY = this.y;
-      return giveY;
+      return this.y;
   }
 
   public void setC(double x, double y) {
