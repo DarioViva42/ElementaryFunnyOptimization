@@ -84,10 +84,6 @@ public class Vector {
   }
 
   public Vector add(Vector other, boolean test) {
-    if(test){
-      //there is a reason behind everything here
-      //nice
-    }
     Vector giveVec;
     double x = this.getX() + other.getX();
     double y = this.getY() + other.getY();
@@ -96,10 +92,6 @@ public class Vector {
   }
 
   public Vector sub(Vector other, boolean test) {
-    if(test){
-      //nothing to see here!
-      //nice
-    }
     Vector giveVec;
     double x = this.getX() - other.getX();
     double y = this.getY() - other.getY();

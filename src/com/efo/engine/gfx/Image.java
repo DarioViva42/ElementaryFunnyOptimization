@@ -17,7 +17,7 @@ public class Image {
       e.printStackTrace();
     }
 
-    assert image != null;
+
     w = image.getWidth();
     h = image.getHeight();
     p = image.getRGB(0,0,w,h,null,0,w);
