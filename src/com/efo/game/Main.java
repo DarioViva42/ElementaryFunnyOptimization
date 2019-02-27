@@ -13,7 +13,7 @@ public class Main extends AbstractGame {
   private Star[] starField = new Star[400];
   private LinkedList<Boid> rebel, empire;
   private LinkedList<Ship> players;
-  private int enemyCount = 10;
+  private int enemyCount = 30;
   private LinkedList<HPBar> bars;
   private boolean setupAllreadyExecuted = false, executed = false, executed1 = false, executed2 = false, test = false;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
@@ -262,7 +262,7 @@ public class Main extends AbstractGame {
       if(screen.equals("PvE")) {
           if(!setupAllreadyExecuted) {
               for(int j = 0; j < enemyCount; j++) {
-                  rebel.add(new Boid("rebel"));
+                  //rebel.add(new Boid("rebel"));
                   empire.add(new Boid("empire"));
               }
 

@@ -13,9 +13,10 @@ public class Ship extends Vehicle{
     private double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
     private double alphaAcc;  // Die Winkelbeschleunigung
     private double alpha;     // Der Winkel
+
     String playerName;
-    private int HP = 100;
-    boolean alive = true;
+    private int HP = 30;
+    boolean alive = true, gun = true;
     private LinkedList<Vector> exPos = new LinkedList<>();
 		private double shotCap = 0.0;
 
@@ -29,12 +30,18 @@ public class Ship extends Vehicle{
 
         this.pos = pos;
         oldPos = new Vector(getX(),getY(),"c");
+
         alphaVel = 0;
         alphaAcc = 0;
         this.alpha = alpha % 360;
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
-        model = new Image("/ships/falcon.png");
+        if(faction.equals("empire")) {
+            model = new Image("/ships/interceptor.png");
+        } else if(faction.equals("rebel")) {
+            model = new Image("/ships/falcon.png");
+        }
+
 
     }
 
@@ -94,22 +101,41 @@ public class Ship extends Vehicle{
 
         if(this.faction.equals("rebel")) {
 	        if(shotCap >= 1) {
-		        Vehicle.rebelLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
-				        new Vector(this.shootForce, alpha, "p")));
-		        if(sound){
-			        sounds.get(5).play();
-		        }
+	            if(gun) {
+                    Vehicle.rebelLasers.add(new Projectile(pos.add(new Vector(8,alpha-30,"p"),true),new Vector(this.shootForce, alpha, "p")));
+                    if (sound) {
+                        sounds.get(5).play();
+                    }
 
-		        shotCap = 0.0;
+                    shotCap = 0.0;
+                    gun = false;
+                } else {
+                    Vehicle.rebelLasers.add(new Projectile(pos.add(new Vector(7,alpha+30,"p"),true),new Vector(this.shootForce, alpha, "p")));
+                    if (sound) {
+                        sounds.get(5).play();
+                    }
+
+                    shotCap = 0.0;
+                    gun = true;
+                }
 	        }
-        } else {
+        } else if(this.faction.equals("empire")) {
 	        if(shotCap >= 1) {
-		        Vehicle.empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, alpha, "p"), true)),
-				        new Vector(this.shootForce, alpha, "p")));
-		        if(sound){
-			        sounds.get(5).play();
-		        }
-		        shotCap = 0.0;
+	            if(gun) {
+                    Vehicle.empireLasers.add(new Projectile(pos.add(new Vector(8,alpha-20,"p"),true),new Vector(this.shootForce, alpha, "p")));
+                    if (sound) {
+                        sounds.get(5).play();
+                    }
+                    shotCap = 0.0;
+                    gun = false;
+                } else {
+                    Vehicle.empireLasers.add(new Projectile(pos.add(new Vector(8,alpha+20,"p"),true),new Vector(this.shootForce, alpha, "p")));
+                    if (sound) {
+                        sounds.get(5).play();
+                    }
+                    shotCap = 0.0;
+                    gun = true;
+                }
 	        }
         }
     }

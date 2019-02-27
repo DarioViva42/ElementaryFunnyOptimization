@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class Boid extends Vehicle {
 
     //Attributes
-    private Vector rad, desired, steer;
+    private Vector rad, steer;
     private double maxSpeed, maxForce, radiusLength, futureLocationDistance = 80, radAngle = 180;
     private Double shotCap = 0.0, attackSpeed = 1.0/20.0;
     boolean alive = true;
@@ -32,7 +32,7 @@ public class Boid extends Vehicle {
 
         rad = new Vector(0, 0, "p");
 
-        maxSpeed = 3;
+        maxSpeed = 4;
         maxForce = 0.5;
         radiusLength = 20;
 
@@ -43,7 +43,6 @@ public class Boid extends Vehicle {
             model = new Image("/ships/tieFighter.png");
             faction = "empire";
         }
-
 
     }
 
@@ -59,7 +58,7 @@ public class Boid extends Vehicle {
         }
 
         applyForce(floating());
-        flocking(Faction);
+        starWarsShipBehaviour(Faction);
 
         vel.add(acc);
         vel.limit(maxSpeed);
@@ -89,49 +88,12 @@ public class Boid extends Vehicle {
         }
     }
 
-    private void flocking(LinkedList<Boid> boids) {
-        //Vector sep = seperate(boids);
-        //Vector coh = cohesion(boids);
+    private void starWarsShipBehaviour(LinkedList<Boid> boids) {
         Vector ali = align(boids);
 
-        //sep.mult(1.5);
-        //coh.mult(1.0);
         ali.mult(1.0);
 
-        //applyForce(sep);
-        //applyForce(coh);
         applyForce(ali);
-
-
-    }
-
-    public Vector seperate(LinkedList<Boid> boids) {
-        Double desiredSeperation = 25.0;
-        Vector steer = new Vector(0,0, "p");
-        Double count = 0.0;
-
-        for (Boid other: boids) {
-            Double d = this.pos.distance(other.pos);
-            if((d > 0) && (d < desiredSeperation)) {
-                Vector diff = this.pos.sub(other.pos,true);
-                diff.setLength(1);
-                diff.div(d);
-                steer.add(diff);
-                count++;
-            }
-        }
-
-        if(count > 0) {
-            steer.div(count);
-        }
-
-        if(steer.getLength() > 0) {
-            steer.setLength(1);
-            steer.mult(maxSpeed);
-            steer.sub(vel);
-            steer.limit(maxForce);
-        }
-        return steer;
     }
 
     private Vector align(LinkedList<Boid> boids) {
@@ -148,7 +110,7 @@ public class Boid extends Vehicle {
         if(count > 0) {
             sum.div((count));
             sum.setLength(1);
-            sum.mult(maxSpeed);
+            sum.mult(maxSpeed / 1.8);
             Vector steer = sum.sub(vel,true);
             steer.limit(maxForce);
             return steer;
@@ -157,26 +119,6 @@ public class Boid extends Vehicle {
         }
     }
 
-    public Vector cohesion(LinkedList<Boid> boids) {
-        float neighborDistance = 50;
-        Vector sum = new Vector(0,0,"p");
-        Double count = 0.0;
-
-        for (Boid other: boids) {
-            double d = this.pos.distance(other.pos);
-            if((d > 0) && (d < neighborDistance)) {
-                sum.add(other.pos);
-                count++;
-            }
-        }
-        if(count > 0) {
-            sum.div(count);
-            return seek(sum);
-        }
-        else {
-            return new Vector(0,0,"p");
-        }
-    }
 
     void peripheralVision(LinkedList<Boid> boids, LinkedList<Ship> players, boolean sound) {
         //Vector sum = new Vector(0,0,"p");
@@ -184,8 +126,8 @@ public class Boid extends Vehicle {
 
         for (Boid other: boids) {
             Vector diff = other.pos.sub(this.pos, true);
-            boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 30;
-            if ((diff.getLength() > 0) && (diff.getLength() < 200) && isTargetFront) {
+            boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 50;
+            if ((diff.getLength() > 0) && (diff.getLength() < 160) && isTargetFront) {
                 //sum.add(other.vel);
                 currentTargets.add(other);
                 count++;
@@ -193,10 +135,10 @@ public class Boid extends Vehicle {
         }
 
         for (Ship player: players) {
-            if(!player.faction.equals(this.faction)) {
+            if (!player.faction.equals(this.faction)) {
                 Vector diff = player.pos.sub(this.pos, true);
-                boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 30;
-                if ((diff.getLength() > 0) && (diff.getLength() < 200) && isTargetFront) {
+                boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 50;
+                if ((diff.getLength() > 0) && (diff.getLength() < 180) && isTargetFront) {
                     //sum.add(other.vel);
                     currentTargets.add(player);
                     count++;
@@ -208,6 +150,30 @@ public class Boid extends Vehicle {
             shoot(sound);
             for (Vehicle ship: currentTargets) {
                 applyForce(seek(ship.getPos()));
+            }
+        } else if(count == 0) {
+            currentTargets.clear();
+        }
+    }
+
+    void avoidGettingShot(LinkedList<Boid> boids) {
+        //Vector sum = new Vector(0,0,"p");
+        double count = 0.0;
+
+        for (Boid other: boids) {
+            Vector diff = other.pos.sub(this.pos, true);
+            boolean isTargetBack = (Math.abs(diff.getAngle() - (this.vel.getAngle() + 180)) + 360) % 360 < 30;
+            if ((diff.getLength() > 0) && (diff.getLength() < 80) && isTargetBack) {
+                //sum.add(other.vel);
+                currentTargets.add(other);
+                count++;
+            }
+        }
+
+        if(count > 0) {
+            shoot();
+            for (Vehicle boid: currentTargets) {
+                applyForce(flee(boid.getPos()));
             }
         } else if(count == 0) {
             currentTargets.clear();
@@ -244,6 +210,7 @@ public class Boid extends Vehicle {
 
 
     private Vector floating() {
+        Vector desired;
         Vector futureLocation = new Vector(0,0,"c");
         futureLocation.setP(futureLocationDistance, vel.getAngle());
         int rand = (int)(Math.random() * 40);
@@ -267,32 +234,27 @@ public class Boid extends Vehicle {
     }
 
 
-
     private Vector seek(Vector target) {
         Vector desired = pos.sub(target, true);
 
         desired.setLength(1);
-        desired.mult(maxSpeed);
+        desired.mult(2 * maxSpeed);
 
         Vector steer = vel.sub(desired,true);
         steer.limit(maxForce);  // Limit to maximum steering force
         return steer;
     }
 
-    public void flee(Vector target) {
-        if (this.pos.distance(target) < 80) {
-            desired = (pos).sub(new Vector(target.getX(), target.getY(), "c"), true);
+    public Vector flee(Vector target) {
+        Vector desired;
+        desired = (pos).sub(new Vector(target.getX(), target.getY(), "c"), true);
 
-            desired.mult(2.0);
-            desired.setLength(1);
-            desired.mult(maxSpeed);
-
-            steer = desired.sub(vel, true);
-
-            steer.limit(maxForce);
-
-            acc.setP(steer.getLength(), steer.getAngle());
-        }
+        desired.mult(5.0);
+        desired.setLength(1);
+        desired.mult(maxSpeed);
+        steer = desired.sub(vel, true);
+        steer.limit(maxForce);
+        return steer;
     }
 
     private void shoot(boolean sound) {
@@ -323,5 +285,71 @@ public class Boid extends Vehicle {
 
     private void applyForce(Vector force) {
         acc.add(force);
+    }
+
+    private void flocking(LinkedList<Boid> boids) {
+        Vector sep = seperate(boids);
+        Vector coh = cohesion(boids);
+        Vector ali = align(boids);
+
+        sep.mult(1.5);
+        coh.mult(1.0);
+        ali.mult(1.0);
+
+        applyForce(sep);
+        applyForce(coh);
+        applyForce(ali);
+
+
+    }
+
+    public Vector seperate(LinkedList<Boid> boids) {
+        Double desiredSeperation = 25.0;
+        Vector steer = new Vector(0,0, "p");
+        Double count = 0.0;
+
+        for (Boid other: boids) {
+            Double d = this.pos.distance(other.pos);
+            if((d > 0) && (d < desiredSeperation)) {
+                Vector diff = this.pos.sub(other.pos,true);
+                diff.setLength(1);
+                diff.div(d);
+                steer.add(diff);
+                count++;
+            }
+        }
+
+        if(count > 0) {
+            steer.div(count);
+        }
+
+        if(steer.getLength() > 0) {
+            steer.setLength(1);
+            steer.mult(maxSpeed);
+            steer.sub(vel);
+            steer.limit(maxForce);
+        }
+        return steer;
+    }
+
+    public Vector cohesion(LinkedList<Boid> boids) {
+        float neighborDistance = 50;
+        Vector sum = new Vector(0,0,"p");
+        Double count = 0.0;
+
+        for (Boid other: boids) {
+            double d = this.pos.distance(other.pos);
+            if((d > 0) && (d < neighborDistance)) {
+                sum.add(other.pos);
+                count++;
+            }
+        }
+        if(count > 0) {
+            sum.div(count);
+            return seek(sum);
+        }
+        else {
+            return new Vector(0,0,"p");
+        }
     }
 }
