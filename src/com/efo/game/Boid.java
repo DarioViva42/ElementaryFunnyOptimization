@@ -12,12 +12,12 @@ public class Boid extends Vehicle {
     //Attributes
     private Vector rad, desired, steer;
     private double maxSpeed, maxForce, radiusLength, futureLocationDistance = 80, radAngle = 180;
-    Double shotCap = 0.0, attackSpeed = 1.0/20.0;
+    private Double shotCap = 0.0, attackSpeed = 1.0/20.0;
     boolean alive = true;
     Vector exPos;
-    LinkedList<Vehicle> currentTargets;
+    private LinkedList<Vehicle> currentTargets;
 
-    int laserSound = Vector.getRandomNumberInRange(1,3);
+    private int laserSound = Vector.getRandomNumberInRange(1,3);
 
     //Constructor
     public Boid(String Faction) {
@@ -36,10 +36,10 @@ public class Boid extends Vehicle {
         maxForce = 0.5;
         radiusLength = 20;
 
-        if(Faction == "rebel" || Faction == "rebel" || Faction == "republik" || Faction == "Republik") {
+        if(Faction.equals("rebel") || Faction.equals("Rebel") || Faction.equals("republik") || Faction.equals("Republik")) {
             model = new Image("/xWing.png");
             faction = "rebel";
-        } else if(Faction == "empire" || Faction == "Empire" || Faction == "imperium" || Faction == "Imperium"){
+        } else if(Faction.equals("empire") || Faction.equals("Empire") || Faction.equals("imperium") || Faction.equals("Imperium")){
             model = new Image("/tieFighter.png");
             faction = "empire";
         }
@@ -52,7 +52,7 @@ public class Boid extends Vehicle {
         int count = 0;
 
         for (Boid other: Faction) {
-            Double d = this.pos.distance(other.pos);
+            double d = this.pos.distance(other.pos);
             if((d > 0) && (d < 50)) {
                 count++;
             }
@@ -89,7 +89,7 @@ public class Boid extends Vehicle {
         }
     }
 
-    public void flocking(LinkedList<Boid> boids) {
+    private void flocking(LinkedList<Boid> boids) {
         //Vector sep = seperate(boids);
         //Vector coh = cohesion(boids);
         Vector ali = align(boids);
@@ -134,12 +134,12 @@ public class Boid extends Vehicle {
         return steer;
     }
 
-    public Vector align(LinkedList<Boid> boids) {
+    private Vector align(LinkedList<Boid> boids) {
         float neighborDistance = 70;
         Vector sum = new Vector(0,0, "p");
-        Double count = 0.0;
+        double count = 0.0;
         for (Boid other: boids) {
-            Double d = this.pos.distance(other.pos);
+            double d = this.pos.distance(other.pos);
             if((d > 0) && (d < neighborDistance)) {
                 sum.add(other.vel);
                 count++;
@@ -163,7 +163,7 @@ public class Boid extends Vehicle {
         Double count = 0.0;
 
         for (Boid other: boids) {
-            Double d = this.pos.distance(other.pos);
+            double d = this.pos.distance(other.pos);
             if((d > 0) && (d < neighborDistance)) {
                 sum.add(other.pos);
                 count++;
@@ -178,9 +178,9 @@ public class Boid extends Vehicle {
         }
     }
 
-    public void peripheralVision(LinkedList<Boid> boids, LinkedList<Ship> players) {
+    void peripheralVision(LinkedList<Boid> boids, LinkedList<Ship> players) {
         //Vector sum = new Vector(0,0,"p");
-        Double count = 0.0;
+        double count = 0.0;
 
         for (Boid other: boids) {
             Vector diff = other.pos.sub(this.pos, true);
@@ -214,44 +214,36 @@ public class Boid extends Vehicle {
         }
     }
 
-    public boolean dead() {
+    boolean dead() {
         int count = 0;
         if (faction.equals("rebel")) {
             for (Projectile enemyLaser: Vehicle.empireLasers) {
-                Double d = this.pos.distance(enemyLaser.getPos());
+                double d = this.pos.distance(enemyLaser.getPos());
                 if(d < 20) {
                     count++;
                     explosions.add(new Explosion(11,5.0));
                 }
             }
 
-            if(count > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return (count > 0);
 
         } else if (faction.equals("empire")) {
             for (Projectile enemyLaser: Vehicle.rebelLasers) {
-                Double d = this.pos.distance(enemyLaser.getPos());
+                double d = this.pos.distance(enemyLaser.getPos());
                 if(d < 20) {
                     count++;
                     explosions.add(new Explosion(11,5.0));
                 }
             }
 
-            if(count > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return(count > 0);
         } else {
             return false;
         }
     }
 
 
-    public Vector floating() {
+    private Vector floating() {
         Vector futureLocation = new Vector(0,0,"c");
         futureLocation.setP(futureLocationDistance, vel.getAngle());
         int rand = (int)(Math.random() * 40);
@@ -260,8 +252,6 @@ public class Boid extends Vehicle {
             radAngle += 5;
         } else if(rand > 30) {
             radAngle -= 5;
-        } else {
-
         }
 
         rad.setP(radiusLength, radAngle);
@@ -278,7 +268,7 @@ public class Boid extends Vehicle {
 
 
 
-    Vector seek(Vector target) {
+    private Vector seek(Vector target) {
         Vector desired = pos.sub(target, true);
 
         desired.setLength(1);
@@ -305,7 +295,7 @@ public class Boid extends Vehicle {
         }
     }
 
-    public void shoot() {
+    private void shoot() {
         if(faction.equals("rebel")) {
             if(shotCap >= 1) {
                 rebelLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
@@ -329,7 +319,7 @@ public class Boid extends Vehicle {
         }
     }
 
-    public void applyForce(Vector force) {
+    private void applyForce(Vector force) {
         acc.add(force);
     }
 }

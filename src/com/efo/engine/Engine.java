@@ -78,10 +78,9 @@ public class Engine implements Runnable {
         game.update(this,(float)UPDATE_CAP);
 
         // Schalte zwischen Aliasing und anti-Aliasing
-        if (input.isKeyDown(KeyEvent.VK_P)){
-          if(antiAliasing){
+        if(input.isKeyDown(KeyEvent.VK_P) && antiAliasing){
             antiAliasing = false;
-          } else{
+          } else {
             antiAliasing = true;
           }
         }
@@ -126,7 +125,7 @@ public class Engine implements Runnable {
           e.printStackTrace();
         }
       }
-    }
+
     dispose();
   }
 
@@ -150,7 +149,7 @@ public class Engine implements Runnable {
     this.height = height;
   }
 
-  public float getScale() {
+  float getScale() {
     return scale;
   }
 
@@ -158,7 +157,7 @@ public class Engine implements Runnable {
     this.scale = scale;
   }
 
-  public String getTitle() {
+  String getTitle() {
     return title;
   }
 
@@ -166,7 +165,7 @@ public class Engine implements Runnable {
     this.title = title;
   }
 
-  public Window getWindow() {
+  Window getWindow() {
     return window;
   }
 

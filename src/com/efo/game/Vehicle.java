@@ -1,6 +1,5 @@
 package com.efo.game;
 
-import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
 import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
@@ -12,7 +11,7 @@ public abstract class Vehicle {
     // Attributes ----------------------------------
     protected Vector pos;
     Vector oldPos;
-    protected Vector gunPos;// Position der Waffe (Vorne)
+    //protected Vector gunPos;// Position der Waffe (Vorne)
     protected Vector vel;
     Vector acc;
     Image model;
@@ -24,21 +23,17 @@ public abstract class Vehicle {
 
 
 
-    protected final double shootForce = 10.0;
+    final double shootForce = 10.0;
 
-    public static LinkedList<Projectile> empireLasers = new LinkedList<>();
-    public static LinkedList<Projectile> rebelLasers = new LinkedList<>();
+    static LinkedList<Projectile> empireLasers = new LinkedList<>();
+    static LinkedList<Projectile> rebelLasers = new LinkedList<>();
 
-    protected LinkedList<Explosion> explosions = new LinkedList<>();
+    LinkedList<Explosion> explosions = new LinkedList<>();
 
     // Methods -------------------------------------
 
     public Vector getPos() {
         return this.pos;
-    }
-
-    public double getAbsVel() {
-        return this.vel.getLength();
     }
 
     public double getX() {
@@ -49,7 +44,7 @@ public abstract class Vehicle {
         return this.pos.getY();
     }
 
-    public void border() {
+    void border() {
 
         //If out of border left -> go in from the right
         if(pos.getX() < -20) {
@@ -66,7 +61,7 @@ public abstract class Vehicle {
         }
     }
 
-    public String getFaction() {
+    String getFaction() {
         return faction;
     }
 }

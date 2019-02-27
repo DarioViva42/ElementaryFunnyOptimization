@@ -406,12 +406,12 @@ public class Main extends AbstractGame {
           rebel.update();
       }
 
-      for (int i = 0; i < rebel.size(); i++) {
-          rebel.get(i).peripheralVision(empire,players);
+      for (Boid xWing: empire) {
+          xWing.peripheralVision(empire,players);
       }
 
-      for (int i = 0; i < empire.size(); i++) {
-          empire.get(i).peripheralVision(rebel,players);
+      for (Boid tieFighter: empire) {
+          tieFighter.peripheralVision(rebel,players);
       }
 
       for (int j = 0; j < Vehicle.rebelLasers.size(); j++) {

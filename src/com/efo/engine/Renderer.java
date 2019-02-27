@@ -12,8 +12,6 @@ public class Renderer {
   private int[] p;
   private final int[][] kern = {{1,4,1},{4,32,4},{1,4,1}};
   private int kSum = 0;
-  //Dimensionality
-  private final int d = 1;
 
   private Font font = Font.STANDARD;
 
@@ -202,10 +200,10 @@ public class Renderer {
 
               //if(i == 0 && j == 0 && red > 5 && green > 5 && blue > 5) {
 
-                argb[0] += kern[i + d][j + d] * alpha;
-                argb[1] += kern[i + d][j + d] * red;
-                argb[2] += kern[i + d][j + d] * green;
-                argb[3] += kern[i + d][j + d] * blue;
+                argb[0] += kern[i + 1][j + 1] * alpha;
+                argb[1] += kern[i + 1][j + 1] * red;
+                argb[2] += kern[i + 1][j + 1] * green;
+                argb[3] += kern[i + 1][j + 1] * blue;
               //}
 
             } catch (IndexOutOfBoundsException e) {

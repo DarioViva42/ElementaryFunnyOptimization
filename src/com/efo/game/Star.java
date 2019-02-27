@@ -44,51 +44,6 @@ public class Star {
         //newSizeVel();
     }
 
-    /*Star(int direction) {
-        double sX;
-        double sY;
-        switch(direction) {
-            case 1:
-
-                sX = 0;
-                sY = random(0,height);
-
-                pos = new Vector(sX,sY,"c");
-                //newSizeVel();
-                break;
-
-            case 2:
-
-                sX = random(0,width);
-                sY = 0;
-
-                pos = new Vector(sX,sY,"c");
-                //newSizeVel();
-                break;
-
-            case 3:
-
-                sX = width;
-                sY = random(0,height);
-
-                pos = new Vector(sX,sY,"c");
-                //newSizeVel();
-                break;
-
-            case 4:
-
-                sX = random(0,width);
-                sY = height;
-
-                pos = new Vector(sX,sY,"c");
-                //newSizeVel();
-                break;
-
-            default:
-                System.out.println("Problem with the new Stars");
-        }
-    }*/
-
 
     // Methods ------------------------------------
     private double random(double a, double b){
