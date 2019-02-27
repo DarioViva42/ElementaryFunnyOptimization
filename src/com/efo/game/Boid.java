@@ -37,10 +37,10 @@ public class Boid extends Vehicle {
         radiusLength = 20;
 
         if(Faction.equals("rebel") || Faction.equals("Rebel") || Faction.equals("republik") || Faction.equals("Republik")) {
-            model = new Image("/xWing.png");
+            model = new Image("/ships/xWing.png");
             faction = "rebel";
         } else if(Faction.equals("empire") || Faction.equals("Empire") || Faction.equals("imperium") || Faction.equals("Imperium")){
-            model = new Image("/tieFighter.png");
+            model = new Image("/ships/tieFighter.png");
             faction = "empire";
         }
 

@@ -28,7 +28,7 @@ public class Engine implements Runnable {
     window = new Window(this);
     renderer = new Renderer(this);
     input = new Input(this);
-    mouse = new Image("/Mouse.png");
+    mouse = new Image("/etc/Mouse.png");
     antiAliasing = false;
 
 

@@ -17,9 +17,9 @@ public class Button {
         states = new String[2];
         Arrays.fill(states, "noHover");
         this.name = name;
-        noHover = new Image("/noHover.png");
-        clicked = new Image("/clicked.png");
-        hover = new Image("/hover.png");
+        noHover = new Image("/button/noHover.png");
+        clicked = new Image("/button/clicked.png");
+        hover = new Image("/button/hover.png");
         this.offX = offX;
         this.offY = offY;
         width = noHover.getW();

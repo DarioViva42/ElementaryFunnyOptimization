@@ -15,7 +15,7 @@ public class Explosion {
 
     Explosion(int spriteCount, Double spriteDuration) {
         frame = 0;
-        explosion = new ImageTile("/explosion.png", 16,16);
+        explosion = new ImageTile("/etc/explosion.png", 16,16);
         this.frameCount = spriteCount;
         this.spriteDuration = spriteDuration;
 

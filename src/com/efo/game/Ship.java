@@ -37,9 +37,9 @@ public class Ship extends Vehicle{
         vel = new Vector(0.0,0.0,"c");
         acc = new Vector(0.0,0.0,"c");
         if(faction.equals("empire")) {
-            model = new Image("/interceptor.png");
+            model = new Image("/ships/interceptor.png");
         } else if(faction.equals("rebel")) {
-            model = new Image("/falcon.png");
+            model = new Image("/ships/falcon.png");
         }
 
 
