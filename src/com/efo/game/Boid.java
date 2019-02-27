@@ -172,7 +172,6 @@ public class Boid extends Vehicle {
         }
 
         if(count > 0) {
-            shoot();
             for (Vehicle boid: currentTargets) {
                 applyForce(flee(boid.getPos()));
             }
