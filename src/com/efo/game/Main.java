@@ -422,18 +422,18 @@ public class Main extends AbstractGame {
 
       //Deathcheck, update xWings pos and check if out of border
       for (Boid xWing: rebel) {
-          xWing.update(ge.getInput(),rebel);
+          xWing.update(rebel);
           xWing.border();
-          if(xWing.dead()) {
+          if(xWing.hit(sound.testState())) {
               xWing.alive = false;
           }
       }
 
       //Deathcheck, update TieFighter pos and check if out of border
       for (Boid tieFighter: empire) {
-          tieFighter.update(ge.getInput(),empire);
+          tieFighter.update(empire);
           tieFighter.border();
-          if(tieFighter.dead()) {
+          if(tieFighter.hit(sound.testState())) {
               tieFighter.alive = false;
           }
       }

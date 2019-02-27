@@ -16,6 +16,7 @@ public class Boid extends Vehicle {
     boolean alive = true;
     Vector exPos;
     private LinkedList<Vehicle> currentTargets;
+    private int HP = 2;
 
     private int laserSound = Vector.getRandomNumberInRange(1,3);
 
@@ -47,7 +48,7 @@ public class Boid extends Vehicle {
     }
 
     //Methods
-    public void update(Input in, LinkedList<Boid> Faction) {
+    public void update(LinkedList<Boid> Faction) {
         int count = 0;
 
         for (Boid other: Faction) {
@@ -177,6 +178,47 @@ public class Boid extends Vehicle {
             }
         } else if(count == 0) {
             currentTargets.clear();
+        }
+    }
+
+    boolean hit(boolean sound) {
+        int size = 15;
+
+        if (faction.equals("rebel")) {
+            for (int i = 0; i < empireLasers.size();i++) {
+                double d = this.pos.distance(empireLasers.get(i).getPos());
+                if(d < size) {
+                    HP--;
+                    if(sound){
+                        sounds.get(0).play();
+                    }
+                    exPos.add(new Vector(Math.random()*10,Math.random()*360,"p"));
+                    explosions.add(new Explosion(11,5.0));
+                    // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
+                    empireLasers.remove(i);
+                }
+            }
+
+            return (HP <= 0);
+
+        } else if (faction.equals("empire")) {
+            for (int i = 0; i < rebelLasers.size();i++) {
+                double d = this.pos.distance(rebelLasers.get(i).getPos());
+                if(d < size) {
+                    HP--;
+                    if(sound){
+                        sounds.get(0).play();
+                    }
+                    exPos.add(new Vector(Math.random()*13,Math.random()*360,"p"));
+                    explosions.add(new Explosion(11,5.0));
+                    // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
+                    rebelLasers.remove(i);
+                }
+            }
+
+            return (HP <= 0);
+        } else {
+            return false;
         }
     }
 
