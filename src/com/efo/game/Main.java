@@ -17,7 +17,7 @@ public class Main extends AbstractGame {
   private boolean setupAllreadyExecuted = false, executed = false, executed1 = false, executed2 = false, test = false, firstTimeInMainMenu = true;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
   private int rand1;
-  LinkedList<Doll> dolls;
+  private LinkedList<Doll> dolls;
 
   /*private LinkedList<Vector> deathPos;
   private LinkedList<Vector> deathVel;
@@ -90,18 +90,7 @@ public class Main extends AbstractGame {
       starField[j] = new Star();
     }
 
-    screen = "mainMenu";
-
-    PvP = new Button(100, 100, " PvP");
-    PvE = new Button(100, 150, " PvE");
-    Coop = new Button(100, 200, " Coop");
-    //settings = new Button(100, 250, "Settings");
-    Exit = new Button(385,270," Exit", "/button/exitHover.png","/button/exitNoHover.png","/button/exitClicked.png");
-    toMainMenu = new Button(385,270," Menu", "/button/exitHover.png", "/button/exitNoHover.png", "/button/exitClicked.png");
-
-
-    sound = new Checkbox(300, 50, soundIcon);
-    music = new Checkbox(430, 50, musicIcon);
+    screen = "PvE";
 
     inputPos = new Vector[2];
     inputTest = new boolean[2];
@@ -165,15 +154,7 @@ public class Main extends AbstractGame {
       // --------------------------------------SCREENS----------------------------------------
 
 
-      //Win Situations
-
-      if(screen.equals("PvP")) {
-          if(players.size() == 1 && players.get(0).getFaction().equals("rebel") && empire.size() == 0) {
-              screen = "rebel";
-          } else if (players.size() == 1 && players.get(0).getFaction().equals("empire") && rebel.size() == 0) {
-              screen = "empire";
-          }
-      }
+      //Win Situation
 
       if(screen.equals("PvE")) {
           if(players.size() == 0) {
@@ -183,92 +164,6 @@ public class Main extends AbstractGame {
           }
       }
 
-
-
-      if(screen.equals("Coop")) {
-          if(players.size() == 0) {
-              screen = "defeat";
-          } else if(empire.size() == 0) {
-              screen = "victory";
-          }
-      }
-
-      if (screen.equals("mainMenu") && players.size() > 0) {
-
-          if(!executed1) {
-              if(!firstTimeInMainMenu) {
-                  players.clear();
-                  bars.clear();
-                  players.add(new Ship(new Vector(240, 160, "c"), 90, "Player1", "rebel"));
-                  bars.add(new HPBar(players.get(0)));
-              }
-              rebel.clear();
-              empire.clear();
-
-              pveMusic.stop();
-              pvpMusic.stop();
-              if(music.testState()) menuMusic.loop();
-              executed1 = true;
-          }
-          if (music.testAction()){
-            if(music.testState()){
-              menuMusic.stop();
-              menuMusic.loop();
-            } else {
-              menuMusic.stop();
-            }
-          }
-          setupAllreadyExecuted = false;
-          executed = false;
-          executed2 = false;
-
-          PvE.update(inputPos, inputTest, sound.testState());
-          PvP.update(inputPos, inputTest, sound.testState());
-          Coop.update(inputPos, inputTest, sound.testState());
-          //settings.update(inputPos, inputTest);
-          Exit.update(inputPos, inputTest, sound.testState());
-
-          sound.update(inputPos, inputTest, sound.testState());
-          music.update(inputPos, inputTest, sound.testState());
-
-          if(PvP.testAction()) {
-              screen = "PvP";
-              System.out.println("Gehe ins PvP");
-              menuMusic.stop();
-              firstTimeInMainMenu = false;
-          }
-
-          if(PvE.testAction()) {
-              screen = "PvE";
-              System.out.println("Gehe ins PvE");
-              menuMusic.stop();
-              firstTimeInMainMenu = false;
-          }
-
-          if(Coop.testAction()) {
-              screen = "Coop";
-              System.out.println("Geh in den Coop! Nicht in Migros");
-              menuMusic.stop();
-              firstTimeInMainMenu = false;
-          }
-
-          if(Exit.testAction()) {
-              System.exit(0);
-          }
-      }
-
-      if(screen.equals("PvP")) {
-          if(!setupAllreadyExecuted) {
-
-            //Player 2 is being initiated
-            players.add(new Ship(new Vector(420, 160, "c"),180,"Player2", "empire"));
-            bars.add(new HPBar(players.get(1)));
-
-            if(music.testState()) pvpMusic.loop();
-
-            setupAllreadyExecuted = true;
-          }
-      }
 
       if(screen.equals("PvE")) {
           if(!setupAllreadyExecuted) {
@@ -279,26 +174,7 @@ public class Main extends AbstractGame {
                   empire.add(new Boid("empire"));
               }
 
-
               if(music.testState()) pveMusic.loop();
-
-              setupAllreadyExecuted = true;
-          }
-      }
-
-      if(screen.equals("Coop")) {
-          if(!setupAllreadyExecuted) {
-              for(int j = 0; j < 20; j++) {
-                  //rebel.add(new Boid("rebel"));
-                  empire.add(new Boid("empire"));
-              }
-
-              //Player 2 is being initiated
-              players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "rebel"));
-              bars.add(new HPBar(players.get(1)));
-
-              if(music.testState()) pveMusic.loop();
-
 
               setupAllreadyExecuted = true;
           }
@@ -318,8 +194,7 @@ public class Main extends AbstractGame {
           toMainMenu.update(inputPos,inputTest, sound.testState());
 
           if(toMainMenu.testAction()) {
-              screen = "mainMenu";
-              executed1 = false;
+              //return = false!!! ---------------------------------------
           }
       }
 
@@ -342,38 +217,7 @@ public class Main extends AbstractGame {
           toMainMenu.update(inputPos,inputTest, sound.testState());
 
           if(toMainMenu.testAction()) {
-              screen = "mainMenu";
-              executed1 = false;
-          }
-      }
-
-      if(screen.equals("rebel")) {
-
-          if(!executed) {
-
-              executed = true;
-          }
-
-          toMainMenu.update(inputPos,inputTest, sound.testState());
-
-          if(toMainMenu.testAction()) {
-
-              screen = "mainMenu";
-              executed1 = false;
-          }
-      }
-
-      if(screen.equals("empire")) {
-
-          if(!executed) {
-              executed = true;
-          }
-
-          toMainMenu.update(inputPos,inputTest, sound.testState());
-
-          if(toMainMenu.testAction()) {
-              screen = "mainMenu";
-              executed1 = false;
+              //return = true!!! ---------------------------------------
           }
       }
 
@@ -398,12 +242,10 @@ public class Main extends AbstractGame {
 
       for (Boid xWing: rebel) {
           xWing.peripheralVision(empire,players, sound.testState());
-          //xWing.avoidGettingShot(empire, players);
       }
 
       for (Boid tieFighter: empire) {
           tieFighter.peripheralVision(rebel,players, sound.testState());
-          //tieFighter.avoidGettingShot(rebel,players);
       }
 
       for (int j = 0; j < Vehicle.rebelLasers.size(); j++) {
@@ -461,16 +303,9 @@ public class Main extends AbstractGame {
           }
       }
 
-      /*for (int i = 0; i < deathPos.size(); i++) {
-          deathPos.add(deathVel.get(i));
-      }*/
-
 
       for (int f = 0; f < rebel.size(); f++) {
           if(!rebel.get(f).alive) {
-              /*deathExplosions.add(new Explosion(11,5.0));
-              deathPos.add(rebel.get(f).pos);
-              deathVel.add(rebel.get(f).vel);*/
               dolls.add(new Doll(rebel.get(f),"xWing"));
               rebel.remove(f);
           }
@@ -478,13 +313,11 @@ public class Main extends AbstractGame {
 
       for (int f = 0; f < empire.size(); f++) {
           if(!empire.get(f).alive) {
-              /*deathExplosions.add(new Explosion(11,5.0));
-              deathPos.add(empire.get(f).pos);
-              deathVel.add(empire.get(f).vel);*/
               dolls.add(new Doll(empire.get(f),"tieFighter"));
               empire.remove(f);
           }
       }
+
 
       for (Ship player: players) {
           if(!player.alive && player.getFaction() == "rebel") {
@@ -495,15 +328,8 @@ public class Main extends AbstractGame {
       }
 
 
-
-
       for (int f = 0; f < players.size(); f++) {
           if(!players.get(f).alive) {
-              /*deathExplosions.add(new Explosion(11,5.0));
-              deathPos.add(players.get(f).pos);
-              deathVel.add(players.get(f).vel);*/
-
-
               players.remove(f);
           }
       }
@@ -514,31 +340,12 @@ public class Main extends AbstractGame {
   @Override
   public void render(Engine ge, Renderer r) {
 
-   /*for (int i = 0; i < deathPos.size(); i++) {
-      deathExplosions.get(i).show(r,deathPos.get(i).add(deathVel.get(i),true));
-   }*/
-
-
 
     r.drawImage(background, 240, 159, 0);
 
     for (Star star:starField) {
       star.show(r, ge.getWidth(), ge.getHeight());
       star.update();
-    }
-
-
-
-    if (screen.equals("mainMenu")) {
-        dolls.clear();
-        PvE.show(r);
-        PvP.show(r);
-        Coop.show(r);
-        //settings.show(r);
-        Exit.show(r);
-
-        sound.show(r);
-        music.show(r);
     }
 
 
@@ -549,15 +356,9 @@ public class Main extends AbstractGame {
         }
         for(Boid tieFighter : empire) {
             tieFighter.show(r);
-
         }
     }
 
-      if(screen.equals("Coop")) {
-          for(Boid tieFighter : empire) {
-              tieFighter.show(r);
-          }
-      }
 
     if(screen.equals("defeat")) {
        r.drawImage(defeat,240,160,0);
@@ -573,15 +374,6 @@ public class Main extends AbstractGame {
         toMainMenu.show(r);
     }
 
-    if(screen.equals("rebel")) {
-        r.drawImage(rebelV,240,160,0);
-        toMainMenu.show(r);
-    }
-
-    if(screen.equals("empire")) {
-        r.drawImage(empireV,240,160,0);
-        toMainMenu.show(r);
-    }
 
 
 
@@ -593,9 +385,6 @@ public class Main extends AbstractGame {
       for (Projectile projectile: Vehicle.rebelLasers) {
           projectile.show(r);
       }
-
-      //explosions.add(new ImageTile("/explosion.png",16,16));
-
 
       for (Doll wrack: dolls) {
           wrack.showMult(r);
