@@ -14,10 +14,10 @@ public class Main extends AbstractGame {
   private LinkedList<Boid> rebel, empire;
   private LinkedList<Ship> players;
   private LinkedList<HPBar> bars;
-  private boolean setupAllreadyExecuted = false, executed = false, executed1 = false, executed2 = false, test = false;
+  private boolean setupAllreadyExecuted = false, executed = false, executed1 = false, executed2 = false, test = false, firstTimeInMainMenu = true;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
   private int rand1;
-  //LinkedList<Doll> dolls;
+  LinkedList<Doll> dolls;
 
   /*private LinkedList<Vector> deathPos;
   private LinkedList<Vector> deathVel;
@@ -67,10 +67,10 @@ public class Main extends AbstractGame {
 
     players = new LinkedList<>();
     bars = new LinkedList<>();
-    //dolls = new LinkedList<>();
+    dolls = new LinkedList<>();
 
     //Player 1 is being initiated
-    players.add(new Ship(new Vector(150, 150, "c"),270,"Player1", "rebel"));
+    players.add(new Ship(new Vector(240, 160, "c"),90,"Player1", "rebel"));
     bars.add(new HPBar(players.get(0)));
 
 
@@ -183,6 +183,8 @@ public class Main extends AbstractGame {
           }
       }
 
+
+
       if(screen.equals("Coop")) {
           if(players.size() == 0) {
               screen = "defeat";
@@ -192,7 +194,17 @@ public class Main extends AbstractGame {
       }
 
       if (screen.equals("mainMenu") && players.size() > 0) {
+
           if(!executed1) {
+              if(!firstTimeInMainMenu) {
+                  players.clear();
+                  bars.clear();
+                  players.add(new Ship(new Vector(240, 160, "c"), 90, "Player1", "rebel"));
+                  bars.add(new HPBar(players.get(0)));
+              }
+              rebel.clear();
+              empire.clear();
+
               pveMusic.stop();
               pvpMusic.stop();
               if(music.testState()) menuMusic.loop();
@@ -223,24 +235,22 @@ public class Main extends AbstractGame {
               screen = "PvP";
               System.out.println("Gehe ins PvP");
               menuMusic.stop();
+              firstTimeInMainMenu = false;
           }
 
           if(PvE.testAction()) {
               screen = "PvE";
               System.out.println("Gehe ins PvE");
               menuMusic.stop();
+              firstTimeInMainMenu = false;
           }
 
           if(Coop.testAction()) {
               screen = "Coop";
               System.out.println("Geh in den Coop! Nicht in Migros");
               menuMusic.stop();
+              firstTimeInMainMenu = false;
           }
-
-          /*if(settings.testAction()) {
-              screen = "Settings";
-              System.out.println("Gehe in  Settings");
-          }*/
 
           if(Exit.testAction()) {
               System.exit(0);
@@ -251,7 +261,7 @@ public class Main extends AbstractGame {
           if(!setupAllreadyExecuted) {
 
             //Player 2 is being initiated
-            players.add(new Ship(new Vector(250, 250, "c"),270,"Player2", "empire"));
+            players.add(new Ship(new Vector(420, 160, "c"),180,"Player2", "empire"));
             bars.add(new HPBar(players.get(1)));
 
             if(music.testState()) pvpMusic.loop();
@@ -278,7 +288,7 @@ public class Main extends AbstractGame {
 
       if(screen.equals("Coop")) {
           if(!setupAllreadyExecuted) {
-              for(int j = 0; j < 10; j++) {
+              for(int j = 0; j < 20; j++) {
                   //rebel.add(new Boid("rebel"));
                   empire.add(new Boid("empire"));
               }
@@ -297,12 +307,11 @@ public class Main extends AbstractGame {
       if(screen.equals("defeat")) {
 
           if(!executed) {
-              players.clear();
+              players.add(new Ship(new Vector(240, 160, "c"),90,"Player1", "rebel"));
+              bars.add(new HPBar(players.get(0)));
               rebel.clear();
               empire.clear();
-              bars.clear();
-              players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
-              bars.add(new HPBar(players.get(0)));
+
               executed = true;
           }
 
@@ -316,16 +325,9 @@ public class Main extends AbstractGame {
 
       if(screen.equals("victory")) {
 
-
-
           if(!executed) {
 
               rand1 = Vector.getRandomNumberInRange(0,50);
-
-              players.clear();
-              bars.clear();
-              players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
-              bars.add(new HPBar(players.get(0)));
               executed = true;
 
           }
@@ -334,7 +336,6 @@ public class Main extends AbstractGame {
               test = true;
               pveMusic.stop();
               randSound.play();
-              System.out.println("hi");
               executed2 = true;
           }
 
@@ -349,10 +350,7 @@ public class Main extends AbstractGame {
       if(screen.equals("rebel")) {
 
           if(!executed) {
-              players.clear();
-              bars.clear();
-              players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
-              bars.add(new HPBar(players.get(0)));
+
               executed = true;
           }
 
@@ -368,10 +366,6 @@ public class Main extends AbstractGame {
       if(screen.equals("empire")) {
 
           if(!executed) {
-              players.clear();
-              bars.clear();
-              players.add(new Ship(new Vector(150, 150, "c"), 270, "Player1", "rebel"));
-              bars.add(new HPBar(players.get(0)));
               executed = true;
           }
 
@@ -393,23 +387,23 @@ public class Main extends AbstractGame {
       }
 
 
-      /*for (int i = 0; i < dolls.size(); i++) {
+      for (int i = 0; i < dolls.size(); i++) {
           if (dolls.get(i).border()) dolls.remove(i);
       }
 
       for (Doll wrack : dolls) {
-          wrack.updateSing();
-      }*/
+          wrack.updateMult();
+      }
 
 
       for (Boid xWing: rebel) {
           xWing.peripheralVision(empire,players, sound.testState());
-          xWing.avoidGettingShot(empire, players);
+          //xWing.avoidGettingShot(empire, players);
       }
 
       for (Boid tieFighter: empire) {
           tieFighter.peripheralVision(rebel,players, sound.testState());
-          tieFighter.avoidGettingShot(rebel,players);
+          //tieFighter.avoidGettingShot(rebel,players);
       }
 
       for (int j = 0; j < Vehicle.rebelLasers.size(); j++) {
@@ -472,12 +466,12 @@ public class Main extends AbstractGame {
       }*/
 
 
-
       for (int f = 0; f < rebel.size(); f++) {
           if(!rebel.get(f).alive) {
               /*deathExplosions.add(new Explosion(11,5.0));
               deathPos.add(rebel.get(f).pos);
               deathVel.add(rebel.get(f).vel);*/
+              dolls.add(new Doll(rebel.get(f),"xWing"));
               rebel.remove(f);
           }
       }
@@ -487,15 +481,21 @@ public class Main extends AbstractGame {
               /*deathExplosions.add(new Explosion(11,5.0));
               deathPos.add(empire.get(f).pos);
               deathVel.add(empire.get(f).vel);*/
+              dolls.add(new Doll(empire.get(f),"tieFighter"));
               empire.remove(f);
           }
       }
 
-      /*for (Ship player: players) {
-          if(!player.alive) {
+      for (Ship player: players) {
+          if(!player.alive && player.getFaction() == "rebel") {
               dolls.add(new Doll(player,"falcon"));
+          } else if(!player.alive && player.getFaction() == "empire") {
+              dolls.add(new Doll(player,"interceptor"));
           }
-      }*/
+      }
+
+
+
 
       for (int f = 0; f < players.size(); f++) {
           if(!players.get(f).alive) {
@@ -530,6 +530,7 @@ public class Main extends AbstractGame {
 
 
     if (screen.equals("mainMenu")) {
+        dolls.clear();
         PvE.show(r);
         PvP.show(r);
         Coop.show(r);
@@ -540,9 +541,6 @@ public class Main extends AbstractGame {
         music.show(r);
     }
 
-      /*for (Doll wrack: dolls) {
-          wrack.showSing(r);
-      }*/
 
     //Draw Boids
     if(screen.equals("PvE")) {
@@ -599,13 +597,9 @@ public class Main extends AbstractGame {
       //explosions.add(new ImageTile("/explosion.png",16,16));
 
 
-      /*for (Vector deathLine: deathVector) {
-          r.drawImageTile(image, );
-      }*/
-
-      //for (ImageTile expl: explosions) {
-
-      //}
+      for (Doll wrack: dolls) {
+          wrack.showMult(r);
+      }
 
       for (HPBar bar : bars) {
           bar.show(r);

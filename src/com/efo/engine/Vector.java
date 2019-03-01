@@ -206,4 +206,8 @@ public class Vector {
   public void setAngle(double angle) {
     this.angle = angle;
   }
+
+  public String getPosition() {
+    return ("x: " + this.x + "| y: " + this.y);
+  }
 }

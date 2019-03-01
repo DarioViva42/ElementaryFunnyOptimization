@@ -9,10 +9,14 @@ public class Projectile {
 	private Vector vel;
 	private Image laser;
 
-	public Projectile(Vector pos, Vector vel) {
+	public Projectile(Vector pos, Vector vel, String faction) {
 		this.pos = pos;
 		this.vel = vel;
-		this.laser = new Image("/etc/ammunitionRed.png");
+		if(faction.equals("rebel")) {
+			laser = new Image("/etc/ammunitionRed.png");
+		} else if(faction.equals("empire")) {
+			laser = new Image("/etc/ammunitionGreen.png");
+		}
 	}
 
 	public void show(Renderer r){

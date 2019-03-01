@@ -27,10 +27,16 @@ public class Boid extends Vehicle {
 
         currentTargets = new LinkedList<>();
 
-        pos = new Vector((int)(Math.random() * 480), (int) (Math.random() * 320), "c");
-        oldPos = new Vector(0,0,"p");
-        oldPos.setC(pos.getX(), pos.getY());
-        vel = new Vector(0, 0, "p");
+        if(Faction.equals("rebel")) {
+            pos = new Vector(Vector.getRandomNumberInRange(0, 20), Vector.getRandomNumberInRange(10, 310), "c");
+            vel = new Vector(0, 0, "p");
+        } else if(Faction.equals("empire")) {
+            pos = new Vector(Vector.getRandomNumberInRange(460, 480), Vector.getRandomNumberInRange(10, 310), "c");
+            vel = new Vector(0, 180, "p");
+        }
+        //oldPos = new Vector(0,0,"p");
+        //oldPos.setC(pos.getX(), pos.getY());
+
         acc = new Vector(0, 0, "p");
 
         rad = new Vector(0, 0, "p");
@@ -223,7 +229,7 @@ public class Boid extends Vehicle {
                     //exPos.add(new Vector(Math.random()*10,Math.random()*360,"p"));
                     //explosions.add(new Explosion(11,5.0));
                     // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
-                    //empireLasers.remove(i);
+                    empireLasers.remove(i);
                 }
             }
 
@@ -240,7 +246,7 @@ public class Boid extends Vehicle {
                     //exPos.add(new Vector(Math.random()*13,Math.random()*360,"p"));
                     //explosions.add(new Explosion(11,5.0));
                     // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
-                    //rebelLasers.remove(i);
+                    rebelLasers.remove(i);
                 }
             }
 
@@ -320,7 +326,7 @@ public class Boid extends Vehicle {
         if(faction.equals("rebel")) {
             if(shotCap >= 1) {
                 rebelLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
-                        new Vector(this.shootForce, vel.getAngle(), "p")));
+                        new Vector(this.shootForce, vel.getAngle(), "p"),"rebel"));
                 if(sound)
                     sounds.get(laserSound).play();
                 shotCap = 0.0;
@@ -332,7 +338,7 @@ public class Boid extends Vehicle {
         } else if(faction.equals("empire")){
             if(shotCap >= 1) {
                 empireLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
-                        new Vector(this.shootForce, vel.getAngle(), "p")));
+                        new Vector(this.shootForce, vel.getAngle(), "p"),"empire"));
                 if(sound)
                     sounds.get(laserSound).play();
                 shotCap = 0.0;
