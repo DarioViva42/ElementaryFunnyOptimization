@@ -202,4 +202,8 @@ public class Vector {
     Random r = new Random();
     return r.nextInt((max - min) + 1) + min;
   }
+
+  public void setAngle(double angle) {
+    this.angle = angle;
+  }
 }

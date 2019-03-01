@@ -17,6 +17,7 @@ public class Main extends AbstractGame {
   private boolean setupAllreadyExecuted = false, executed = false, executed1 = false, executed2 = false, test = false;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
   private int rand1;
+  //LinkedList<Doll> dolls;
 
   /*private LinkedList<Vector> deathPos;
   private LinkedList<Vector> deathVel;
@@ -66,6 +67,7 @@ public class Main extends AbstractGame {
 
     players = new LinkedList<>();
     bars = new LinkedList<>();
+    //dolls = new LinkedList<>();
 
     //Player 1 is being initiated
     players.add(new Ship(new Vector(150, 150, "c"),270,"Player1", "rebel"));
@@ -276,7 +278,7 @@ public class Main extends AbstractGame {
 
       if(screen.equals("Coop")) {
           if(!setupAllreadyExecuted) {
-              for(int j = 0; j < 20; j++) {
+              for(int j = 0; j < 10; j++) {
                   //rebel.add(new Boid("rebel"));
                   empire.add(new Boid("empire"));
               }
@@ -390,6 +392,16 @@ public class Main extends AbstractGame {
           rebel.update();
       }
 
+
+      /*for (int i = 0; i < dolls.size(); i++) {
+          if (dolls.get(i).border()) dolls.remove(i);
+      }
+
+      for (Doll wrack : dolls) {
+          wrack.updateSing();
+      }*/
+
+
       for (Boid xWing: rebel) {
           xWing.peripheralVision(empire,players, sound.testState());
           xWing.avoidGettingShot(empire, players);
@@ -451,7 +463,6 @@ public class Main extends AbstractGame {
       for (int i = 0; i < bars.size(); i++) {
           bars.get(i).update(players.get(i));
           if(!players.get(i).alive) {
-            //Wenn ein Spieler tot ist wird seine HB entfernt.
               bars.remove(i);
           }
       }
@@ -467,7 +478,6 @@ public class Main extends AbstractGame {
               /*deathExplosions.add(new Explosion(11,5.0));
               deathPos.add(rebel.get(f).pos);
               deathVel.add(rebel.get(f).vel);*/
-            //Wenn ein Rebell tot ist wird er gelöscht.
               rebel.remove(f);
           }
       }
@@ -477,17 +487,23 @@ public class Main extends AbstractGame {
               /*deathExplosions.add(new Explosion(11,5.0));
               deathPos.add(empire.get(f).pos);
               deathVel.add(empire.get(f).vel);*/
-            //Wenn ein Empiriant tot ist wird er gelöscht.
               empire.remove(f);
           }
       }
+
+      /*for (Ship player: players) {
+          if(!player.alive) {
+              dolls.add(new Doll(player,"falcon"));
+          }
+      }*/
 
       for (int f = 0; f < players.size(); f++) {
           if(!players.get(f).alive) {
               /*deathExplosions.add(new Explosion(11,5.0));
               deathPos.add(players.get(f).pos);
               deathVel.add(players.get(f).vel);*/
-            //Wenn ein Empiriant tot ist wird er gelöscht.
+
+
               players.remove(f);
           }
       }
@@ -524,7 +540,11 @@ public class Main extends AbstractGame {
         music.show(r);
     }
 
-    //Draw Ships
+      /*for (Doll wrack: dolls) {
+          wrack.showSing(r);
+      }*/
+
+    //Draw Boids
     if(screen.equals("PvE")) {
         for (Boid xWing: rebel) {
             xWing.show(r);

@@ -36,6 +36,10 @@ public abstract class Vehicle {
         return this.pos;
     }
 
+    public Vector getVel() {
+        return vel;
+    }
+
     public double getX() {
         return this.pos.getX();
     }
@@ -45,7 +49,6 @@ public abstract class Vehicle {
     }
 
     void border() {
-
         //If out of border left -> go in from the right
         if(pos.getX() < -20) {
             pos.setC(480 + 20,pos.getY());
@@ -64,4 +67,6 @@ public abstract class Vehicle {
     String getFaction() {
         return faction;
     }
+
+
 }

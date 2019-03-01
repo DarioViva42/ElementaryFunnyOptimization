@@ -15,7 +15,7 @@ public class Ship extends Vehicle{
     private double alpha;     // Der Winkel
 
     String playerName;
-    private int HP = 1000;
+    private int HP = 20;
     boolean alive = true, gun = true;
     private LinkedList<Vector> exPos = new LinkedList<>();
 		private double shotCap = 0.0;
@@ -47,8 +47,6 @@ public class Ship extends Vehicle{
 
     public void update(){
         double attackSpeed = 1.0/15.0;
-
-        //System.out.println(this.HP);
 
         vel.add(acc);
         oldPos.setC(pos.getX(), pos.getY());
@@ -183,5 +181,13 @@ public class Ship extends Vehicle{
 
     int getHP() {
         return HP;
+    }
+
+    public double getAlpha() {
+        return alpha;
+    }
+
+    public double getAlphaVel() {
+        return alphaVel;
     }
 }
