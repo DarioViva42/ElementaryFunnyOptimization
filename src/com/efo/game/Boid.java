@@ -56,6 +56,7 @@ public class Boid extends Vehicle {
     }
 
     //Methods
+
     public void update(LinkedList<Boid> Faction) {
         int count = 0;
 

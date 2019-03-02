@@ -150,5 +150,7 @@ public class Engine implements Runnable {
     return input;
   }
 
-
+  public Renderer getRenderer() {
+    return renderer;
+  }
 }

@@ -1,5 +1,6 @@
 package com.efo.game;
 
+import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
 import com.efo.engine.audio.SoundClip;
 import com.efo.engine.gfx.Image;
@@ -47,6 +48,8 @@ public abstract class Vehicle {
     public double getY() {
         return this.pos.getY();
     }
+
+    public void show(Renderer r){}
 
     void border() {
         //If out of border left -> go in from the right

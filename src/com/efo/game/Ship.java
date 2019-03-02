@@ -18,7 +18,7 @@ public class Ship extends Vehicle{
     private int HP = 10;
     boolean alive = true, gun = true;
     private LinkedList<Vector> exPos = new LinkedList<>();
-		private double shotCap = 0.0;
+    private double shotCap = 0.0;
 
 
     // Constructors --------------------------------
@@ -41,8 +41,6 @@ public class Ship extends Vehicle{
         } else if(faction.equals("rebel")) {
             model = new Image("/ships/falcon.png");
         }
-
-
     }
 
     public void update(){
