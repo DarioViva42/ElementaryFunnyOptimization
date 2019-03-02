@@ -18,7 +18,7 @@ public class Main extends AbstractGame {
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
   private int rand1;
   private LinkedList<Doll> dolls;
-  LinkedList<Image> backgrounds;
+  private LinkedList<Image> backgrounds;
 
   private String screen;
 
@@ -341,6 +341,8 @@ public class Main extends AbstractGame {
       if(screen.equals("defeat")) {
 
           if(!executed) {
+              Vehicle.rebelLasers.clear();
+              Vehicle.empireLasers.clear();
               players.add(new Ship(new Vector(240, 160, "c"),90,"Player1", "rebel"));
               bars.add(new HPBar(players.get(0)));
               rebel.clear();
@@ -361,7 +363,7 @@ public class Main extends AbstractGame {
       if(screen.equals("victory")) {
 
           if(!executed) {
-
+              Vehicle.empireLasers.clear();
               rand1 = Vector.getRandomNumberInRange(0,50);
               executed = true;
 
@@ -386,7 +388,7 @@ public class Main extends AbstractGame {
       if(screen.equals("rebel")) {
 
           if(!executed) {
-
+              Vehicle.empireLasers.clear();
               executed = true;
           }
 
@@ -403,6 +405,7 @@ public class Main extends AbstractGame {
       if(screen.equals("empire")) {
 
           if(!executed) {
+              Vehicle.rebelLasers.clear();
               executed = true;
           }
 

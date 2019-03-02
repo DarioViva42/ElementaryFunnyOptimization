@@ -46,7 +46,7 @@ class Doll {
         if (model.equals("xWing")) {
             images.add(new Image("/dollModel/xWingWrack1.png"));
             images.add(new Image("/dollModel/xWingWrack2.png"));
-        } else if (model.equals("interceptor")) {
+        } else if (model.equals("tieFighter")) {
             images.add(new Image("/dollModel/tieFighterWrack1.png"));
             images.add(new Image("/dollModel/tieFighterWrack2.png"));
         }

@@ -80,9 +80,6 @@ public class Engine implements Runnable {
 
         input.update();
 
-
-        input.update();
-
         if(frameTime >= 1.0){
           frameTime = 0;
           fps = frames;

@@ -15,7 +15,7 @@ public class Ship extends Vehicle{
     private double alpha;     // Der Winkel
 
     String playerName;
-    private int HP = 1;
+    private int HP = 10;
     boolean alive = true;
     private boolean gun = true;
     private LinkedList<Vector> exPos = new LinkedList<>();
