@@ -79,7 +79,7 @@ public class Doll {
         }
     }
 
-    void updateMult() {
+    void update() {
         posVel.get(0).add(posVel.get(1));
         posVel.get(1).mult(0.995);
         angleFirst = (angleFirst + angleVelFirst) % 360;
@@ -89,7 +89,7 @@ public class Doll {
 
     }
 
-    void showMult(Renderer r) {
+    void show(Renderer r) {
             r.drawImage(images.get(0),(int)posVel.get(0).getX(),(int)posVel.get(0).getY(),Math.toRadians(angleFirst));
             r.drawImage(images.get(1),(int)posVel.get(2).getX(),(int)posVel.get(2).getY(),Math.toRadians(angleSecond));
     }
