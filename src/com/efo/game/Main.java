@@ -14,14 +14,11 @@ public class Main extends AbstractGame {
   private LinkedList<Boid> rebel, empire;
   private LinkedList<Ship> players;
   private LinkedList<HPBar> bars;
-  private boolean setupAllreadyExecuted = false, executed = false, executed1 = false, executed2 = false, test = false, firstTimeInMainMenu = true;
+  private boolean setupAllreadyExecuted = false, executed = false, executed1 = false, executed2 = false, executed3 = false, test = false, firstTimeInMainMenu = true;
   private SoundClip menuMusic, pveMusic, pvpMusic, randSound;
   private int rand1;
-  LinkedList<Doll> dolls;
-
-  /*private LinkedList<Vector> deathPos;
-  private LinkedList<Vector> deathVel;
-  private LinkedList<Explosion> deathExplosions;*/
+  private LinkedList<Doll> dolls;
+  LinkedList<Image> backgrounds;
 
   private String screen;
 
@@ -58,10 +55,6 @@ public class Main extends AbstractGame {
       pveMusic.setVolume(-20);
       pvpMusic.setVolume(-20);
 
-    /*deathPos = new LinkedList<>();
-    deathVel = new LinkedList<>();
-    deathExplosions = new LinkedList<>();*/
-
     rebel = new LinkedList<>();
     empire = new LinkedList<>();
 
@@ -69,18 +62,26 @@ public class Main extends AbstractGame {
     bars = new LinkedList<>();
     dolls = new LinkedList<>();
 
+    backgrounds = new LinkedList<>();
+
     //Player 1 is being initiated
     players.add(new Ship(new Vector(240, 160, "c"),90,"Player1", "rebel"));
     bars.add(new HPBar(players.get(0)));
 
 
 
-    background = new Image("/screens/mainMenuBackground.jpg");
     victory = new Image("/screens/victory.png");
     royal = new Image("/screens/royal.png");
     defeat = new Image("/screens/defeat.png");
     rebelV = new Image("/screens/rebelWin.png");
     empireV = new Image("/screens/empireWin.png");
+
+    backgrounds.add(new Image("/screens/spaceBG1.png"));
+    backgrounds.add(new Image("/screens/spaceBG2.png"));
+    backgrounds.add(new Image("/screens/spaceBG3.png"));
+    backgrounds.add(new Image("/screens/spaceBG4.png"));
+    backgrounds.add(new Image("/screens/spaceBG5.png"));
+    backgrounds.add(new Image("/screens/mainMenuBackground.jpg"));
 
     Image soundIcon = new Image("/etc/soundIcon.png");
     Image musicIcon = new Image("/etc/musicIcon.png");
@@ -112,8 +113,7 @@ public class Main extends AbstractGame {
   @Override
   public void update(Engine ge, float dt) {
 
-
-
+      //Input tests
       for(Ship player: players) {
           //Player 1 Input
           if(player.playerName.equals("Player1")) {
@@ -155,7 +155,7 @@ public class Main extends AbstractGame {
       }
 
 
-
+      //Input enhancements
       if(players.size() > 0) {
           inputPos = new Vector[]{players.get(0).pos, new Vector(ge.getInput().getMouseX(), ge.getInput().getMouseY(), "c")};
           inputTest = new boolean[]{ge.getInput().isKey(KeyEvent.VK_ENTER), ge.getInput().isButton(1)};
@@ -166,7 +166,6 @@ public class Main extends AbstractGame {
 
 
       //Win Situations
-
       if(screen.equals("PvP")) {
           if(players.size() == 1 && players.get(0).getFaction().equals("rebel") && empire.size() == 0) {
               screen = "rebel";
@@ -183,8 +182,6 @@ public class Main extends AbstractGame {
           }
       }
 
-
-
       if(screen.equals("Coop")) {
           if(players.size() == 0) {
               screen = "defeat";
@@ -193,6 +190,10 @@ public class Main extends AbstractGame {
           }
       }
 
+
+      //Screen handling
+
+      //Main Menu Setup
       if (screen.equals("mainMenu") && players.size() > 0) {
 
           if(!executed1) {
@@ -221,6 +222,7 @@ public class Main extends AbstractGame {
           setupAllreadyExecuted = false;
           executed = false;
           executed2 = false;
+          executed3 = false;
 
           PvE.update(inputPos, inputTest, sound.testState());
           PvP.update(inputPos, inputTest, sound.testState());
@@ -257,6 +259,7 @@ public class Main extends AbstractGame {
           }
       }
 
+      //PvP Setup
       if(screen.equals("PvP")) {
           if(!setupAllreadyExecuted) {
 
@@ -270,12 +273,13 @@ public class Main extends AbstractGame {
           }
       }
 
+      //PvE Setup
       if(screen.equals("PvE")) {
           if(!setupAllreadyExecuted) {
-              for(int j = 0; j < 20; j++) {
+              for(int j = 0; j < 2; j++) {
                   rebel.add(new Boid("rebel"));
               }
-              for(int j = 0; j < 20; j++) {
+              for(int j = 0; j < 5; j++) {
                   empire.add(new Boid("empire"));
               }
 
@@ -286,9 +290,10 @@ public class Main extends AbstractGame {
           }
       }
 
+      //Coop Setup
       if(screen.equals("Coop")) {
           if(!setupAllreadyExecuted) {
-              for(int j = 0; j < 20; j++) {
+              for(int j = 0; j < 8; j++) {
                   //rebel.add(new Boid("rebel"));
                   empire.add(new Boid("empire"));
               }
@@ -304,6 +309,7 @@ public class Main extends AbstractGame {
           }
       }
 
+      //Defeat Screen / PvE and Coop
       if(screen.equals("defeat")) {
 
           if(!executed) {
@@ -323,6 +329,7 @@ public class Main extends AbstractGame {
           }
       }
 
+      //Victory Screen / PvE and Coop
       if(screen.equals("victory")) {
 
           if(!executed) {
@@ -347,6 +354,7 @@ public class Main extends AbstractGame {
           }
       }
 
+      //rebel Victory Screen / PvP
       if(screen.equals("rebel")) {
 
           if(!executed) {
@@ -363,6 +371,7 @@ public class Main extends AbstractGame {
           }
       }
 
+      //empire Victory Screen / PvP
       if(screen.equals("empire")) {
 
           if(!executed) {
@@ -378,7 +387,7 @@ public class Main extends AbstractGame {
       }
 
 
-	  // remove Projectiles that are out of bounds
+	  //remove Projectiles that are out of bounds
       for (Projectile empire: Vehicle.empireLasers) {
           empire.update();
       }
@@ -386,49 +395,49 @@ public class Main extends AbstractGame {
           rebel.update();
       }
 
-
+      //remove Dolls that are out of bounds
       for (int i = 0; i < dolls.size(); i++) {
           if (dolls.get(i).border()) dolls.remove(i);
       }
 
+      //Update dolls according to their velocity
       for (Doll wrack : dolls) {
-          wrack.updateMult();
+          wrack.update();
       }
 
-
+      //Hunt enemies / rebel
       for (Boid xWing: rebel) {
           xWing.peripheralVision(empire,players, sound.testState());
           //xWing.avoidGettingShot(empire, players);
       }
 
+      //Hunt enemies / empire
       for (Boid tieFighter: empire) {
           tieFighter.peripheralVision(rebel,players, sound.testState());
           //tieFighter.avoidGettingShot(rebel,players);
       }
 
+      //Delete laser if out of bounds / rebel
       for (int j = 0; j < Vehicle.rebelLasers.size(); j++) {
           if (Vehicle.rebelLasers.get(j).getPos().getX() < -4 ||
-                  Vehicle.rebelLasers.get(j).getPos().getX() > 484 ||
-                  Vehicle.rebelLasers.get(j).getPos().getY() < -4 ||
-                  Vehicle.rebelLasers.get(j).getPos().getY() > 324) {
-            //Wenn ein Laser den Bildschirm verlässt wird er gelöscht.
+              Vehicle.rebelLasers.get(j).getPos().getX() > 484 ||
+              Vehicle.rebelLasers.get(j).getPos().getY() < -4 ||
+              Vehicle.rebelLasers.get(j).getPos().getY() > 324) {
               Vehicle.rebelLasers.remove(j);
           }
       }
 
+      //Delete laser if out of bounds / empire
       for (int i = 0; i < Vehicle.empireLasers.size(); i++) {
           if (Vehicle.empireLasers.get(i).getPos().getX() < -4 ||
-                  Vehicle.empireLasers.get(i).getPos().getX() > 484 ||
-                  Vehicle.empireLasers.get(i).getPos().getY() < -4 ||
-                  Vehicle.empireLasers.get(i).getPos().getY() > 324) {
-            //Wenn ein Laser den Bildschirm verlässt wird er gelöscht.
+              Vehicle.empireLasers.get(i).getPos().getX() > 484 ||
+              Vehicle.empireLasers.get(i).getPos().getY() < -4 ||
+              Vehicle.empireLasers.get(i).getPos().getY() > 324) {
               Vehicle.empireLasers.remove(i);
           }
       }
 
-
-
-      //Deathcheck, update xWings pos and check if out of border
+      //Deathcheck, update xWings according to velocity and check if out of border
       for (Boid xWing: rebel) {
           xWing.update(rebel);
           xWing.border();
@@ -437,7 +446,7 @@ public class Main extends AbstractGame {
           }
       }
 
-      //Deathcheck, update TieFighter pos and check if out of border
+      //Deathcheck, update tieFighters according to velocity and check if out of border
       for (Boid tieFighter: empire) {
           tieFighter.update(empire);
           tieFighter.border();
@@ -446,6 +455,7 @@ public class Main extends AbstractGame {
           }
       }
 
+      //Deathcheck players, Check if players are out of bounds and update according to velocity
       for (Ship player: players) {
           player.update();
           player.border();
@@ -454,6 +464,7 @@ public class Main extends AbstractGame {
           }
       }
 
+      //Update bars according to ship
       for (int i = 0; i < bars.size(); i++) {
           bars.get(i).update(players.get(i));
           if(!players.get(i).alive) {
@@ -461,31 +472,23 @@ public class Main extends AbstractGame {
           }
       }
 
-      /*for (int i = 0; i < deathPos.size(); i++) {
-          deathPos.add(deathVel.get(i));
-      }*/
-
-
+      //If boid died make a Doll for it and remove it / rebel
       for (int f = 0; f < rebel.size(); f++) {
           if(!rebel.get(f).alive) {
-              /*deathExplosions.add(new Explosion(11,5.0));
-              deathPos.add(rebel.get(f).pos);
-              deathVel.add(rebel.get(f).vel);*/
               dolls.add(new Doll(rebel.get(f),"xWing"));
               rebel.remove(f);
           }
       }
 
+      //If boid died make a Doll for it and remove it / empire
       for (int f = 0; f < empire.size(); f++) {
           if(!empire.get(f).alive) {
-              /*deathExplosions.add(new Explosion(11,5.0));
-              deathPos.add(empire.get(f).pos);
-              deathVel.add(empire.get(f).vel);*/
               dolls.add(new Doll(empire.get(f),"tieFighter"));
               empire.remove(f);
           }
       }
 
+      //If Ship died make a Doll for it
       for (Ship player: players) {
           if(!player.alive && player.getFaction() == "rebel") {
               dolls.add(new Doll(player,"falcon"));
@@ -494,16 +497,9 @@ public class Main extends AbstractGame {
           }
       }
 
-
-
-
+      //Remove player if he dies
       for (int f = 0; f < players.size(); f++) {
           if(!players.get(f).alive) {
-              /*deathExplosions.add(new Explosion(11,5.0));
-              deathPos.add(players.get(f).pos);
-              deathVel.add(players.get(f).vel);*/
-
-
               players.remove(f);
           }
       }
@@ -514,22 +510,12 @@ public class Main extends AbstractGame {
   @Override
   public void render(Engine ge, Renderer r) {
 
-   /*for (int i = 0; i < deathPos.size(); i++) {
-      deathExplosions.get(i).show(r,deathPos.get(i).add(deathVel.get(i),true));
-   }*/
-
-
-
-    r.drawImage(background, 240, 159, 0);
-
-    for (Star star:starField) {
-      star.show(r, ge.getWidth(), ge.getHeight());
-      star.update();
-    }
-
-
-
     if (screen.equals("mainMenu")) {
+        r.drawImage(backgrounds.get(5), 240, 159, 0);
+        for (Star star:starField) {
+            star.show(r, ge.getWidth(), ge.getHeight());
+            star.update();
+        }
         dolls.clear();
         PvE.show(r);
         PvP.show(r);
@@ -539,6 +525,12 @@ public class Main extends AbstractGame {
 
         sound.show(r);
         music.show(r);
+    } else {
+        if(!executed3) {
+            background = backgrounds.get(Vector.getRandomNumberInRange(0,4));
+            executed3 = true;
+        }
+        r.drawImage(background,240,159,0);
     }
 
 
@@ -598,7 +590,7 @@ public class Main extends AbstractGame {
 
 
       for (Doll wrack: dolls) {
-          wrack.showMult(r);
+          wrack.show(r);
       }
 
       for (HPBar bar : bars) {
