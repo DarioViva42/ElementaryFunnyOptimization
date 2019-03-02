@@ -425,14 +425,10 @@ public class Main extends AbstractGame {
           rebel.update();
       }
 
-      //remove Dolls that are out of bounds
-      for (int i = 0; i < dolls.size(); i++) {
-          if (dolls.get(i).border()) dolls.remove(i);
-      }
-
       //Update dolls according to their velocity
       for (Doll wrack : dolls) {
           wrack.update();
+          wrack.border();
       }
 
       //Hunt enemies / rebel
@@ -633,7 +629,7 @@ public class Main extends AbstractGame {
   public static void main(String[] args) {
 
     Engine ge = new Engine(new Main());
-    
+
     //Initiate Game Settings here
     ge.start();
   }

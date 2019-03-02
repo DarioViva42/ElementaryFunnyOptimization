@@ -74,9 +74,7 @@ class Doll {
         r.drawImage(images.get(1),(int)posVel.get(2).getX(),(int)posVel.get(2).getY(),Math.toRadians(angleSecond));
     }
 
-
-
-    boolean border() {
+    boolean isBorder() {
         //If out of border left -> go in from the right
         if(posVel.get(0).getX() < -20) {
             return true;
@@ -91,6 +89,34 @@ class Doll {
             return true;
         } else {
             return false;
+        }
+    }
+
+    void border() {
+        //If out of border left -> go in from the right
+        if(posVel.get(0).getX() < -20) {
+            posVel.get(0).setC(480 + 20,posVel.get(0).getY());
+            //If out of border to the right -> go int from the left
+        } else if(this.posVel.get(0).getX() > (480 + 20)) {
+            posVel.get(0).setC(-20,posVel.get(0).getY());
+            //If out of border at the top -> go in from the bottom
+        } else if(posVel.get(0).getY() < -20) {
+            posVel.get(0).setC(posVel.get(0).getX(),320 +  20);
+            //If out of border at the bottom -> go in from the top
+        }else if(posVel.get(0).getY() > (320 + 20)) {
+            posVel.get(0).setC(posVel.get(0).getX(), -20);
+        }
+        if(posVel.get(2).getX() < -20) {
+            posVel.get(2).setC(480 + 20,posVel.get(2).getY());
+            //If out of border to the right -> go int from the left
+        } else if(this.posVel.get(2).getX() > (480 + 20)) {
+            posVel.get(2).setC(-20,posVel.get(2).getY());
+            //If out of border at the top -> go in from the bottom
+        } else if(posVel.get(0).getY() < -20) {
+            posVel.get(2).setC(posVel.get(2).getX(),320 +  20);
+            //If out of border at the bottom -> go in from the top
+        }else if(posVel.get(2).getY() > (320 + 20)) {
+            posVel.get(2).setC(posVel.get(2).getX(), -20);
         }
     }
 }
