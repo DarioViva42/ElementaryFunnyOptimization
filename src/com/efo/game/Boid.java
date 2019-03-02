@@ -315,7 +315,7 @@ public class Boid extends Vehicle {
         Vector desired = pos.sub(target, true);
 
         desired.setLength(1);
-        desired.mult(10 * maxSpeed);
+        desired.mult(2 * maxSpeed);
 
         Vector steer = vel.sub(desired,true);
         steer.limit(maxForce);  // Limit to maximum steering force
