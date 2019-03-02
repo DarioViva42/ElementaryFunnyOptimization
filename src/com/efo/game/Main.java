@@ -271,6 +271,14 @@ public class Main extends AbstractGame {
 
             setupAllreadyExecuted = true;
           }
+          if(ge.getInput().isKey(KeyEvent.VK_ESCAPE)){
+              Vehicle.rebelLasers.clear();
+              Vehicle.empireLasers.clear();
+              pvpMusic.stop();
+
+              executed1 = false;
+              screen = "mainMenu";
+          }
       }
 
       //PvE Setup
@@ -287,6 +295,16 @@ public class Main extends AbstractGame {
               if(music.testState()) pveMusic.loop();
 
               setupAllreadyExecuted = true;
+          }
+          if(ge.getInput().isKey(KeyEvent.VK_ESCAPE)){
+              rebel.clear();
+              Vehicle.rebelLasers.clear();
+              empire.clear();
+              Vehicle.empireLasers.clear();
+              pveMusic.stop();
+
+              executed1 = false;
+              screen = "mainMenu";
           }
       }
 
@@ -306,6 +324,16 @@ public class Main extends AbstractGame {
 
 
               setupAllreadyExecuted = true;
+          }
+
+          if(ge.getInput().isKey(KeyEvent.VK_ESCAPE)){
+              Vehicle.rebelLasers.clear();
+              empire.clear();
+              Vehicle.empireLasers.clear();
+              pveMusic.stop();
+
+              executed1 = false;
+              screen = "mainMenu";
           }
       }
 
