@@ -227,7 +227,6 @@ public class Main extends AbstractGame {
           PvE.update(inputPos, inputTest, sound.testState());
           PvP.update(inputPos, inputTest, sound.testState());
           Coop.update(inputPos, inputTest, sound.testState());
-          //settings.update(inputPos, inputTest);
           Exit.update(inputPos, inputTest, sound.testState());
 
           sound.update(inputPos, inputTest, sound.testState());
@@ -521,9 +520,9 @@ public class Main extends AbstractGame {
 
       //If Ship died make a Doll for it
       for (Ship player: players) {
-          if(!player.alive && player.getFaction() == "rebel") {
+          if(!player.alive && player.getFaction().equals("rebel")) {
               dolls.add(new Doll(player,"falcon"));
-          } else if(!player.alive && player.getFaction() == "empire") {
+          } else if(!player.alive && player.getFaction().equals("empire")) {
               dolls.add(new Doll(player,"interceptor"));
           }
       }
@@ -541,6 +540,7 @@ public class Main extends AbstractGame {
   @Override
   public void render(Engine ge, Renderer r) {
 
+    //Main menu
     if (screen.equals("mainMenu")) {
         r.drawImage(backgrounds.get(5), 240, 159, 0);
         for (Star star:starField) {
@@ -566,7 +566,7 @@ public class Main extends AbstractGame {
 
 
     //Draw Boids
-    if(screen.equals("PvE")) {
+    if(screen.equals("PvE") || screen.equals("Coop")) {
         for (Boid xWing: rebel) {
             xWing.show(r);
         }
@@ -576,17 +576,13 @@ public class Main extends AbstractGame {
         }
     }
 
-      if(screen.equals("Coop")) {
-          for(Boid tieFighter : empire) {
-              tieFighter.show(r);
-          }
-      }
-
+    //draw Defeat screen
     if(screen.equals("defeat")) {
        r.drawImage(defeat,240,160,0);
        toMainMenu.show(r);
     }
 
+    //draw Victory Screen
     if(screen.equals("victory")) {
         if(!test) {
             r.drawImage(victory, 240, 160, 0);
@@ -596,50 +592,49 @@ public class Main extends AbstractGame {
         toMainMenu.show(r);
     }
 
+    //draw rebel Victory Screen
     if(screen.equals("rebel")) {
         r.drawImage(rebelV,240,160,0);
         toMainMenu.show(r);
     }
 
+    //draw empire Victory Screen
     if(screen.equals("empire")) {
         r.drawImage(empireV,240,160,0);
         toMainMenu.show(r);
     }
 
+    //show Projectiles empire
+    for (Projectile projectile: Vehicle.empireLasers) {
+      projectile.show(r);
+    }
 
+    //show Projectiles rebel
+    for (Projectile projectile: Vehicle.rebelLasers) {
+      projectile.show(r);
+    }
 
+    //show Dolls
+    for (Doll wrack: dolls) {
+      wrack.show(r);
+    }
 
-      for (Projectile projectile: Vehicle.empireLasers) {
-          projectile.show(r);
-      }
+    //show HP bars
+    for (HPBar bar : bars) {
+      bar.show(r);
+    }
 
-      for (Projectile projectile: Vehicle.rebelLasers) {
-          projectile.show(r);
-      }
-
-      //explosions.add(new ImageTile("/explosion.png",16,16));
-
-
-      for (Doll wrack: dolls) {
-          wrack.show(r);
-      }
-
-      for (HPBar bar : bars) {
-          bar.show(r);
-      }
-
-      for (Ship player: players) {
-          player.show(r);
-      }
+    //show Players
+    for (Ship player: players) {
+      player.show(r);
+    }
   }
 
   public static void main(String[] args) {
 
     Engine ge = new Engine(new Main());
+    
     //Initiate Game Settings here
-
     ge.start();
-
   }
-
 }

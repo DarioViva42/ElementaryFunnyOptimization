@@ -21,9 +21,7 @@ public class Ship extends Vehicle{
     private LinkedList<Vector> exPos = new LinkedList<>();
     private double shotCap = 0.0;
 
-
     // Constructors --------------------------------
-
     Ship(Vector pos, double alpha, String name, String faction) {
 
         this.faction = faction;
