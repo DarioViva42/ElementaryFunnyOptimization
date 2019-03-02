@@ -12,6 +12,7 @@ class Doll {
     private LinkedList<Vector> posVel;
     private Double angleFirst, angleSecond;
     private Double angleVelFirst, angleVelSecond;
+    Double dragVel = 0.995, dragAngle = 0.99995;
 
 
     Doll(Ship ship, String model) {
@@ -62,11 +63,13 @@ class Doll {
 
     void update() {
         posVel.get(0).add(posVel.get(1));
-        posVel.get(1).mult(0.995);
+        posVel.get(1).mult(dragVel);
         angleFirst = (angleFirst + angleVelFirst) % 360;
+        angleVelFirst *= dragAngle;
         posVel.get(2).add(posVel.get(3));
-        posVel.get(3).mult(0.995);
+        posVel.get(3).mult(dragVel);
         angleSecond = (angleFirst + angleVelSecond) % 360;
+        angleVelSecond *= dragAngle;
     }
 
     void show(Renderer r) {
