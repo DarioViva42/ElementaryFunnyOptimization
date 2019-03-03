@@ -1,28 +1,26 @@
+//Our intellectual interpretation of Rian Reynolds Algorithm for flocking Simulations to imitate Star Wars Space Ships
+
 package com.efo.game;
 
-import com.efo.engine.Input;
 import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
 import com.efo.engine.gfx.Image;
-
 import java.util.LinkedList;
 
 public class Boid extends Vehicle {
 
     //Attributes
     private Vector rad, steer;
-    private double maxSpeed, maxForce, radiusLength, futureLocationDistance = 80, radAngle = 180;
-    private Double shotCap = 0.0, attackSpeed = 1.0/20.0;
+    private double maxSpeed, maxForce, radiusLength, radAngle = 180;
+    private Double shotCap = 0.0;
     boolean alive = true;
-    Vector exPos;
-    Vector flee;
     private LinkedList<Vehicle> currentTargets;
     private int HP = 1;
-    boolean test = true;
+    private boolean test = true;
 
     private int laserSound = Vector.getRandomNumberInRange(1,3);
 
-    //Constructor
+    //Constructor -----------------------------
     public Boid(String Faction) {
 
         currentTargets = new LinkedList<>();
@@ -34,8 +32,6 @@ public class Boid extends Vehicle {
             pos = new Vector(Vector.getRandomNumberInRange(460, 480), Vector.getRandomNumberInRange(10, 310), "c");
             vel = new Vector(0, 180, "p");
         }
-        //oldPos = new Vector(0,0,"p");
-        //oldPos.setC(pos.getX(), pos.getY());
 
         acc = new Vector(0, 0, "p");
 
@@ -52,28 +48,18 @@ public class Boid extends Vehicle {
             model = new Image("/ships/tieFighter.png");
             faction = "empire";
         }
-
     }
 
-    //Methods
+    //Methods ------------------------------
 
+    //update Boid according to the behaviour and by some random movement
     public void update(LinkedList<Boid> Faction) {
-        int count = 0;
-
-        for (Boid other: Faction) {
-            double d = this.pos.distance(other.pos);
-            if((d > 0) && (d < 50)) {
-                count++;
-            }
-        }
 
         applyForce(floating());
         starWarsShipBehaviour(Faction);
 
         vel.add(acc);
         vel.limit(maxSpeed);
-
-        //oldPos.setC(pos.getX(), pos.getY());
 
         pos.add(vel);
 
@@ -91,6 +77,7 @@ public class Boid extends Vehicle {
         }
     }
 
+    //render the Boid and explosions (explosions only matter if boid has more than 1 HP)
     public void show(Renderer r) {
         r.drawImage(model, (int) this.pos.getX(), (int) this.pos.getY(), Math.toRadians(vel.getAngle()));
         for (Explosion ex: explosions) {
@@ -98,6 +85,7 @@ public class Boid extends Vehicle {
         }
     }
 
+    //all methods influencing behaviour are collected here
     private void starWarsShipBehaviour(LinkedList<Boid> boids) {
         Vector ali = align(boids);
 
@@ -106,6 +94,7 @@ public class Boid extends Vehicle {
         applyForce(ali);
     }
 
+    //Boids fly towards the average direction of local flockmates
     private Vector align(LinkedList<Boid> boids) {
         float neighborDistance = 70;
         Vector sum = new Vector(0,0, "p");
@@ -129,16 +118,14 @@ public class Boid extends Vehicle {
         }
     }
 
-
+    //if there is an enemy in boids peripheral vision then shoot
     void peripheralVision(LinkedList<Boid> boids, LinkedList<Ship> players, boolean sound) {
-        //Vector sum = new Vector(0,0,"p");
         double count = 0.0;
 
         for (Boid other: boids) {
             Vector diff = other.pos.sub(this.pos, true);
             boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 50;
             if ((diff.getLength() > 0) && (diff.getLength() < 160) && isTargetFront) {
-                //sum.add(other.vel);
                 currentTargets.add(other);
                 count++;
             }
@@ -149,7 +136,6 @@ public class Boid extends Vehicle {
                 Vector diff = player.pos.sub(this.pos, true);
                 boolean isTargetFront = (Math.abs(diff.getAngle() - this.vel.getAngle()) + 360) % 360 < 50;
                 if ((diff.getLength() > 0) && (diff.getLength() < 180) && isTargetFront) {
-                    //sum.add(other.vel);
                     currentTargets.add(player);
                     count++;
                 }
@@ -166,15 +152,15 @@ public class Boid extends Vehicle {
         }
     }
 
+    //if there is a boid in inverse peripheral vision then flee
     void avoidGettingShot(LinkedList<Boid> boids, LinkedList<Ship> players) {
-        //Vector sum = new Vector(0,0,"p");
+        Vector flee;
         double count = 0.0;
 
         for (Boid other: boids) {
             Vector diff = other.pos.sub(this.pos, true);
             boolean isTargetBack = (Math.abs(diff.getAngle() - (this.vel.getAngle() + 180)) + 360) % 360 < 30;
             if ((diff.getLength() > 0) && (diff.getLength() < 120) && isTargetBack) {
-                //sum.add(other.vel);
                 currentTargets.add(other);
                 count++;
             }
@@ -185,7 +171,6 @@ public class Boid extends Vehicle {
                 Vector diff = player.pos.sub(this.pos, true);
                 boolean isTargetBack = (Math.abs(diff.getAngle() - (this.vel.getAngle() + 180)) + 360) % 360 < 30;
                 if ((diff.getLength() > 0) && (diff.getLength() < 140) && isTargetBack) {
-                    //sum.add(other.vel);
                     currentTargets.add(player);
                     count++;
                 }
@@ -216,6 +201,7 @@ public class Boid extends Vehicle {
         }
     }
 
+    //if boid is hit by a laser decrease health / if boid has no health left return true
     boolean hit(boolean sound) {
         int size = 15;
 
@@ -227,9 +213,6 @@ public class Boid extends Vehicle {
                     if(sound){
                         sounds.get(0).play();
                     }
-                    //exPos.add(new Vector(Math.random()*10,Math.random()*360,"p"));
-                    //explosions.add(new Explosion(11,5.0));
-                    // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
                     empireLasers.remove(i);
                 }
             }
@@ -244,9 +227,6 @@ public class Boid extends Vehicle {
                     if(sound){
                         sounds.get(0).play();
                     }
-                    //exPos.add(new Vector(Math.random()*13,Math.random()*360,"p"));
-                    //explosions.add(new Explosion(11,5.0));
-                    // Wenn ein Laser ein Schiff getroffen hat, soll er gelöscht werden.
                     rebelLasers.remove(i);
                 }
             }
@@ -257,36 +237,10 @@ public class Boid extends Vehicle {
         }
     }
 
-    boolean dead() {
-        int count = 0;
-        if (faction.equals("rebel")) {
-            for (Projectile enemyLaser: Vehicle.empireLasers) {
-                double d = this.pos.distance(enemyLaser.getPos());
-                if(d < 20) {
-                    count++;
-                    explosions.add(new Explosion(11,5.0));
-                }
-            }
-
-            return (count > 0);
-
-        } else if (faction.equals("empire")) {
-            for (Projectile enemyLaser: Vehicle.rebelLasers) {
-                double d = this.pos.distance(enemyLaser.getPos());
-                if(d < 20) {
-                    count++;
-                    explosions.add(new Explosion(11,5.0));
-                }
-            }
-
-            return(count > 0);
-        } else {
-            return false;
-        }
-    }
-
-
+    //some random movement
     private Vector floating() {
+        double futureLocationDistance = 80;
+
         Vector desired;
         Vector futureLocation = new Vector(0,0,"c");
         futureLocation.setP(futureLocationDistance, vel.getAngle());
@@ -301,7 +255,6 @@ public class Boid extends Vehicle {
         rad.setP(radiusLength, radAngle);
 
         desired = (futureLocation.add(rad, true));
-        //desired.mult(0.5);
 
         steer = desired.sub(vel, true);
 
@@ -310,7 +263,7 @@ public class Boid extends Vehicle {
         return steer;
     }
 
-
+    //hunt target (fly after)
     private Vector seek(Vector target) {
         Vector desired = pos.sub(target, true);
 
@@ -318,12 +271,14 @@ public class Boid extends Vehicle {
         desired.mult(2 * maxSpeed);
 
         Vector steer = vel.sub(desired,true);
-        steer.limit(maxForce);  // Limit to maximum steering force
+        steer.limit(maxForce);
         return steer;
     }
 
-
+    //shoot (add projectile to LinkedList)
     private void shoot(boolean sound) {
+        double attackSpeed = 1.0/20.0;
+
         if(faction.equals("rebel")) {
             if(shotCap >= 1) {
                 rebelLasers.add(new Projectile((new Vector(this.pos.getX(), this.pos.getY(), "c").add(new Vector(10, vel.getAngle(), "p"), true)),
@@ -349,10 +304,12 @@ public class Boid extends Vehicle {
         }
     }
 
+    //Method to apply force to accaleration
     private void applyForce(Vector force) {
         acc.add(force);
     }
 
+    //Craig reynolds flocking Algorithm (not used in our project except for one rule. Alignment)
     private void flocking(LinkedList<Boid> boids) {
         Vector sep = seperate(boids);
         Vector coh = cohesion(boids);
@@ -369,7 +326,30 @@ public class Boid extends Vehicle {
 
     }
 
-    public Vector seperate(LinkedList<Boid> boids) {
+    //first rule of Craig Reynolds
+    private Vector cohesion(LinkedList<Boid> boids) {
+        float neighborDistance = 50;
+        Vector sum = new Vector(0,0,"p");
+        Double count = 0.0;
+
+        for (Boid other: boids) {
+            double d = this.pos.distance(other.pos);
+            if((d > 0) && (d < neighborDistance)) {
+                sum.add(other.pos);
+                count++;
+            }
+        }
+        if(count > 0) {
+            sum.div(count);
+            return seek(sum);
+        }
+        else {
+            return new Vector(0,0,"p");
+        }
+    }
+
+    //second rule of Craig Reynolds
+    private Vector seperate(LinkedList<Boid> boids) {
         Double desiredSeperation = 25.0;
         Vector steer = new Vector(0,0, "p");
         Double count = 0.0;
@@ -396,26 +376,5 @@ public class Boid extends Vehicle {
             steer.limit(maxForce);
         }
         return steer;
-    }
-
-    public Vector cohesion(LinkedList<Boid> boids) {
-        float neighborDistance = 50;
-        Vector sum = new Vector(0,0,"p");
-        Double count = 0.0;
-
-        for (Boid other: boids) {
-            double d = this.pos.distance(other.pos);
-            if((d > 0) && (d < neighborDistance)) {
-                sum.add(other.pos);
-                count++;
-            }
-        }
-        if(count > 0) {
-            sum.div(count);
-            return seek(sum);
-        }
-        else {
-            return new Vector(0,0,"p");
-        }
     }
 }

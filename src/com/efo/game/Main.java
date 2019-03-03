@@ -1,3 +1,5 @@
+//mostly Our intellectual property. Some lines are from Majoolwhips 2D Engine tutorial
+
 package com.efo.game;
 
 import com.efo.engine.*;
@@ -24,7 +26,6 @@ public class Main extends AbstractGame {
 
   private Checkbox sound, music;
   private Button PvE, PvP, Exit, Coop , toMainMenu;
-  //private Button settings;
   private Vector[] inputPos;
   private boolean[] inputTest;
 
@@ -96,7 +97,6 @@ public class Main extends AbstractGame {
     PvP = new Button(100, 100, " PvP");
     PvE = new Button(100, 150, " PvE");
     Coop = new Button(100, 200, " Coop");
-    //settings = new Button(100, 250, "Settings");
     Exit = new Button(385,270," Exit", "/button/exitHover.png","/button/exitNoHover.png","/button/exitClicked.png");
     toMainMenu = new Button(385,270," Menu", "/button/exitHover.png", "/button/exitNoHover.png", "/button/exitClicked.png");
 
@@ -311,7 +311,6 @@ public class Main extends AbstractGame {
       if(screen.equals("Coop")) {
           if(!setupAllreadyExecuted) {
               for(int j = 0; j < 8; j++) {
-                  //rebel.add(new Boid("rebel"));
                   empire.add(new Boid("empire"));
               }
 
@@ -434,13 +433,11 @@ public class Main extends AbstractGame {
       //Hunt enemies / rebel
       for (Boid xWing: rebel) {
           xWing.peripheralVision(empire,players, sound.testState());
-          //xWing.avoidGettingShot(empire, players);
       }
 
       //Hunt enemies / empire
       for (Boid tieFighter: empire) {
           tieFighter.peripheralVision(rebel,players, sound.testState());
-          //tieFighter.avoidGettingShot(rebel,players);
       }
 
       //Delete laser if out of bounds / rebel
@@ -547,7 +544,6 @@ public class Main extends AbstractGame {
         PvE.show(r);
         PvP.show(r);
         Coop.show(r);
-        //settings.show(r);
         Exit.show(r);
 
         sound.show(r);

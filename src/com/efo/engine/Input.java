@@ -1,3 +1,5 @@
+//all of this code is from Majoolwhips 2D Engine tutorial
+
 package com.efo.engine;
 
 import java.awt.event.KeyEvent;
@@ -19,7 +21,6 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 
   private final int NUM_BUTTONS = 5;
   private boolean[] buttons = new boolean[NUM_BUTTONS];
-  private boolean[] buttonsLast = new boolean[NUM_BUTTONS];
 
   private int mouseX, mouseY;
   private int scroll;
@@ -42,12 +43,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 
     scroll = 0;
 
-    for(int i = 0; i < NUM_KEYS; i++) {
+    for (int i = 0; i < NUM_KEYS; i++) {
       keysLast[i] = keys[i];
-    }
-
-    for(int i = 0; i < NUM_BUTTONS; i++) {
-      buttonsLast[i] = buttons[i];
     }
   }
 
@@ -55,24 +52,12 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
     return keys[keyCode];
   }
 
-  public boolean isKeyUp(int keyCode) {
-    return !keys[keyCode] && keysLast[keyCode];
-  }
-
-  public boolean isKeyDown(int keyCode) {
+  boolean isKeyDown(int keyCode) {
     return keys[keyCode] && !keysLast[keyCode];
   }
 
   public boolean isButton(int button) {
     return buttons[button];
-  }
-
-  public boolean isButtonUp(int button) {
-    return !buttons[button] && buttonsLast[button];
-  }
-
-  public boolean isButtonDown(int button) {
-    return buttons[button] && !buttonsLast[button];
   }
 
   @Override
@@ -138,9 +123,5 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 
   public int getMouseY() {
     return mouseY;
-  }
-
-  public int getScroll() {
-    return scroll;
   }
 }

@@ -1,3 +1,5 @@
+//Our intellectual property
+
 package com.efo.game;
 
 import com.efo.engine.Renderer;
@@ -12,8 +14,7 @@ class Doll {
     private LinkedList<Vector> posVel;
     private Double angleFirst, angleSecond;
     private Double angleVelFirst, angleVelSecond;
-    Double dragVel = 0.995, dragAngle = 0.99995;
-    Explosion explosion = new Explosion(11,5.0);
+    private Explosion explosion = new Explosion(11,5.0);
 
 
     Doll(Ship ship, String model) {
@@ -63,6 +64,8 @@ class Doll {
     }
 
     void update() {
+        Double dragVel = 0.995, dragAngle = 0.99995;
+
         posVel.get(0).add(posVel.get(1));
         posVel.get(1).mult(dragVel);
         angleFirst = (angleFirst + angleVelFirst) % 360;

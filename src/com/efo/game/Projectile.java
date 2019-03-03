@@ -1,3 +1,5 @@
+//Our intellectual property
+
 package com.efo.game;
 
 import com.efo.engine.Renderer;
@@ -9,7 +11,7 @@ public class Projectile {
 	private Vector vel;
 	private Image laser;
 
-	public Projectile(Vector pos, Vector vel, String faction) {
+	Projectile(Vector pos, Vector vel, String faction) {
 		this.pos = pos;
 		this.vel = vel;
 		if(faction.equals("rebel")) {
@@ -27,7 +29,7 @@ public class Projectile {
 		this.pos.add(this.vel);
 	}
 
-	public Vector getPos() {
+	Vector getPos() {
 		return pos;
 	}
 }

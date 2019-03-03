@@ -1,3 +1,5 @@
+//Our intellectual property
+
 package com.efo.engine;
 
 import com.efo.engine.gfx.Image;

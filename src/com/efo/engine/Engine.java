@@ -1,3 +1,5 @@
+//all of this code is from Majoolwhips 2D Engine tutorial
+
 package com.efo.engine;
 
 import com.efo.engine.gfx.Image;

@@ -1,3 +1,5 @@
+//Our intellectual property
+
 package com.efo.game;
 
 import com.efo.engine.Renderer;
@@ -7,7 +9,6 @@ import com.efo.engine.gfx.Image;
 
 import java.util.LinkedList;
 
-//Selfmade
 public class Ship extends Vehicle{
 
     private double alphaVel;  // Die Winkelgeschwindigkeit des enterprisees
@@ -180,11 +181,11 @@ public class Ship extends Vehicle{
         return HP;
     }
 
-    public double getAlpha() {
+    double getAlpha() {
         return alpha;
     }
 
-    public double getAlphaVel() {
+    double getAlphaVel() {
         return alphaVel;
     }
 }

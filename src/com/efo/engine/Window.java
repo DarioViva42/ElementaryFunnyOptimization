@@ -1,3 +1,5 @@
+//all of this code is from Majoolwhips 2D Engine tutorial
+
 package com.efo.engine;
 
 import java.awt.*;
@@ -6,7 +8,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 public class Window {
-
 
   private BufferedImage image; //Stores Pixel data
   private Canvas canvas;

@@ -1,3 +1,6 @@
+//a lot of this code is from Majoolwhips 2D Engine tutorial. But we've made some major improvements with
+//introducing transparency or making it possible to turn pictures seemlessly
+
 package com.efo.engine;
 
 import com.efo.engine.gfx.Font;
@@ -8,10 +11,10 @@ import java.awt.image.DataBufferInt;
 import java.util.Arrays;
 
 public class Renderer {
-	public int pW, pH; //pixel width and height
-	public  int[] p;
-	public final int[][] kern = {{1,4,1},{4,32,4},{1,4,1}};
-	public int kSum = 0;
+	private int pW, pH; //pixel width and height
+	private  int[] p;
+	private final int[][] kern = {{1,4,1},{4,32,4},{1,4,1}};
+	private int kSum = 0;
 
   private Font font = Font.STANDARD;
 
@@ -27,8 +30,7 @@ public class Renderer {
       }
     }
   }
-
-	public void clear() {
+	void clear() {
     for(int i = 0; i < p.length; i++) {
       p[i] = 0xff000000;
     }
@@ -50,7 +52,7 @@ public class Renderer {
 
   }
 
-	public void drawText(String text, int offX, int offY, int color){
+	void drawText(String text, int offX, int offY, int color){
 
     // Da folgende Zeichen nicht in unserem Zeichensatz enthalten sind ersetzen wir sie.
     text = text.replaceAll("ä", "ae");
@@ -79,8 +81,6 @@ public class Renderer {
   public void drawImage(Image image, int offX, int offY, double angle) {
     int w = image.getW();
     int h = image.getH();
-
-	  int numOfThreads = 8;
 
 	  if (angle != 0) {
 
@@ -175,7 +175,7 @@ public class Renderer {
 
 
     //Self made
-    public void antiAliasing() {
+    void antiAliasing() {
                 //a r g b
     int[] argb = {0,0,0,0};
 
@@ -238,7 +238,7 @@ public class Renderer {
   }
 
 // Aus einem Forum
-public int blend (int a, int b, float ratio) {
+private int blend (int a, int b, float ratio) {
     if (ratio > 1f) {
       ratio = 1f;
     } else if (ratio < 0f) {

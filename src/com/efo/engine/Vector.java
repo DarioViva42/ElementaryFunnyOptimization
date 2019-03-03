@@ -1,8 +1,7 @@
+//Our intellectual property
+
 package com.efo.engine;
 
-//Selfmade
-
-import java.awt.geom.Line2D;
 import java.util.Random;
 
 public class Vector {
@@ -99,55 +98,6 @@ public class Vector {
     return giveVec;
   }
 
-  public Vector mult(Vector other, boolean test) {
-    Vector giveVec;
-    double x = this.getX() * other.getX();
-    double y = this.getY() * other.getY();
-    giveVec = new Vector(x, y, "c");
-    return giveVec;
-  }
-
-	public static boolean collisionTest(Vector newV, Vector oldV, Vector newW, Vector oldW) {
-		return Line2D.linesIntersect(newV.getX(), newV.getY(), oldV.getX(), oldV.getY(),
-				newW.getX(), newW.getY(), oldW.getX(), oldW.getY());
-	}
-
-  public static Vector intersection(Vector newV, Vector oldV, Vector newW, Vector oldW){
-  	// Wäre toll gewesen, wenn es funktioniert hätte aber irgendwie funzt es nicht
-    double deltaVy = oldV.getY()-newV.getY();
-    double deltaVx = oldV.getX()-newV.getX();
-    double deltaWy = oldW.getY()-newW.getY();
-    double deltaWx = oldW.getX()-newW.getX();
-
-    // Objekt V beschreibt keine Linie
-	  if(deltaVx == 0 && deltaVy == 0){
-	  	return null;
-	  }
-	  // Objekt W beschreibt keine Linie
-	  if(deltaWx == 0 && deltaWy == 0){
-		  return null;
-	  }
-
-    // berechne Steigungen der Geradengleichungen
-    double vm = deltaVy/deltaVx;
-    double wm = deltaWy/deltaWx;
-
-    // beide Objekte fliegen in die Selbe Richtung, darum gibt es keinen Schnittpunkt
-    if (vm == wm){
-      return null;
-    }
-
-    // berechne Y-Achsenabschnitte
-    double vb = oldV.getY() - vm * oldV.getX();
-    double wb = oldW.getY() - wm * oldW.getX();
-
-    // berechene Schnittpunkt
-    double x = Math.abs((vb - wb) / (vm - wm));
-    double y = vm * x + vb;
-
-    return new Vector(x, y, "c");
-  }
-
   public double distance(Vector b) {
     return Math.sqrt(Math.pow(this.x-b.getX(),2)+Math.pow(this.y-b.getY(),2));
   }
@@ -188,11 +138,6 @@ public class Vector {
     }
   }
 
-  //Math Map function
-  public static Double map(Double x, Double fromRangeMin, Double fromRangeMax , Double toRangeMin, Double toRangeMax) {
-    return (x - fromRangeMin)*((toRangeMax - toRangeMin) / (fromRangeMax - fromRangeMin)) + toRangeMin;
-  }
-
   public static int getRandomNumberInRange(int min, int max) {
 
     if (min >= max) {
@@ -201,13 +146,5 @@ public class Vector {
 
     Random r = new Random();
     return r.nextInt((max - min) + 1) + min;
-  }
-
-  public void setAngle(double angle) {
-    this.angle = angle;
-  }
-
-  public String getPosition() {
-    return ("x: " + this.x + "| y: " + this.y);
   }
 }

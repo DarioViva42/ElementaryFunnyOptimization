@@ -1,45 +1,26 @@
+//Our intellectual property
+
 package com.efo.game;
 
-import com.efo.engine.Engine;
 import com.efo.engine.Renderer;
 import com.efo.engine.Vector;
-
-//Selfmade
 
 public class Star {
 
     // Attributes ---------------------------------
     private Vector pos;
     private Vector vel;
-    private double starSize;
-
-    //Math.random speed
-    private double sVel;
-    //static angle for the Stars
-    private double sAngle = 140;
-
-    //Star size
-    private double stSiLower = 1.5;
-    private double stSiUpper = 1.8;
-    private double stSiPow = 10;
-    private double stSiModeration = 120;
-
-    //starSize to velocity Mapping
-    private double lowerStarSize = 0.5;
-    private double upperStarSize = 3;
-    private double lowerVel = 0;
-    private double upperVel = 0.5;
-
-
-    private int width = 480, height = 320;
 
     // Constructor --------------------------------
-    public Star() {
+    Star() {
+        double sAngle = 140;
+        double sVel = 0.01;
+
+        int width = 480, height = 320;
         double sX = random(0,width);
         double sY = random(0,height);
         pos = new Vector(sX,sY,"c");
 
-        sVel = 0.01;
         this.vel = new Vector(sVel,sAngle,"p");
         //newSizeVel();
     }
@@ -77,16 +58,6 @@ public class Star {
 
     public void update() {
         this.pos.add(this.vel);
-    }
-
-
-    public void newSizeVel() {
-        // starSizeModeration für Darios bildschirm halbieren!(60), für Luis(120)
-        this.starSize = (Math.pow((Math.random() * ( stSiUpper - stSiLower )) + stSiLower,stSiPow))/stSiModeration;
-
-        //speed mapped to size of Star
-        //this.sVel = map(starSize,lowerStarSize,upperStarSize,lowerVel,upperVel);
-        this.vel = new Vector(sVel,sAngle,"p");
     }
 
 }

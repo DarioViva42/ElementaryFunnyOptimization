@@ -1,3 +1,5 @@
+//Our intellectual property
+
 package com.efo.game;
 
 import com.efo.engine.Renderer;

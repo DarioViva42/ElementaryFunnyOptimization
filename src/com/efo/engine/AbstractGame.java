@@ -1,3 +1,5 @@
+//From Majoolwhips 2D Engine tutorial
+
 package com.efo.engine;
 
 public abstract class AbstractGame {
