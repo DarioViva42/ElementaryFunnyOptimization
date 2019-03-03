@@ -1,4 +1,4 @@
-//Our intellectual interpretation of Rian Reynolds Algorithm for flocking Simulations to imitate Star Wars Space Ships
+//Our intellectual interpretation of Craig Reynolds Algorithm for flocking Simulations to imitate Star Wars Space Ships
 
 package com.efo.game;
 
