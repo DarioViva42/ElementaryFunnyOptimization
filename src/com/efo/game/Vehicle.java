@@ -10,10 +10,9 @@ import java.util.LinkedList;
 public abstract class Vehicle {
 
     // Attributes ----------------------------------
-    protected Vector pos;
+    Vector pos;
     Vector oldPos;
-    //protected Vector gunPos;// Position der Waffe (Vorne)
-    protected Vector vel;
+    Vector vel;
     Vector acc;
     Image model;
     String faction = "";
@@ -21,10 +20,7 @@ public abstract class Vehicle {
     // explosion 0, laser 1-5
     static LinkedList<SoundClip> sounds = new LinkedList<>();
 
-
-
-
-    final double shootForce = 10.0;
+    final double shootForce = 14.0;
 
     static LinkedList<Projectile> empireLasers = new LinkedList<>();
     static LinkedList<Projectile> rebelLasers = new LinkedList<>();
@@ -33,11 +29,11 @@ public abstract class Vehicle {
 
     // Methods -------------------------------------
 
-    public Vector getPos() {
+    Vector getPos() {
         return this.pos;
     }
 
-    public Vector getVel() {
+    Vector getVel() {
         return vel;
     }
 

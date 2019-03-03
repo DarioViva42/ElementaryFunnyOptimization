@@ -13,6 +13,7 @@ class Doll {
     private Double angleFirst, angleSecond;
     private Double angleVelFirst, angleVelSecond;
     Double dragVel = 0.995, dragAngle = 0.99995;
+    Explosion explosion = new Explosion(11,5.0);
 
 
     Doll(Ship ship, String model) {
@@ -24,8 +25,8 @@ class Doll {
             images.add(new Image("/dollModel/falconWrack1.png"));
             images.add(new Image("/dollModel/falconWrack2.png"));
         } else if(model.equals("interceptor")) {
-            images.add(new Image("/dollModel/interceptorWrack1.png"));
             images.add(new Image("/dollModel/interceptorWrack2.png"));
+            images.add(new Image("/dollModel/interceptorWrack1.png"));
         }
 
         posVel.add(new Vector(ship.getPos().getX(),ship.getPos().getY(),"c"));
@@ -48,8 +49,8 @@ class Doll {
             images.add(new Image("/dollModel/xWingWrack1.png"));
             images.add(new Image("/dollModel/xWingWrack2.png"));
         } else if (model.equals("tieFighter")) {
-            images.add(new Image("/dollModel/tieFighterWrack1.png"));
             images.add(new Image("/dollModel/tieFighterWrack2.png"));
+            images.add(new Image("/dollModel/tieFighterWrack1.png"));
         }
         posVel.add(new Vector(boid.getPos().getX(), boid.getPos().getY(), "c"));
         posVel.add(new Vector(boid.getVel().getLength(), boid.getVel().getAngle() + spread, "p"));
@@ -70,29 +71,14 @@ class Doll {
         posVel.get(3).mult(dragVel);
         angleSecond = (angleFirst + angleVelSecond) % 360;
         angleVelSecond *= dragAngle;
+        if(explosion != null) explosion.update();
+        if(explosion != null && explosion.isFinished()) explosion = null;
     }
 
     void show(Renderer r) {
         r.drawImage(images.get(0),(int)posVel.get(0).getX(),(int)posVel.get(0).getY(),Math.toRadians(angleFirst));
         r.drawImage(images.get(1),(int)posVel.get(2).getX(),(int)posVel.get(2).getY(),Math.toRadians(angleSecond));
-    }
-
-    boolean isBorder() {
-        //If out of border left -> go in from the right
-        if(posVel.get(0).getX() < -20) {
-            return true;
-            //If out of border to the right -> go int from the left
-        } else if(posVel.get(0).getX() > (480 + 20)) {
-            return true;
-            //If out of border at the top -> go in from the bottom
-        } else if(posVel.get(0).getY() < -20) {
-            return true;
-            //If out of border at the bottom -> go in from the top
-        }else if(posVel.get(0).getY() > (320 + 20)) {
-            return true;
-        } else {
-            return false;
-        }
+        if(explosion != null) explosion.show(r,posVel.get(0));
     }
 
     void border() {
@@ -120,6 +106,24 @@ class Doll {
             //If out of border at the bottom -> go in from the top
         }else if(posVel.get(2).getY() > (320 + 20)) {
             posVel.get(2).setC(posVel.get(2).getX(), -20);
+        }
+    }
+
+    boolean isBorder() {
+        //If out of border left -> go in from the right
+        if(posVel.get(0).getX() < -20) {
+            return true;
+            //If out of border to the right -> go int from the left
+        } else if(posVel.get(0).getX() > (480 + 20)) {
+            return true;
+            //If out of border at the top -> go in from the bottom
+        } else if(posVel.get(0).getY() < -20) {
+            return true;
+            //If out of border at the bottom -> go in from the top
+        }else if(posVel.get(0).getY() > (320 + 20)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
