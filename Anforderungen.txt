@@ -1,13 +1,14 @@
-Das Programm lässt den Spieler zwischen Zwei Modi wählen
+﻿Das Programm lässt den Spieler zwischen Drei Modi wählen
 
 Im ersten Modus (PvP) kann der Spieler im Local-Coop gegen einen seiner
-Kollegen an einem PC kämpfen
+Kollegen an einem PC kämpfen.
 
-Im zweiten Modus (PvE) tritt der Spieler gegen einen Schwarm von Bots an,
-die in immer neuen Wellen immer stärker werden.
+Im zweiten Modus (PvE) tritt der Spieler gegen einen Schwarm von Boids an.
 
-Das Spiel wurde zum größten Teil in IntelliJ entwickelt doch einige
-Klassen (z.B. Vector) wurden von einem unserer früheren Objekte aus Processing
+Im dritten Modus (Coop) treten zwei SPieler gegen einen Schwarm von Boids an.
+
+Das Spiel wurde in IntelliJ entwickelt doch einige
+Klassen (z.B. Vector) wurden von einem unserer früheren Projekte aus Processing
 kopiert und auf die Engine angepasst.
 
 
@@ -49,13 +50,15 @@ rotierend animiert und die zu malenden Pixel richtig berechnet.
 
 MUST HAVE
 
-- Hauptmenü mit verschiedenen Spielmodi
+- Hauptmenü mit verschiedenen Spielmodi und Einstellungen
 - Local-Coop
 - Boid Algorithmus (Flocking)
 - "Ti Fighter Algorithmus"TM R C
   (Algorithmus der die Schiffe sich wie ein Raumschiff verhalten lässt
   und zu eliminierende Ziele verfolgt und ähnliches)
 - Funktionale Engine
+- "Death" Dolls die als Trümmer durch den Raum fliegen wenn ein
+	Schiff zerstört wird
 
 NICE-TO-HAVE
 
@@ -65,6 +68,11 @@ NICE-TO-HAVE
 - Verschiedene Hintergründe
 - andere ästhetische Anpassungen
 - Trümmer wenn Schiff kaputt geht
+
+Die Hintergründe, Musik und Sounds wurden aus dem Internet übernommen und sind nicht
+"Royalty free". Diese dürfen wir nicht kommerziell verwenden.
+
+Alle anderen Bilder (Schiffe, Knöpfe usw.) haben wir selbst designed.
 
 
 
