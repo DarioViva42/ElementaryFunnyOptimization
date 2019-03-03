@@ -37,7 +37,6 @@ public class Main extends AbstractGame {
       Vehicle.sounds.add(new SoundClip("/audio/laser1.wav"));
       Vehicle.sounds.add(new SoundClip("/audio/laser2.wav"));
       Vehicle.sounds.add(new SoundClip("/audio/laser3.wav"));
-      Vehicle.sounds.add(new SoundClip("/audio/laser4.wav"));
       Vehicle.sounds.add(new SoundClip("/audio/laser5.wav"));
 
       Vehicle.sounds.get(0).setVolume(-20);
@@ -45,7 +44,6 @@ public class Main extends AbstractGame {
       Vehicle.sounds.get(2).setVolume(-20);
       Vehicle.sounds.get(3).setVolume(-20);
       Vehicle.sounds.get(4).setVolume(-20);
-      Vehicle.sounds.get(5).setVolume(-20);
 
       menuMusic = new SoundClip("/audio/mainMenuMusic.wav");
       pveMusic = new SoundClip("/audio/pveMusic.wav");

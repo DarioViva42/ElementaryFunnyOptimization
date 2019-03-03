@@ -100,7 +100,7 @@ public class Ship extends Vehicle{
 	            if(gun) {
                     Vehicle.rebelLasers.add(new Projectile(pos.add(new Vector(8,alpha-30,"p"),true),new Vector(this.shootForce, alpha, "p"),"rebel"));
                     if (sound) {
-                        sounds.get(5).play();
+                        sounds.get(4).play();
                     }
 
                     shotCap = 0.0;
@@ -108,7 +108,7 @@ public class Ship extends Vehicle{
                 } else {
                     Vehicle.rebelLasers.add(new Projectile(pos.add(new Vector(7,alpha+30,"p"),true),new Vector(this.shootForce, alpha, "p"),"rebel"));
                     if (sound) {
-                        sounds.get(5).play();
+                        sounds.get(4).play();
                     }
 
                     shotCap = 0.0;
