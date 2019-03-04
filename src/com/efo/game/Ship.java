@@ -120,14 +120,14 @@ public class Ship extends Vehicle{
 	            if(gun) {
                     Vehicle.empireLasers.add(new Projectile(pos.add(new Vector(8,alpha-20,"p"),true),new Vector(this.shootForce, alpha, "p"),"empire"));
                     if (sound) {
-                        sounds.get(5).play();
+                        sounds.get(4).play();
                     }
                     shotCap = 0.0;
                     gun = false;
                 } else {
                     Vehicle.empireLasers.add(new Projectile(pos.add(new Vector(8,alpha+20,"p"),true),new Vector(this.shootForce, alpha, "p"),"empire"));
                     if (sound) {
-                        sounds.get(5).play();
+                        sounds.get(4).play();
                     }
                     shotCap = 0.0;
                     gun = true;
